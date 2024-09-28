@@ -20,8 +20,25 @@ export class LoginComponent {
   user = {
     eMail: '',
     password: '',
+    passwordConfirm: '',
   };
   loading = false;
+  isHovered: boolean = false;
+  isChecked: boolean = false;
+
+
+  toggleCheckbox() {
+    this.isChecked = !this.isChecked;
+  }
+
+  getCheckboxImage() {
+    if (this.isChecked) {
+      return this.isHovered ? 'assets/img/checkbox_checked_hover.png' : 'assets/img/checkbox_checked.png';
+    } else {
+      return this.isHovered ? 'assets/img/checkbox_hover.png' : 'assets/img/checkbox.png';
+    }
+  }
+
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -71,5 +88,12 @@ export class LoginComponent {
   guestLogin() {
     // Hier die Logik für den Gast-Login hinzufügen
     console.log('Guest login');
+  }
+
+  login() {
+    console.log('Login');
+  }
+  signUp() {
+    console.log('Signup');
   }
 }
