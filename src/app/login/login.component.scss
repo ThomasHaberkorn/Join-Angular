@@ -1,0 +1,93 @@
+@import "./../../styles.scss";
+
+// .fullwidth {
+//   width: 100%;
+// }
+
+.mainContent {
+  max-width: 1920px;
+  height: 100vh;
+  @include flexDir(column);
+  .headerContent {
+    position: absolute;
+    @include dFlex($jc: space-between);
+    width: 100vw;
+    height: 150px;
+    top: 70px;
+
+    .headerLogo {
+      scale: 0.365;
+    }
+    .signUp {
+      @include flexDir($dir: row);
+      gap: 35px;
+      margin-top: -70px;
+      .signUpText {
+        font-size: 20px;
+      }
+      .signUpButton {
+        font-size: 19px;
+        font-weight: 700;
+        color: $white;
+        background-color: $dblue;
+        width: 91px;
+        height: 49px;
+        border-radius: 5px;
+        @include dFlex();
+        margin-right: 122px;
+        cursor: pointer;
+        &:hover {
+          background-color: $lblue;
+        }
+      }
+    }
+  }
+  .innerContent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 652px;
+    height: 493px;
+    background-color: $white;
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    h1 {
+      font-size: 61px;
+      font-weight: 700;
+      margin-top: 60;
+      margin-bottom: 20px;
+    }
+
+    .line {
+      width: 150px;
+      height: 2px;
+      background-color: $lblue;
+    }
+    .formField {
+      width: 422px;
+      margin-top: 20px;
+
+      input {
+        outline: none;
+        width: 98%;
+        height: 0px;
+        border-radius: 20px;
+        border: 2px solid $inputGrey;
+        // margin-bottom: 20px;
+        font-size: 20px;
+
+        padding-left: 10px;
+        &:focus {
+          // outline: none;
+          // border: 2px solid $lblue;
+
+          &::placeholder {
+            font-size: 20px;
+            margin-left: 100px;
+            color: $inputGrey;
+          }
+        }
+      }
+    }
+  }
+}

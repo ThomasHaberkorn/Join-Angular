@@ -1,0 +1,69 @@
+<!-- <div class="mainContent">
+    <div class="headerContent">
+        <div class="headerLogo">
+            <img src="assets/img/logo1.svg" alt="logo">
+        </div>
+        <div class="signUp">
+            <div class="signUpText">
+                <span>Not a Join user?</span>
+            </div>
+            <div class="signUpButton">Sign up</div>
+        </div>
+    </div>
+    <div class="innerContent">
+        <h1>Log in</h1>
+        <div class="line"></div>
+        <div class="formField">
+            <mat-form-field appearance="outline" class="fullwidth">
+                <mat-label>E-Mail</mat-label>
+                <input [disabled]="loading" [(ngModel)]="user.eMail" matInput placeholder="E-Mail"
+                    class="fullwidthInput">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div> -->
+
+<div class="mainContent">
+    <div class="headerContent">
+        <div class="headerLogo">
+            <img src="assets/img/logo1.svg" alt="logo" />
+        </div>
+        <div class="signUp">
+            <div class="signUpText">
+                <span>Not a Join user?</span>
+            </div>
+            <div class="signUpButton">Sign up</div>
+        </div>
+    </div>
+
+    <div class="innerContent">
+        <h1>Log in</h1>
+        <div class="line"></div>
+
+        <!-- Formular mit E-Mail und Passwort -->
+        <div class="formField">
+            <!-- E-Mail Eingabefeld -->
+            <label for="email">E-Mail</label>
+            <input id="email" type="email" [disabled]="loading" [(ngModel)]="user.eMail" class="fullwidthInput"
+                placeholder="E-Mail" required />
+        </div>
+
+        <div class="formField">
+            <!-- Passwort Eingabefeld -->
+            <label for="password">Passwort</label>
+            <input id="password" type="password" [disabled]="loading" [(ngModel)]="user.password" class="fullwidthInput"
+                placeholder="Passwort" required />
+        </div>
+
+        <div class="iconHint">
+            <span class="icon">🔒</span> <!-- Optionales Icon für Passwort -->
+            <small class="hint">Passwort eingeben</small>
+        </div>
+    </div>
+</div>

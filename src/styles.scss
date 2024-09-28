@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./fonts.scss";
+
+$bg_white: #f6f6f6;
+$white: #ffffff;
+$dblue: #2a3647;
+$lblue: #29abe2;
+$red: red;
+$urgend: #ff3d00;
+$medium: #ffa800;
+$low: #7ae229;
+$userStory: #0038ff;
+$techTask: #1fd7c1;
+$borderGrey: #a8a8a8;
+$inputGrey: #d1d1d1;
+$noTaskGrey: #e7e7e7;
+
+@mixin dFlex($jc: center, $ai: center) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+@mixin flexDir($dir, $jc: center, $ai: center) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+body {
+  background-color: $bg_white;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  @include dFlex();
+  font-family: "Inter", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
