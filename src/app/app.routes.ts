@@ -23,5 +23,5 @@ export const routes: Routes = [
         { path: '', redirectTo: 'overview', pathMatch: 'full' }
       ]
     },
-    { path: '**', redirectTo: '/dashboard/overview' }  // Fallback
+    { path: '**', redirectTo: '/dashboard/summary' }  // Fallback
   ];
