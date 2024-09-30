@@ -54,19 +54,26 @@ validatePasswords(): void {
 }
 
   
-  toggleCheckbox(): void {
-    this.checkboxAccepted = !this.checkboxAccepted;
-  }
-  
-  getCheckboxImage(): string {
-    return this.checkboxAccepted ? 'assets/img/checkbox_checked.png' : 'assets/img/checkbox.png';
-  }
+toggleCheckbox(): void {
+  this.checkboxAccepted = !this.checkboxAccepted;
 
-  validateEmail(): void {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    this.emailValid = emailRegex.test(this.user.email);
-    this.emailTouched = true;
+  // Überprüfen, ob "Remember Me" aktiviert wurde
+  if (this.checkboxAccepted) {
+    localStorage.setItem('rememberMe', 'true');
+  } else {
+    localStorage.removeItem('rememberMe');
   }
+}
+  
+getCheckboxImage(): string {
+  return this.checkboxAccepted ? 'assets/img/checkbox_checked.png' : 'assets/img/checkbox.png';
+}
+
+validateEmail(): void {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  this.emailValid = emailRegex.test(this.user.email);
+  this.emailTouched = true;
+}
 
 
   constructor(private fb: FormBuilder, private firestore: Firestore) {
@@ -87,7 +94,20 @@ validatePasswords(): void {
 
    // Firestore-Daten abrufen, wenn die Komponente geladen wird
    async ngOnInit() {
+    // this.animateLogoAndLogin();
+    this.playIntroAnimation();
     await this.loadUsersFromFirestore();
+  
+    // Daten aus localStorage wiederherstellen
+    const savedEmail = localStorage.getItem('userEmail');
+    const savedPassword = localStorage.getItem('userPassword');
+    const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+  
+    if (savedEmail && savedPassword && rememberMeChecked) {
+      this.user.email = savedEmail;
+      this.user.password = savedPassword;
+      this.checkboxAccepted = true;
+    }
   }
 
   async loadUsersFromFirestore() {
@@ -100,32 +120,76 @@ validatePasswords(): void {
     }
   }
 
+  animateLogoAndLogin() {
+  //  const headerContent = document.getElementById('headerContent');
+  //   const logo = document.querySelector('.headerLogo img');
+  //   const loginContainer = document.getElementById('loginContainer');
+  
+  //   // Set initial styles
+   
+  //   gsap.set(logo, { top: '50%', left: '50%', x: '-50%', y: '-50%', scale: 1.5 });
+  //   gsap.set(loginContainer, { autoAlpha: 0 });
+  
+  //   // Animation nach 2 Sekunden Verzögerung
+  //   gsap.timeline()
+  //     .to(logo, { duration: 1.5, scale: 1, top: '0%', left: '0%', x: '0%', y: '0%', ease: 'power2.inOut', delay: 2 })
+  //     .to(loginContainer, { duration: 1, autoAlpha: 1, ease: 'power1.inOut' }, '-=1');
+  }
+
+  playIntroAnimation() {
+    const logo = document.getElementById('introLogo');
+    const mainContent = document.querySelector('.mainContent');
+    const logoContainer = document.querySelector('.logoContainer');
+
+    // Pulsing animation followed by rotation and scale down
+    gsap.timeline({
+      onComplete: () => {
+        // After the animation, hide logoContainer and show mainContent
+        gsap.set(logoContainer, { display: 'none' });
+        gsap.set(mainContent, { display: 'flex' });
+
+        // Optional: Fade in main content
+        gsap.fromTo(mainContent, { autoAlpha: 0 }, { duration: 1, autoAlpha: 1 });
+      }
+    })
+    .to(logo, { scale: 2.7, duration: 0.3, yoyo: true, repeat: 2, ease: 'power0.inOut', delay: 0.3 }) // 2 pulses
+    .to(logo, { duration: 1, scale: 0, rotation: 360, ease: 'power2.inOut' }); // Shrink and rotate out
+  }
 
 
   onSubmitLogin() {
     const email = this.user.email;
     const password = this.user.password;
-
+  
     // Suche den Benutzer in Firestore-Daten
     const user = this.users.find(u => u.email === email && u.password === password);
-
+  
     if (user) {
       console.log('Login successful:', user, this.users);
+  
+      // Überprüfen, ob die "Remember Me"-Checkbox aktiviert ist
+      if (this.checkboxAccepted) {
+        localStorage.setItem('userEmail', this.user.email);
+        localStorage.setItem('userPassword', this.user.password);
+      } else {
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPassword');
+      }
+  
       // Weiterleitung oder weitere Logik
     } else {
-     
       this.showLoginError();
     }
   }
 
-  showLoginError() {
-    const logInErrorDiv = document.getElementById('logInError');
-    if (logInErrorDiv) {
-        logInErrorDiv.style.display = 'block'; // Anzeige einschalten
-        setTimeout(() => {
-            logInErrorDiv.style.display = 'none'; // Anzeige nach 6 Sekunden wieder ausschalten
-        }, 6000); // Zeit in Millisekunden
-    }
+showLoginError() {
+  const logInErrorDiv = document.getElementById('logInError');
+  if (logInErrorDiv) {
+    logInErrorDiv.style.display = 'block'; 
+    setTimeout(() => {
+        logInErrorDiv.style.display = 'none'; 
+    }, 6000); 
+  }
 }
 
   async onSubmitRegister() {

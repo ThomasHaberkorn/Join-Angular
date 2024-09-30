@@ -3,13 +3,25 @@
 .mt24 {
   margin-top: 40px;
 }
+.logoContainer {
+  position: absolute;
+  width: 100vw;
+  height: 100px;
+  @include dFlex();
+  top: 45%;
+  left: 0;
+  img {
+    width: 200px;
+    height: 100px;
+    scale: 2.5;
+  }
+}
 
 .mainContent {
   max-width: 1920px;
   height: 100vh;
   @include flexDir(column);
   .headerContent {
-    position: absolute;
     @include dFlex($jc: space-between);
     width: 100vw;
     height: 150px;
@@ -19,6 +31,7 @@
       scale: 0.365;
     }
     .signUp {
+      display: none;
       @include flexDir($dir: row);
       gap: 35px;
       margin-top: -70px;
