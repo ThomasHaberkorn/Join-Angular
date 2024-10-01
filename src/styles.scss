@@ -3,6 +3,7 @@
 $bg_white: #f6f6f6;
 $white: #ffffff;
 $dblue: #2a3647;
+$mblue: #2a3d59;
 $lblue: #29abe2;
 $red: red;
 $urgend: #ff3d00;
@@ -13,6 +14,7 @@ $techTask: #1fd7c1;
 $borderGrey: #a8a8a8;
 $inputGrey: #d1d1d1;
 $noTaskGrey: #e7e7e7;
+$navGrey: #cdcdcd;
 
 @mixin dFlex($jc: center, $ai: center) {
   display: flex;
@@ -35,6 +37,7 @@ body {
   padding: 0;
   @include dFlex();
   font-family: "Inter", sans-serif;
+  overflow: hidden;
 }
 
 html,

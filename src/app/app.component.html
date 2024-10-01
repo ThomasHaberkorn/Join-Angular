@@ -1,11 +1,14 @@
 <!-- Login-Seite -->
-<app-login *ngIf="!isLoggedIn()"></app-login>
+<!-- <app-login *ngIf="!isLoggedIn()"></app-login> -->
 
 <!-- Dashboard mit Header und Sidebar, wenn der Benutzer eingeloggt ist -->
-<div *ngIf="isLoggedIn()">
-  <header></header>
-  <!-- <sidebar></sidebar> -->
+<!-- <div *ngIf="isLoggedIn()" class="mainContainer">
+  <app-sidebar></app-sidebar>
 
-  <!-- Dynamischer Bereich für den Hauptinhalt basierend auf den Routen -->
-  <router-outlet></router-outlet>
-</div>
+  <div class="routerContainer">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </div>
+</div> -->
+
+<router-outlet></router-outlet>

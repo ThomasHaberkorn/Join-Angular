@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { gsap } from 'gsap';
 import { User } from '../../models/user.class';
 import { Firestore, addDoc, collection, getDocs } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,6 +31,22 @@ export class LoginComponent {
 emailTouched: boolean = false;
 passwordsMatch: boolean = true;
 passwordsTouched: boolean = false;
+
+constructor(private fb: FormBuilder, private firestore: Firestore, private router: Router) {
+  this.loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    rememberMe: [false],
+  });
+
+  this.registerForm = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    confirmPassword: ['', Validators.required],
+    acceptPolicy: [false, Validators.requiredTrue],
+  });
+}
 
 isFormValid(): boolean {
   if (!this.user) {
@@ -76,25 +93,10 @@ validateEmail(): void {
 }
 
 
-  constructor(private fb: FormBuilder, private firestore: Firestore) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      rememberMe: [false],
-    });
 
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      acceptPolicy: [false, Validators.requiredTrue],
-    });
-  }
 
    // Firestore-Daten abrufen, wenn die Komponente geladen wird
    async ngOnInit() {
-    // this.animateLogoAndLogin();
     this.playIntroAnimation();
     await this.loadUsersFromFirestore();
   
@@ -120,22 +122,6 @@ validateEmail(): void {
     }
   }
 
-  animateLogoAndLogin() {
-  //  const headerContent = document.getElementById('headerContent');
-  //   const logo = document.querySelector('.headerLogo img');
-  //   const loginContainer = document.getElementById('loginContainer');
-  
-  //   // Set initial styles
-   
-  //   gsap.set(logo, { top: '50%', left: '50%', x: '-50%', y: '-50%', scale: 1.5 });
-  //   gsap.set(loginContainer, { autoAlpha: 0 });
-  
-  //   // Animation nach 2 Sekunden Verzögerung
-  //   gsap.timeline()
-  //     .to(logo, { duration: 1.5, scale: 1, top: '0%', left: '0%', x: '0%', y: '0%', ease: 'power2.inOut', delay: 2 })
-  //     .to(loginContainer, { duration: 1, autoAlpha: 1, ease: 'power1.inOut' }, '-=1');
-  }
-
   playIntroAnimation() {
     const logo = document.getElementById('introLogo');
     const mainContent = document.querySelector('.mainContent');
@@ -157,6 +143,33 @@ validateEmail(): void {
   }
 
 
+  // onSubmitLogin() {
+  //   const email = this.user.email;
+  //   const password = this.user.password;
+  
+  //   // Suche den Benutzer in Firestore-Daten
+  //   const user = this.users.find(u => u.email === email && u.password === password);
+  
+  //   if (user) {
+  //     console.log('Login successful:', user, this.users);
+  
+  //     // Überprüfen, ob die "Remember Me"-Checkbox aktiviert ist
+  //     if (this.checkboxAccepted) {
+  //       localStorage.setItem('userEmail', this.user.email);
+  //       localStorage.setItem('userPassword', this.user.password);
+        
+  //     } else {
+  //       localStorage.removeItem('userEmail');
+  //       localStorage.removeItem('userPassword');
+  //     }
+  //     this.router.navigate(['/dashboard/summary']);
+  //     // Weiterleitung oder weitere Logik
+  //   } else {
+  //     this.showLoginError();
+  //   }
+  // }
+
+
   onSubmitLogin() {
     const email = this.user.email;
     const password = this.user.password;
@@ -176,11 +189,12 @@ validateEmail(): void {
         localStorage.removeItem('userPassword');
       }
   
-      // Weiterleitung oder weitere Logik
+      this.router.navigate(['/dashboard/summary']);
     } else {
       this.showLoginError();
     }
   }
+
 
 showLoginError() {
   const logInErrorDiv = document.getElementById('logInError');
@@ -362,7 +376,7 @@ flipToLogIn(): void {
 
   login() {
     this.onSubmitLogin();
-    console.log('Login');
+   
   }
   signUp() {
     this.onSubmitRegister();
