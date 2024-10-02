@@ -42,4 +42,24 @@
       }
     }
   }
+  .menuContainer {
+    position: absolute;
+    top: 103px;
+    right: 40px;
+    width: 150px;
+    // height: 100px;
+    border: 2px solid $dblue;
+    border-radius: 20px 0 20px 20px;
+    background-color: $dblue;
+    cursor: pointer;
+    overflow: hidden;
+    .menuLink {
+      color: $navGrey;
+      font-size: 16px;
+      padding: 16px 24px;
+      &:hover {
+        background-color: $mblue;
+      }
+    }
+  }
 }

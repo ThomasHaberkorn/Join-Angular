@@ -95,32 +95,32 @@ validateEmail(): void {
 
 
 
-   // Firestore-Daten abrufen, wenn die Komponente geladen wird
-   async ngOnInit() {
-    this.playIntroAnimation();
-    await this.loadUsersFromFirestore();
-  
-    // Daten aus localStorage wiederherstellen
-    const savedEmail = localStorage.getItem('userEmail');
-    const savedPassword = localStorage.getItem('userPassword');
-    const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
-  
-    if (savedEmail && savedPassword && rememberMeChecked) {
-      this.user.email = savedEmail;
-      this.user.password = savedPassword;
-      this.checkboxAccepted = true;
-    }
+// Firestore-Daten abrufen, wenn die Komponente geladen wird
+async ngOnInit() {
+  this.playIntroAnimation();
+  await this.loadUsersFromFirestore();
+ 
+  // Daten aus localStorage wiederherstellen
+  const savedEmail = localStorage.getItem('userEmail');
+  const savedPassword = localStorage.getItem('userPassword');
+  const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+ 
+  if (savedEmail && savedPassword && rememberMeChecked) {
+    this.user.email = savedEmail;
+    this.user.password = savedPassword;
+    this.checkboxAccepted = true;
   }
+}
 
-  async loadUsersFromFirestore() {
-    try {
-      const querySnapshot = await getDocs(collection(this.firestore, 'users'));
-      this.users = querySnapshot.docs.map(doc => doc.data() as User); // Benutzerdaten ins Array speichern
-      console.log('Users loaded:', this.users);
-    } catch (error) {
-      console.error('Error loading users:', error);
-    }
+async loadUsersFromFirestore() {
+  try {
+    const querySnapshot = await getDocs(collection(this.firestore, 'users'));
+    this.users = querySnapshot.docs.map(doc => doc.data() as User); // Benutzerdaten ins Array speichern
+    console.log('Users loaded:', this.users);
+  } catch (error) {
+    console.error('Error loading users:', error);
   }
+}
 
   playIntroAnimation() {
     const logo = document.getElementById('introLogo');
@@ -141,33 +141,6 @@ validateEmail(): void {
     .to(logo, { scale: 2.7, duration: 0.3, yoyo: true, repeat: 2, ease: 'power0.inOut', delay: 0.3 }) // 2 pulses
     .to(logo, { duration: 1, scale: 0, rotation: 360, ease: 'power2.inOut' }); // Shrink and rotate out
   }
-
-
-  // onSubmitLogin() {
-  //   const email = this.user.email;
-  //   const password = this.user.password;
-  
-  //   // Suche den Benutzer in Firestore-Daten
-  //   const user = this.users.find(u => u.email === email && u.password === password);
-  
-  //   if (user) {
-  //     console.log('Login successful:', user, this.users);
-  
-  //     // Überprüfen, ob die "Remember Me"-Checkbox aktiviert ist
-  //     if (this.checkboxAccepted) {
-  //       localStorage.setItem('userEmail', this.user.email);
-  //       localStorage.setItem('userPassword', this.user.password);
-        
-  //     } else {
-  //       localStorage.removeItem('userEmail');
-  //       localStorage.removeItem('userPassword');
-  //     }
-  //     this.router.navigate(['/dashboard/summary']);
-  //     // Weiterleitung oder weitere Logik
-  //   } else {
-  //     this.showLoginError();
-  //   }
-  // }
 
 
   onSubmitLogin() {
