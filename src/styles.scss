@@ -5,6 +5,7 @@ $white: #ffffff;
 $dblue: #2a3647;
 $mblue: #2a3d59;
 $lblue: #29abe2;
+$linkblue: #007cee;
 $red: red;
 $urgend: #ff3d00;
 $medium: #ffa800;
@@ -27,6 +28,10 @@ $navGrey: #cdcdcd;
   flex-direction: $dir;
   justify-content: $jc;
   align-items: $ai;
+}
+
+* {
+  font-family: "Inter", sans-serif;
 }
 
 body {

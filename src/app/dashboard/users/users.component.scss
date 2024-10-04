@@ -1,0 +1,151 @@
+@import "../../../styles.scss";
+
+.mainContent {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 96px;
+  left: 232px;
+  @include dFlex();
+  .contactList {
+    width: 456px;
+    height: 100%;
+    background-color: $white;
+    box-shadow: -1px 4px 6px rgba(0, 0, 0, 0.15);
+    .contactButton {
+      @include dFlex();
+      .addContactButton {
+        @include dFlex();
+        gap: 16px;
+        width: 352px;
+        height: 56px;
+        background-color: $dblue;
+        border-radius: 10px;
+        color: $white;
+        font-size: 21px;
+        line-height: 26px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        img {
+          width: 29px;
+          height: 29px;
+          margin-top: -2px;
+        }
+      }
+    }
+    .contactListContent {
+      height: 100%;
+      border: 2px solid $inputGrey;
+    }
+  }
+  .contactShow {
+    width: calc(100% - 456px);
+    height: 100%;
+    position: relative;
+    @include flexDir(column, flex-start, flex-start);
+    .headline {
+      @include dFlex();
+      gap: 20px;
+      margin-top: 40px;
+      margin-left: 55px;
+      h1 {
+        font-size: 61px;
+        font-weight: 700;
+        line-height: 73.2px;
+      }
+      .line {
+        width: 3px;
+        border-radius: 5px;
+        height: 59px;
+        background-color: $lblue;
+      }
+      h2 {
+        font-size: 27px;
+        line-height: 32.4px;
+      }
+    }
+    .contactCard {
+      margin-left: 55px;
+      border: 1px solid $inputGrey;
+      border-radius: 20px;
+      background-color: $white;
+      .contactCardHeader {
+        margin: 30px;
+        @include dFlex();
+        gap: 20px;
+        .inicialCircle {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background-color: $lblue;
+          color: $white;
+          font-size: 47px;
+          font-weight: 500;
+          border: 3px solid $white;
+          @include dFlex();
+        }
+        .nameEditContainer {
+          h1 {
+            font-size: 47px;
+            line-height: 56.4px;
+            font-weight: 500;
+            margin: 10px;
+          }
+          .nameEditButtonContainer {
+            @include dFlex($jc: flex-start);
+            gap: 24px;
+            margin-left: 10px;
+            .editContainer,
+            .deleteContainer {
+              @include dFlex();
+              cursor: pointer;
+
+              img {
+                width: 24px;
+                height: 24px;
+                margin-right: 4px;
+              }
+
+              span {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+      .contactCardInfo {
+        margin: 30px;
+        h3 {
+          font-size: 20px;
+          font-weight: 400;
+        }
+        .contactEmail {
+          margin-top: 26px;
+          h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+          }
+          a {
+            font-size: 16px;
+            font-weight: 400;
+            color: $linkblue;
+            text-decoration: none;
+          }
+        }
+        .contactPhone {
+          margin-top: 26px;
+          h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+          }
+          span {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}
