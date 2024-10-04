@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { collection, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { addDoc, collection, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
@@ -91,13 +91,52 @@ export class AddTaskComponent {
     }
   }
 
+  deleteSubtask(index: number) {
+    this.task.subtasks.splice(index, 1); // Entfernt den Subtask an der angegebenen Stelle
+  }
+  
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const dropdownContent = document.querySelector('.dropdown-content');
+    const dropdownButton = document.querySelector('.dropdown-button');
+
+    if (dropdownContent && dropdownButton && !dropdownContent.contains(target) && !dropdownButton.contains(target)) {
+      this.dropdownOpen = false;
+    }
+  }
+
   clearForm() {
     this.task = new Task(); // Setzt das Formular zurück
     this.task.priority = 'Medium';
   }
 
-  createTask() {
-    console.log('Task to be created:', this.task);
-    // Hier kann die Logik hinzugefügt werden, um den Task in Firestore zu speichern
+  async createTask() {
+    if (!this.task.title || !this.task.dueDate || !this.task.category) {
+      console.error('Some required fields are missing');
+      return;
+    }
+  
+    try {
+      const taskCollection = collection(this.firestore, 'tasks'); // 'tasks' ist der Name der Firestore-Sammlung
+      await addDoc(taskCollection, {
+        id: this.task.id,
+        title: this.task.title,
+        description: this.task.description,
+        assignedTo: this.assignedUsers.map(user => user.id), // IDs der zugewiesenen Benutzer
+        dueDate: this.task.dueDate,
+        priority: this.task.priority,
+        category: this.task.category,
+        subtasks: this.task.subtasks,
+        status: 'todo'
+      });
+  
+      console.log('Task successfully added to Firestore', this.task);
+      // Optional: Formular zurücksetzen oder auf eine andere Seite navigieren
+      this.clearForm();
+    } catch (error) {
+      console.error('Error adding task to Firestore:', error);
+    }
   }
 }

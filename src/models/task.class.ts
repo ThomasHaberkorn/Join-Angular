@@ -7,7 +7,7 @@ export class Task {
     priority: string;
     category: string;
     subtasks: string[];
-    userId: string;
+    status: string;
   
     constructor(obj?: any) {
         this.id = this.getID();
@@ -18,7 +18,7 @@ export class Task {
         this.priority = obj ? obj.priority : '';
         this.category = obj ? obj.category : '';
         this.subtasks = obj && obj.subtasks ? obj.subtasks : [];
-        this.userId = obj ? obj.userId : '';
+        this.status = obj ? obj.status : '';
     }
 
     getID(): string {
@@ -41,7 +41,7 @@ export class Task {
         priority: this.priority,
         category: this.category,
         subtasks: this.subtasks,
-        userId: this.userId
+        status: this.status
       };
       return data;
     }

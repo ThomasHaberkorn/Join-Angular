@@ -180,6 +180,13 @@
         }
         .selectFieldAddTask {
           cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none; /* Für Safari */
+          -moz-appearance: none; /* Für Firefox */
+          background-image: url("./../../../assets/img/arrow-down.png");
+          background-size: 21px;
+          background-repeat: no-repeat;
+          background-position: calc(100% - 17px) center;
         }
         .subtasks {
           position: relative;
@@ -207,12 +214,37 @@
               }
             }
           }
-          .listClass {
+          .innerLIContainer {
             position: absolute;
-            border: 2px solid $inputGrey;
-            width: 427px;
+            background-color: $white;
+            border-radius: 10px;
+            border: 1px solid $inputGrey;
+            width: 470px;
             height: 80px;
             margin: 0;
+
+            .listClass {
+              width: 424px;
+              height: 80px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              overflow-y: scroll;
+              font-size: 20px;
+              line-height: 26px;
+              margin: 0;
+              margin-top: 1px;
+              li {
+                .deleteIcon {
+                  position: absolute;
+                  right: 3px;
+                  margin-top: 2px;
+                  width: 21px;
+                  height: 21px;
+                  cursor: pointer;
+                }
+              }
+            }
           }
         }
       }
@@ -241,6 +273,7 @@
           border-radius: 10px;
           color: $dblue;
           font-size: 20px;
+          cursor: pointer;
           &:hover {
             border-color: $lblue;
             color: $lblue;
@@ -261,6 +294,7 @@
           background-color: $dblue;
           font-size: 20px;
           color: $white;
+          cursor: pointer;
           &:hover {
             background-color: $lblue;
             box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);

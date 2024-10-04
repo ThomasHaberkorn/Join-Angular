@@ -140,9 +140,17 @@
                                 (click)="addSubtask(subtaskInput)">
                         </div>
                     </div>
-                    <ul class="listClass">
-                        <li *ngFor="let subtask of task.subtasks">{{ subtask }}</li>
-                    </ul>
+
+                    <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
+                        <ul class="listClass">
+                            <li *ngFor="let subtask of task.subtasks; let i = index">
+                                {{ subtask }}
+                                <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
+                                    (click)="deleteSubtask(i)" class="deleteIcon">
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
 
