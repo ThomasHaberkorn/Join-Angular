@@ -4,7 +4,25 @@
             <button class="addContactButton" (click)="addContact()">Add New Contact <img
                     src="./../../../assets/img/person_add.png" alt=""></button>
         </div>
-        <div class="contactListContent"></div>
+        <div class="contactListContent">
+            <ng-container *ngFor="let letter of groupedUsers | keyvalue">
+                <div class="letterGroup">
+                    <h2>{{ letter.key }}</h2>
+                    <hr class="colored-line">
+                    <ng-container *ngFor="let user of letter.value">
+                        <div class="userCard" (click)="showContactCard(user)">
+                            <div class="userInitials" [ngStyle]="{ 'background-color': user.color }">
+                                {{ user.initials }}
+                            </div>
+                            <div class="userDetails">
+                                <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                                <p>{{ user.email }}</p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
     </div>
     <div class="contactShow">
         <div class="headline">
@@ -12,11 +30,13 @@
             <div class="line"></div>
             <h2>Better with a team</h2>
         </div>
-        <div class="contactCard">
+        <div class="contactCard" *ngIf="selectedUser" #contactCard style="opacity: 0; transform: translateX(100%);">
             <div class="contactCardHeader">
-                <div class="inicialCircle">TH</div>
-                <div class="nameEditContainer">3
-                    <h1>first + lastname</h1>
+                <div class="inicialCircle" [ngStyle]="{ 'background-color': selectedUser.color }">
+                    {{ selectedUser.initials }}
+                </div>
+                <div class="nameEditContainer">
+                    <h1>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h1>
                     <div class="nameEditButtonContainer">
                         <div class="editContainer">
                             <img src="./../../../assets/img/edit1.png" alt=""><span>Edit</span>
@@ -31,13 +51,19 @@
                 <h3>Contact Information</h3>
                 <div class="contactEmail">
                     <h4>Email</h4>
-                    <a href="user.mail">user.mail</a>
+                    <a href="mailto:{{ selectedUser.email }}">{{ selectedUser.email }}</a>
                 </div>
-                <div class="contactPhone">
+                <div class="contactPhone" *ngIf="selectedUser.phone">
                     <h4>Phone</h4>
-                    <span>user.phone</span>
+                    <span>{{ selectedUser.phone }}</span>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="editContactMain">
+    <div class="editContactCard"></div>
+</div>
+<div class="addContactMain">
+    <div class="addContactCard"></div>
 </div>
