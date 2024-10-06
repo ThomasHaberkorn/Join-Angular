@@ -115,7 +115,11 @@ async ngOnInit() {
 async loadUsersFromFirestore() {
   try {
     const querySnapshot = await getDocs(collection(this.firestore, 'users'));
-    this.users = querySnapshot.docs.map(doc => doc.data() as User); // Benutzerdaten ins Array speichern
+    this.users = querySnapshot.docs.map(doc => {
+      const user = doc.data() as User;
+      user.id = doc.id; 
+      return user;
+    });
     console.log('Users loaded:', this.users);
   } catch (error) {
     console.error('Error loading users:', error);
@@ -180,12 +184,10 @@ showLoginError() {
 }
 
   async onSubmitRegister() {
-    // Initialen setzen basierend auf den aktuellen Benutzerdaten
     this.user.initials = this.user.getInitials();
 
     try {
-      // Benutzer-Daten an Firestore senden
-      const userCollection = collection(this.firestore, 'users'); // 'users' ist der Name der Sammlung
+      const userCollection = collection(this.firestore, 'users'); 
       await addDoc(userCollection, {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
@@ -198,9 +200,9 @@ showLoginError() {
         passwordConfirm: this.user.passwordConfirm,
         
       });
-      console.log('User successfully added to Firestore', this.user);
       this.signupSuccess = true;
       this.showRegister = false;
+      await this.loadUsersFromFirestore();
       this.flipToLogIn()
     } catch (error) {
       console.error('Error adding user to Firestore:', error);

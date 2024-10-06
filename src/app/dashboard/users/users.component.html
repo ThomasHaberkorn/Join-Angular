@@ -1,7 +1,7 @@
 <div class="mainContent">
     <div class="contactList">
         <div class="contactButton">
-            <button class="addContactButton" (click)="addContact()">Add New Contact <img
+            <button class="addContactButton" (click)="openAddContact()">Add New Contact <img
                     src="./../../../assets/img/person_add.png" alt=""></button>
         </div>
         <div class="contactListContent">
@@ -38,10 +38,10 @@
                 <div class="nameEditContainer">
                     <h1>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h1>
                     <div class="nameEditButtonContainer">
-                        <div class="editContainer">
+                        <div class="editContainer" (click)="openEditContact()">
                             <img src="./../../../assets/img/edit1.png" alt=""><span>Edit</span>
                         </div>
-                        <div class="deleteContainer">
+                        <div class="deleteContainer" (click)="deleteContact()">
                             <img src="./../../../assets/img/delete.png" alt=""><span>Delete</span>
                         </div>
                     </div>
@@ -61,9 +61,99 @@
         </div>
     </div>
 </div>
-<div class="editContactMain">
-    <div class="editContactCard"></div>
+
+<div class="editContactMain" *ngIf="editMode && selectedUser" (click)="closeEditContact($event)">
+    <div class="editContactCard" (click)="$event.stopPropagation()">
+        <div class="editContactInfo">
+            <img src="./../../../assets/img/join-logo-white.png" alt="">
+            <h2>Edit Contact</h2>
+            <hr class="editContactLine">
+        </div>
+        <div class="editContactEditForm">
+            <div class="inicials" [ngStyle]="{ 'background-color': selectedUser.color }">
+                {{ selectedUser.initials }}
+            </div>
+            <div class="editForm">
+                <div class="editFormRow">
+                    <div class="editFormInput">
+                        <input type="text" id="firstName" [(ngModel)]="selectedUser.firstName" placeholder="First name">
+                    </div>
+                    <div class="editFormInput">
+                        <input type="text" id="lastName" [(ngModel)]="selectedUser.lastName" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="editFormRow">
+                    <div class="editFormInput">
+                        <input type="email" id="email" [(ngModel)]="selectedUser.email" placeholder="Email">
+                    </div>
+                    <div class="editFormInput">
+                        <input type="text" id="phone" [(ngModel)]="selectedUser.phone" placeholder="Phone">
+                    </div>
+                </div>
+                <div class="editFormRow">
+                    <div class="editFormInput colorRow">
+                        <label for="color">Color</label>
+                        <input type="color" id="color" [(ngModel)]="selectedUser.color">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="buttonContainer">
+            <button class="deleteContactButton" (click)="deleteContact()">Delete</button>
+            <button class="editContactButton" (click)="editContact()">Save</button>
+        </div>
+    </div>
 </div>
-<div class="addContactMain">
-    <div class="addContactCard"></div>
+
+
+
+
+<div class="addContactMain" *ngIf="addMode" (click)="closeAddContact($event)">
+    <div class="addContactCard" (click)="$event.stopPropagation()">
+        <div class="addContactInfo">
+            <img src="./../../../assets/img/join-logo-white.png" alt="">
+            <h2>Add Contact</h2>
+            <h3>Tasks are better with a team!</h3>
+            <hr class="addContactLine">
+        </div>
+        <div class="addContactForm">
+            <div class="inicials" [ngStyle]="{ 'background-color': newUser.color }">
+                {{ newUser.initials }}
+            </div>
+            <div class="addForm">
+                <div class="addFormRow">
+                    <div class="addFormInput">
+                        <input type="text" id="firstName" [(ngModel)]="newUser.firstName"
+                            placeholder="First name (required)" required>
+                    </div>
+                    <div class="addFormInput">
+                        <input type="text" id="lastName" [(ngModel)]="newUser.lastName"
+                            placeholder="Last name (required)" required>
+                    </div>
+                </div>
+                <div class="addFormRow">
+                    <div class="addFormInput">
+                        <input type="email" id="email" [(ngModel)]="newUser.email" placeholder="Email (required)"
+                            required>
+                    </div>
+                    <div class="addFormInput">
+                        <input type="text" id="phone" [(ngModel)]="newUser.phone" placeholder="Phone">
+                    </div>
+                </div>
+                <div class="addFormRow">
+                    <div class="addFormInput colorRow">
+                        <label for="color">Color</label>
+                        <input type="color" id="color" [(ngModel)]="newUser.color">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttonContainer">
+            <button class="cancelContactButton" (click)="closeAddContact()">Cancel <img class="cancelIcon"
+                    src="./../../../assets/img/cross.png" alt=""></button>
+            <button class="addContactButton" (click)="saveNewContact()">Create contact <img
+                    src="./../../../assets/img/check.png" alt=""></button>
+        </div>
+    </div>
 </div>

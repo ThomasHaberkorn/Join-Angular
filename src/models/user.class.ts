@@ -10,25 +10,18 @@ export class User {
     color: string;
   
     constructor(obj?: any) {
-        this.id = this.getID();
-        this.firstName = obj ? obj.firstName : '';
-        this.lastName = obj ? obj.lastName : '';
-        this.email = obj ? obj.eMail : '';
-        this.phone = obj ? obj.phone : '';
-        this.password = obj ? obj.password : '';
-        this.passwordConfirm = obj ? obj.passwordConfirm : '';
-        this.color = this.getColor();
-        this.initials =  obj ? obj.initials : '';
+      this.id = obj ? obj.id : '';
+      this.firstName = obj ? obj.firstName : '';
+      this.lastName = obj ? obj.lastName : '';
+      this.email = obj ? obj.eMail : '';
+      this.phone = obj ? obj.phone : '';
+      this.password = obj ? obj.password : '';
+      this.passwordConfirm = obj ? obj.passwordConfirm : '';
+      this.color = this.getColor();
+      this.initials = this.getInitials();
     }
 
-    getID(): string {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let id = '';
-        for (let i = 0; i < 5; i++) {
-          id += characters[Math.floor(Math.random() * characters.length)];
-        }
-        return id;
-    }
+   
 
     getInitials(): string {
         if (this.firstName && this.lastName) {
@@ -36,6 +29,12 @@ export class User {
         }
         return ''; 
     }
+
+    // getInitials(): string {
+    //   const firstInitial = this.firstName?.trim().charAt(0).toUpperCase() || '';
+    //   const lastInitial = this.lastName?.trim().charAt(0).toUpperCase() || '';
+    //   return `${firstInitial}${lastInitial}`;
+    // }
 
     getColor(): string {
         const letters = '0123456789ABCDEF';
@@ -45,9 +44,6 @@ export class User {
         }
         return color;
     }
-
-    
-      
   
     public toJSON() {
       const data: any = {
@@ -63,7 +59,6 @@ export class User {
         initials: this.initials ,
       };
   
-      // Konvertieren Sie `undefined` oder `null` in leere Strings
       Object.keys(data).forEach(key => {
         if (data[key] === undefined || data[key] === null) {
           data[key] = "";
