@@ -1,1 +1,179 @@
-<p>board works!</p>
+<div class="mainContainer">
+    <div class="headContainer">
+        <div class="headline">
+            <h1>Board</h1>
+        </div>
+        <div class="headSideContent">
+            <div class="searchInput">
+                <input type="text" placeholder="Find Task" class="inputField">
+                <div class="hline"></div>
+                <img src="./../../../assets/img/search.png" alt="" class="searchImg">
+            </div>
+            <button class="addTask" (click)="addTask()">Add Task <img src="./../../../assets/img/add.png"
+                    alt=""></button>
+        </div>
+    </div>
+    <div class="board">
+        <div class="innerBoard">
+
+            <!-- ----------- todo ------------ -->
+
+            <div class="todoContainer contentContainer" (drop)="onTaskDrop($event, 'todo')"
+                (dragover)="onDragOver($event, 'todo')">
+                <div class="containerHead" id="todoContainerHead">
+                    <h4>To do</h4>
+                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                </div>
+
+
+                <div class="scrollContainer">
+                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'todo'}"
+                        id="todoContent" *ngIf="hasNoTasks('todo')">
+                        <span *ngIf="hasNoTasks('todo')">No Task To do</span>
+                    </div>
+                    <ng-container *ngFor="let task of tasks">
+                        <div *ngIf="task.status === 'todo'" class="taskCard" draggable="true"
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <h3>{{ task.title }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="subtasks">
+                                <div class="progressBarSubtasks"></div>
+                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            </div>
+                            <div class="contactPrioContainer">
+                                <div class="contacts">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                        {{ getUserInitials(userId) }}
+                                    </div>
+                                </div>
+                                <div class="priority">
+                                    <img [src]="getPriorityImage(task.priority)" alt="priority icon">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- in Progress -->
+
+            <div class="inProgressContainer contentContainer" (drop)="onTaskDrop($event, 'inProgress')"
+                (dragover)="onDragOver($event, 'inProgress')">
+                <div class="containerHead" id="inProgressHead">
+                    <h4>In Progress</h4>
+                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                </div>
+                <div class="scrollContainer">
+                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'inProgress'}"
+                        id="inProgressContent" *ngIf="hasNoTasks('inProgress')">
+                        <span *ngIf="hasNoTasks('inProgress')">No Task in Progress</span>
+                    </div>
+
+                    <ng-container *ngFor="let task of tasks">
+                        <div *ngIf="task.status === 'inProgress'" class="taskCard" draggable="true"
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <h3>{{ task.title }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="subtasks">
+                                <div class="progressBarSubtasks"></div>
+                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            </div>
+                            <div class="contactPrioContainer">
+                                <div class="contacts">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                        {{ getUserInitials(userId) }}
+                                    </div>
+                                </div>
+                                <div class="priority">
+                                    <img [src]="getPriorityImage(task.priority)" alt="priority icon">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+
+            <!-- await Feedback -->
+
+            <div class="awaitFeedbackContainer contentContainer" (drop)="onTaskDrop($event, 'awaitFeedback')"
+                (dragover)="onDragOver($event, 'awaitFeedback')">
+                <div class="containerHead" id="awaitFeedbackHead">
+                    <h4>Awaiting Feedback</h4>
+                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                </div>
+                <div class="scrollContainer">
+                    <div class="cardContainer"
+                        [ngClass]="{'drop-active': isDragging && draggingOver === 'awaitFeedback'}"
+                        id="awaitFeedbackContent" *ngIf="hasNoTasks('awaitFeedback')">
+                        <span *ngIf="hasNoTasks('awaitFeedback')">No Task Awaiting Feedback</span>
+                    </div>
+                    <ng-container *ngFor="let task of tasks">
+                        <div *ngIf="task.status === 'awaitFeedback'" class="taskCard" draggable="true"
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <h3>{{ task.title }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="subtasks">
+                                <div class="progressBarSubtasks"></div>
+                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            </div>
+                            <div class="contactPrioContainer">
+                                <div class="contacts">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                        {{ getUserInitials(userId) }}
+                                    </div>
+                                </div>
+                                <div class="priority">
+                                    <img [src]="getPriorityImage(task.priority)" alt="priority icon">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+
+            <!-- done -->
+
+            <div class="doneContainer contentContainer" (drop)="onTaskDrop($event, 'done')"
+                (dragover)="onDragOver($event, 'done')">
+                <div class="containerHead" id="doneHead">
+                    <h4>Done</h4>
+                </div>
+                <div class="scrollContainer">
+                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'done'}"
+                        id="doneContent" *ngIf="hasNoTasks('done')">
+                        <span *ngIf="hasNoTasks('done')">No Task Done</span>
+                    </div>
+                    <ng-container *ngFor="let task of tasks">
+                        <div *ngIf="task.status === 'done'" class="taskCard" draggable="true"
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <h3>{{ task.title }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="subtasks">
+                                <div class="progressBarSubtasks"></div>
+                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            </div>
+                            <div class="contactPrioContainer">
+                                <div class="contacts">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                        {{ getUserInitials(userId) }}
+                                    </div>
+                                </div>
+                                <div class="priority">
+                                    <img [src]="getPriorityImage(task.priority)" alt="priority icon">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

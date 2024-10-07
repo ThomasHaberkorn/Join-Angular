@@ -128,6 +128,7 @@ export class UsersComponent{
           initials: this.selectedUser.initials, 
           color: this.selectedUser.color,
           phone: this.selectedUser.phone,
+          // id: this.selectedUser.id
         });
   
         console.log('User updated:', this.selectedUser);

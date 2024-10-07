@@ -30,12 +30,6 @@ export class User {
         return ''; 
     }
 
-    // getInitials(): string {
-    //   const firstInitial = this.firstName?.trim().charAt(0).toUpperCase() || '';
-    //   const lastInitial = this.lastName?.trim().charAt(0).toUpperCase() || '';
-    //   return `${firstInitial}${lastInitial}`;
-    // }
-
     getColor(): string {
         const letters = '0123456789ABCDEF';
         let color = '#';

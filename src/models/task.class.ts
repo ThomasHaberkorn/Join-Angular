@@ -10,7 +10,8 @@ export class Task {
     status: string;
   
     constructor(obj?: any) {
-        this.id = this.getID();
+        // this.id = this.getID();
+        this.id = obj ? obj.id : '';
         this.title = obj ? obj.title : '';
         this.description = obj ? obj.description : '';
         this.assignedTo = obj ? obj.assignedTo : '';
