@@ -2,6 +2,7 @@
 
 .mainContainer {
   width: 100%;
+  max-width: 1920px;
   height: 100%;
   position: absolute;
   top: 96px;
@@ -15,7 +16,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% - 232px);
+    width: calc(96% - 232px);
     height: 12vh;
     margin-top: 20px;
     .headline {
@@ -27,7 +28,7 @@
     }
     .headSideContent {
       @include dFlex();
-      margin-right: 88px;
+      // margin-right: 88px;
       gap: 20px;
       .searchInput {
         width: 312px;
@@ -87,7 +88,7 @@
     height: calc(100% - 25vh);
     @include dFlex($ai: flex-start);
     .innerBoard {
-      width: 90%;
+      width: 94%;
       height: 100%;
       @include dFlex($ai: flex-start, $jc: space-between);
       .contentContainer {
@@ -106,6 +107,7 @@
             font-size: 20px;
             font-weight: 700;
             margin: 0;
+            margin-left: 4px;
           }
           img {
             cursor: pointer;
@@ -121,6 +123,8 @@
           @include flexDir(column, $jc: flex-start);
           &.drop-active {
             height: 62vh;
+            // margin-left: -20px;
+            margin-top: 2px;
           }
           span {
             color: $borderGrey;
@@ -139,8 +143,11 @@
             display: none;
           }
           &.drop-active {
-            border: 2px dotted $borderGrey;
+            border: 2px dashed $borderGrey;
             background-color: $noTaskGrey;
+            padding-top: 18px;
+            border-radius: 10px;
+            margin-left: -2px;
           }
         }
       }
@@ -149,32 +156,42 @@
 }
 
 .taskCard {
-  width: 80%;
+  width: 79%;
   border: 2px solid $borderGrey;
   background-color: $noTaskGrey;
   border-radius: 20px;
   padding: 10px 15px;
-  margin-bottom: 60px;
+  margin-bottom: 6px;
   margin-top: 6px;
   cursor: grab;
+
   &:hover {
     transform: rotate(7deg);
   }
+
+  &.dragging {
+    opacity: 0.6;
+    max-width: 80%;
+  }
+
   .category {
     margin-top: 10px;
-    width: 100px;
+    width: 120px;
     height: 30px;
     color: $white;
     @include dFlex();
     border-radius: 10px;
     padding: 0 10px;
-    &#techTask {
+
+    &.techTask {
       background-color: $techTask;
     }
-    &#userStory {
+
+    &.userStory {
       background-color: $userStory;
     }
   }
+
   h3 {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -182,34 +199,39 @@
     font-weight: 700;
     color: $dblue;
   }
+
   p {
     font-size: 16px;
     font-weight: 400;
     color: $dblue;
     margin: 0;
   }
+
   .subtasks {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 16px;
     @include dFlex($jc: space-between);
+
     .progressBarSubtasks {
       width: 50%;
       height: 6px;
       background-color: $borderGrey;
     }
+
     .subtaskCounter {
       font-size: 12px;
     }
   }
+
   .contactPrioContainer {
     @include dFlex($jc: space-between);
     width: 100%;
+
     .contacts {
       @include dFlex();
 
       .contact {
-        background-color: $red;
         width: 32px;
         height: 32px;
         border-radius: 50%;

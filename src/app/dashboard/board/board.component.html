@@ -25,16 +25,19 @@
                     <img src="./../../../assets/img/plusbutton.png" alt="">
                 </div>
 
-
-                <div class="scrollContainer">
-                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'todo'}"
-                        id="todoContent" *ngIf="hasNoTasks('todo')">
+                <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'todo'}">
+                    <div class="cardContainer" id="todoContent" *ngIf="hasNoTasks('todo')">
                         <span *ngIf="hasNoTasks('todo')">No Task To do</span>
                     </div>
-                    <ng-container *ngFor="let task of tasks">
+                    <ng-container *ngFor="let task of getTasksByStatus('todo')">
                         <div *ngIf="task.status === 'todo'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
-                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <!-- <div class="category" [id]="task.category">{{ task.category }}</div> -->
+                            <div class="category" [ngClass]="getCategoryClass(task.category)">
+                                {{ task.category }}
+                            </div>
+
+
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks">
@@ -43,7 +46,8 @@
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                        [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
                                     </div>
                                 </div>
@@ -56,6 +60,8 @@
                 </div>
             </div>
 
+
+
             <!-- in Progress -->
 
             <div class="inProgressContainer contentContainer" (drop)="onTaskDrop($event, 'inProgress')"
@@ -64,16 +70,19 @@
                     <h4>In Progress</h4>
                     <img src="./../../../assets/img/plusbutton.png" alt="">
                 </div>
-                <div class="scrollContainer">
+                <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'inProgress'}">
                     <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'inProgress'}"
                         id="inProgressContent" *ngIf="hasNoTasks('inProgress')">
                         <span *ngIf="hasNoTasks('inProgress')">No Task in Progress</span>
                     </div>
 
-                    <ng-container *ngFor="let task of tasks">
+                    <ng-container *ngFor="let task of getTasksByStatus('inProgress')">
                         <div *ngIf="task.status === 'inProgress'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
-                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <div class="category" [ngClass]="getCategoryClass(task.category)">
+                                {{ task.category }}
+                            </div>
+
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks">
@@ -82,7 +91,8 @@
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                        [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
                                     </div>
                                 </div>
@@ -104,16 +114,20 @@
                     <h4>Awaiting Feedback</h4>
                     <img src="./../../../assets/img/plusbutton.png" alt="">
                 </div>
-                <div class="scrollContainer">
+                <div class="scrollContainer"
+                    [ngClass]="{'drop-active': isDragging && draggingOver === 'awaitFeedback'}">
                     <div class="cardContainer"
                         [ngClass]="{'drop-active': isDragging && draggingOver === 'awaitFeedback'}"
                         id="awaitFeedbackContent" *ngIf="hasNoTasks('awaitFeedback')">
                         <span *ngIf="hasNoTasks('awaitFeedback')">No Task Awaiting Feedback</span>
                     </div>
-                    <ng-container *ngFor="let task of tasks">
+                    <ng-container *ngFor="let task of getTasksByStatus('awaitFeedback')">
                         <div *ngIf="task.status === 'awaitFeedback'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
-                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <div class="category" [ngClass]="getCategoryClass(task.category)">
+                                {{ task.category }}
+                            </div>
+
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks">
@@ -122,7 +136,8 @@
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                        [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
                                     </div>
                                 </div>
@@ -143,15 +158,18 @@
                 <div class="containerHead" id="doneHead">
                     <h4>Done</h4>
                 </div>
-                <div class="scrollContainer">
+                <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'done'}">
                     <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'done'}"
                         id="doneContent" *ngIf="hasNoTasks('done')">
                         <span *ngIf="hasNoTasks('done')">No Task Done</span>
                     </div>
-                    <ng-container *ngFor="let task of tasks">
+                    <ng-container *ngFor="let task of getTasksByStatus('done')">
                         <div *ngIf="task.status === 'done'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
-                            <div class="category" [id]="task.category">{{ task.category }}</div>
+                            <div class="category" [ngClass]="getCategoryClass(task.category)">
+                                {{ task.category }}
+                            </div>
+
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks">
@@ -160,7 +178,8 @@
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact">
+                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                        [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
                                     </div>
                                 </div>

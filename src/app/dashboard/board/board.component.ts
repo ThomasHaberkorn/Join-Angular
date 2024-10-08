@@ -53,12 +53,42 @@ export class BoardComponent {
     }
   }
 
+
   onDragStart(event: DragEvent, taskId: string) {
     this.isDragging = true;
-    event.dataTransfer?.setData('text/plain', taskId);
-    event.dataTransfer!.effectAllowed = 'move';
+    event.dataTransfer?.setData('taskId', taskId);
+  
+    const taskCardElement = (event.target as HTMLElement).closest('.taskCard') as HTMLElement;
+  
+    if (taskCardElement && event.dataTransfer) {
+      // Klone die taskCard
+      const dragImageNode = taskCardElement.cloneNode(true);
+      const dragImage = dragImageNode as HTMLElement; // Cast auf HTMLElement
+      dragImage.style.position = 'absolute';
+      dragImage.style.pointerEvents = 'none';
+      dragImage.style.top = '-1000px'; // Verstecke es außerhalb des sichtbaren Bereichs
+      dragImage.style.left = '-1000px';
+      dragImage.style.width = `${taskCardElement.offsetWidth}px`;
+  
+      // Entferne die Klasse 'dragging' vom Drag-Image
+      dragImage.classList.remove('dragging');
+  
+      // Füge das Drag-Image dem Body hinzu
+      document.body.appendChild(dragImage);
+  
+      // Verwende den Klon als Drag-Image
+      const rect = taskCardElement.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const offsetY = event.clientY - rect.top;
+      event.dataTransfer.setDragImage(dragImage, offsetX, offsetY);
+  
+      // Blende die originale Karte aus
+      taskCardElement.classList.add('dragging');
+    }
   }
- 
+  
+  
+
 
   onDragOver(event: DragEvent, zone: string) {
     event.preventDefault(); 
@@ -68,22 +98,52 @@ export class BoardComponent {
 
 
   onTaskDrop(event: DragEvent, newStatus: string) {
-    console.log('task dropped in zone:', newStatus);
-    this.isDragging = false;
-    this.draggingOver = '';
-    const taskId = event.dataTransfer?.getData('text/plain');
-    console.log('taskId from dataTransfer:', taskId);
+    this.isDragging = false; // Dragging auf false setzen
+    this.draggingOver = ''; // Reset der Dropzone
+    const taskId = event.dataTransfer?.getData('taskId');
     const task = this.tasks.find(t => t.id === taskId);
-    if (task) {
-      task.status = newStatus;
-      this.updateTaskStatus(task);
-    }
-  }
 
+    if (task) {
+        // Task-Status nur ändern, wenn eine gültige neue Dropzone vorhanden ist
+        task.status = newStatus;
+        this.updateTaskStatus(task);
+    } else {
+        // Wenn keine gültige Dropzone erreicht wird, kehrt die Karte zurück
+        this.resetTaskPosition();
+    }
+}
+
+  
   onDragEnd() {
     this.isDragging = false;
-    this.draggingOver = ''; 
+    this.draggingOver = '';
+  
+    // Entferne das Drag-Image
+    const dragImages = document.querySelectorAll('.taskCard');
+    dragImages.forEach(img => {
+      const element = img as HTMLElement; // Cast auf HTMLElement
+      if (element.style.top === '-1000px') {
+        element.remove();
+      }
+    });
+  
+    // Entferne die Klasse 'dragging' von der Originalkarte
+    const taskCards = document.querySelectorAll('.taskCard.dragging');
+    taskCards.forEach(card => {
+      const element = card as HTMLElement; // Cast auf HTMLElement
+      element.classList.remove('dragging');
+    });
   }
+  
+  
+
+resetTaskPosition() {
+  const taskCard = document.querySelector('.taskCard.dragging') as HTMLElement;
+  if (taskCard) {
+      // Optional: Rücksetzanimation oder Stiländerungen entfernen
+      taskCard.classList.remove('dragging');
+  }
+}
 
   
   async loadUsersFromFirestore() {
@@ -95,9 +155,36 @@ export class BoardComponent {
     }
   }
 
+  getUserColor(userId: string): string {
+    const user = this.users.find(u => u.id === userId);
+    return user ? user.color : '#000000'; // Standardfarbe Schwarz
+  }
+
   getUserInitials(userId: string): string {
     const user = this.users.find(u => u.id === userId);
     return user ? user.initials : '';
+  }
+
+  getCategoryClass(categoryName: string): string {
+    switch (categoryName) {
+      case 'User Story':
+        return 'userStory';
+      case 'Technical Task':
+        return 'techTask';
+      default:
+        return 'defaultCategory'; 
+    }
+  }
+
+  getTasksByStatus(status: string): Task[] {
+    return this.tasks
+      .filter(task => task.status === status)
+      .slice() // Erstellt eine Kopie des Arrays, um das Original nicht zu verändern
+      .sort((a, b) => {
+        const dateA = new Date(a.dueDate);
+        const dateB = new Date(b.dueDate);
+        return dateA.getTime() - dateB.getTime(); // Sortiert aufsteigend nach Datum
+      });
   }
   
   getPriorityImage(priority: string): string {

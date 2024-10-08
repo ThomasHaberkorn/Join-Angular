@@ -17,7 +17,8 @@ export class User {
       this.phone = obj ? obj.phone : '';
       this.password = obj ? obj.password : '';
       this.passwordConfirm = obj ? obj.passwordConfirm : '';
-      this.color = this.getColor();
+      // this.color = this.getColor();
+      this.color = obj && obj.color ? obj.color : this.getColor();
       this.initials = this.getInitials();
     }
 
