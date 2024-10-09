@@ -1,64 +1,4 @@
-<!-- <div class="mainContainer">
-    <div class="mainInnerContainer">
-        <div class="headline">
-            <h1>Add Task</h1>
-        </div>
-        <div class="addTaskContainer">
-            <div class="addTaskLeft">
-                <h4>Title <span>*</span></h4>
-                <input class="inputFieldAddTask" type="text" id="title">
-                <h4>Description</h4>
-                <textarea class="inputFieldAddTask textarea" id="description"></textarea>
-                <h4>Assigned to</h4>
-                <select class="inputFieldAddTask selectFieldAddTask buttonPrio" name="contacts"
-                    id="taskContacts"></select>
-            </div>
-            <div class="centerLine"></div>
-            <div class="addTaskRight">
-                <h4>Due date <span>*</span></h4>
-                <input class="inputFieldAddTask" type="date" id="dueDate">
-                <h4>Prio</h4>
-                <div class="taskPrio" id="taskPrio">
-                    <div class="urgend buttonPrio" id="urgend">
-                        <span>Urgend</span>
-                        <img src="./../../../assets/img/urgentSymbol.png" alt="">
-                    </div>
-                    <div class="medium buttonPrio" id="medium">
-                        <span>Medium</span>
-                        <img src="./../../../assets/img/mediumSymbol.png" alt="">
-                    </div>
-                    <div class="low buttonPrio" id="low">
-                        <span>Low</span>
-                        <img src="./../../../assets/img/lowSymbol.png" alt="">
-                    </div>
-                </div>
-                <div class="category">
-                    <h4>Category <span>*</span></h4>
-                    <select class="inputFieldAddTask selectFieldAddTask" name="category" id="category">
-                        <option value="taskCategory">Select task category</option>
-                        <option value="techTask">Technical Task</option>
-                        <option value="userStory">User Story</option>
-                    </select>
-                </div>
-                <div class="subtasks">
-                    <h4>Subtasks</h4>
-                    <div class="subtaskContainer">
-                        <input class="inputFieldAddTask" type="text" id="subtask">
-                        <div class="addSubtask"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="buttonContainer">
-            <div class="required"><span>*</span> This field is required</div>
-            <div class="addTaskButtons">
-                <div class="clearButton">Clear <img src="./../../../assets/img/cross.png" alt=""></div>
-                <div class="createButton">Create Task <img src="./../../../assets/img/check.png" alt=""></div>
-            </div>
-        </div>
-    </div> -->
-
-<div class="mainContainer">
+<div class="mainContainer" [ngClass]="{'modal-version': isModal}">
     <div class="mainInnerContainer">
         <div class="headline">
             <h1>Add Task</h1>
@@ -104,9 +44,9 @@
 
                 <h4>Prio</h4>
                 <div class="taskPrio" id="taskPrio">
-                    <div class="urgend buttonPrio" tabindex="0" (click)="setPriority('Urgend')"
-                        [class.active]="task.priority === 'Urgend'" (keydown)="handlePrioKeydown($event, 'Urgent')">
-                        <span>Urgend</span>
+                    <div class="urgend buttonPrio" tabindex="0" (click)="setPriority('Urgent')"
+                        [class.active]="task.priority === 'Urgent'" (keydown)="handlePrioKeydown($event, 'Urgent')">
+                        <span>Urgent</span>
                         <img src="./../../../assets/img/urgentSymbol.png" alt="">
                     </div>
                     <div class="medium buttonPrio" tabindex="0" (click)="setPriority('Medium')"
@@ -130,7 +70,7 @@
                 </select>
 
 
-                <div class="subtasks">
+                <!-- <div class="subtasks">
                     <h4>Subtasks</h4>
                     <div class="subtaskContainer">
                         <div class="subtaskInputWrapper inputFieldAddTask">
@@ -148,10 +88,37 @@
                                 <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
                                     (click)="deleteSubtask(i)" class="deleteIcon">
                             </li>
+
+                        </ul>
+                    </div>
+
+                </div> -->
+
+
+
+                <div class="subtasks">
+                    <h4>Subtasks</h4>
+                    <div class="subtaskContainer">
+                        <div class="subtaskInputWrapper inputFieldAddTask">
+                            <div class="subtaskInput" contenteditable="true" #subtaskInput
+                                (keydown)="preventEnter($event)"></div>
+                            <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
+                                (click)="addSubtask(subtaskInput)">
+                        </div>
+                    </div>
+
+                    <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
+                        <ul class="listClass">
+                            <li *ngFor="let subtask of task.subtasks; let i = index">
+                                {{ subtask.title }}
+                                <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
+                                    (click)="deleteSubtask(i)" class="deleteIcon">
+                            </li>
                         </ul>
                     </div>
 
                 </div>
+
 
 
                 <div class="buttonContainer">
@@ -166,3 +133,5 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>

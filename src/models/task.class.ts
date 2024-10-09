@@ -1,3 +1,6 @@
+
+
+
 export class Task {
     id?: string;
     title: string;
@@ -6,20 +9,22 @@ export class Task {
     dueDate: Date;
     priority: string;
     category: string;
-    subtasks: string[];
+    subtasks: Subtask[];
     status: string;
+    progress: number;
   
     constructor(obj?: any) {
         // this.id = this.getID();
         this.id = obj ? obj.id : '';
         this.title = obj ? obj.title : '';
         this.description = obj ? obj.description : '';
-        this.assignedTo = obj ? obj.assignedTo : '';
+        this.assignedTo = obj ? obj.assignedTo : [];
         this.dueDate = obj ? obj.dueDate : '';
         this.priority = obj ? obj.priority : '';
         this.category = obj ? obj.category : '';
-        this.subtasks = obj && obj.subtasks ? obj.subtasks : [];
+        this.subtasks = obj?.subtasks?.map((st: any) => new Subtask(st)) || [];
         this.status = obj ? obj.status : '';
+        this.progress = obj && obj.progress !== undefined ? obj.progress : 0;
     }
 
     getID(): string {
@@ -41,10 +46,30 @@ export class Task {
         dueDate: this.dueDate,
         priority: this.priority,
         category: this.category,
-        subtasks: this.subtasks,
-        status: this.status
+        subtasks: this.subtasks.map(subtask => subtask.toJSON()),
+        status: this.status,
+        progress: this.progress,
       };
       return data;
     }
 
 }
+
+export class Subtask {
+  title: string;
+  done: boolean;
+
+  constructor(obj?: any) {
+    this.title = obj?.title || '';
+    this.done = obj?.done ?? false;
+  }
+
+  public toJSON() {
+    return {
+      title: this.title,
+      done: this.done
+    };
+  }
+}
+
+

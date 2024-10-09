@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
 import { addDoc, collection, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Task } from '../../../models/task.class';
+import { Subtask, Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
 
 
@@ -21,7 +21,10 @@ export class AddTaskComponent {
   assignedUsers: User[] = [];
   dropdownOpen: boolean = false;
   newSubtask: string = '';
+  @Input() isModal: boolean = false;
   // @ViewChild('subtaskInput') subtaskInput!: ElementRef;
+
+  @Output() close = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder, private firestore: Firestore) { }
 
@@ -83,13 +86,25 @@ export class AddTaskComponent {
     }
   }
 
+  // addSubtask(inputElement: HTMLElement) {
+  //   const newSubtask = inputElement.innerText.trim();
+  //   if (newSubtask !== '') {
+  //     this.task.subtasks.push(newSubtask);
+  //     inputElement.innerText = ''; // Input-Feld leeren, aber das Bild bleibt erhalten
+  //   }
+  // }
+
   addSubtask(inputElement: HTMLElement) {
-    const newSubtask = inputElement.innerText.trim();
-    if (newSubtask !== '') {
-      this.task.subtasks.push(newSubtask);
+    const newSubtaskText = inputElement.innerText.trim();
+    if (newSubtaskText !== '') {
+      // Erstelle ein neues Subtask-Objekt
+      const newSubtask = new Subtask({ title: newSubtaskText });
+      this.task.subtasks.push(newSubtask); // Füge die neue Subtask-Instanz hinzu
       inputElement.innerText = ''; // Input-Feld leeren, aber das Bild bleibt erhalten
     }
   }
+  
+
 
   deleteSubtask(index: number) {
     this.task.subtasks.splice(index, 1); // Entfernt den Subtask an der angegebenen Stelle
@@ -112,24 +127,58 @@ export class AddTaskComponent {
     this.task.priority = 'Medium';
   }
 
+  // async createTask() {
+  //   if (!this.task.title || !this.task.dueDate || !this.task.category) {
+  //     console.error('Some required fields are missing');
+  //     return;
+  //   }
+  
+  //   try {
+  //     const taskCollection = collection(this.firestore, 'tasks'); // 'tasks' ist der Name der Firestore-Sammlung
+  //     await addDoc(taskCollection, {
+  //       id: this.task.id,
+  //       title: this.task.title,
+  //       description: this.task.description,
+  //       assignedTo: this.assignedUsers.map(user => user.id), // IDs der zugewiesenen Benutzer
+  //       dueDate: this.task.dueDate,
+  //       priority: this.task.priority,
+  //       category: this.task.category,
+  //       subtasks: this.task.subtasks.map(subtask => subtask.toJSON()),
+  //       status: 'todo'
+  //     });
+  
+  //     console.log('Task successfully added to Firestore', this.task);
+  //     // Optional: Formular zurücksetzen oder auf eine andere Seite navigieren
+  //     this.clearForm();
+  //   } catch (error) {
+  //     console.error('Error adding task to Firestore:', error);
+  //   }
+  //   this.closeModal();
+  // }
+
   async createTask() {
+    // Überprüfen, ob alle Pflichtfelder vorhanden sind
     if (!this.task.title || !this.task.dueDate || !this.task.category) {
       console.error('Some required fields are missing');
       return;
     }
   
+    // Transformiere das Datum in ein Format, das von Firestore unterstützt wird
+    const dueDate = typeof this.task.dueDate === 'string' ? this.task.dueDate : this.task.dueDate.toISOString();
+  
     try {
       const taskCollection = collection(this.firestore, 'tasks'); // 'tasks' ist der Name der Firestore-Sammlung
       await addDoc(taskCollection, {
-        id: this.task.id,
+        id: this.task.id || '', // Setze eine leere Zeichenfolge, falls `id` nicht vorhanden ist
         title: this.task.title,
-        description: this.task.description,
-        assignedTo: this.assignedUsers.map(user => user.id), // IDs der zugewiesenen Benutzer
-        dueDate: this.task.dueDate,
-        priority: this.task.priority,
+        description: this.task.description || '', // Setze eine leere Zeichenfolge, falls nicht vorhanden
+        assignedTo: this.assignedUsers.map(user => user.id) || [], // Falls keine Benutzer zugewiesen sind, setze es als leeres Array
+        dueDate: dueDate,
+        priority: this.task.priority || 'Medium', // Setze eine Standardpriorität
         category: this.task.category,
-        subtasks: this.task.subtasks,
-        status: 'todo'
+        subtasks: this.task.subtasks.map(subtask => subtask.toJSON()) || [], // Setze es als leeres Array, wenn keine Subtasks vorhanden sind
+        status: 'todo', // Setze einen Standardstatus
+        progress: this.task.progress || 0 // Setze Standardfortschritt
       });
   
       console.log('Task successfully added to Firestore', this.task);
@@ -138,5 +187,17 @@ export class AddTaskComponent {
     } catch (error) {
       console.error('Error adding task to Firestore:', error);
     }
+    this.closeModal();
   }
+  
+
+  closeModal() {
+    this.close.emit();
+  }
+
+  cancel() {
+    this.closeModal();
+  }
+
+  
 }

@@ -9,7 +9,7 @@
                 <div class="hline"></div>
                 <img src="./../../../assets/img/search.png" alt="" class="searchImg">
             </div>
-            <button class="addTask" (click)="addTask()">Add Task <img src="./../../../assets/img/add.png"
+            <button class="addTask" (click)="openAddTaskModal()">Add Task <img src="./../../../assets/img/add.png"
                     alt=""></button>
         </div>
     </div>
@@ -31,7 +31,8 @@
                     </div>
                     <ng-container *ngFor="let task of getTasksByStatus('todo')">
                         <div *ngIf="task.status === 'todo'" class="taskCard" draggable="true"
-                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
+                            (click)="openTaskDetail(task)">
                             <!-- <div class="category" [id]="task.category">{{ task.category }}</div> -->
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
@@ -40,15 +41,24 @@
 
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
-                            <div class="subtasks">
-                                <div class="progressBarSubtasks"></div>
-                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            <div class="subtasks" *ngIf="task.subtasks.length > 0">
+                                <div class="progressBarSubtasks">
+                                    <div class="progress" [style.width.%]="getSubtaskCompletionPercentage(task)"></div>
+                                </div>
+                                <div class="subtaskCounter">
+                                    {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
+                                </div>
+
+
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                    <div *ngFor="let userId of task.assignedTo.slice(0, 3)" class="contact"
                                         [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
+                                    </div>
+                                    <div *ngIf="task.assignedTo.length > 3" class="contact more-circle">
+                                        +{{ task.assignedTo.length - 3 }}
                                     </div>
                                 </div>
                                 <div class="priority">
@@ -78,22 +88,33 @@
 
                     <ng-container *ngFor="let task of getTasksByStatus('inProgress')">
                         <div *ngIf="task.status === 'inProgress'" class="taskCard" draggable="true"
-                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
+                            (click)="openTaskDetail(task)">
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
 
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
-                            <div class="subtasks">
-                                <div class="progressBarSubtasks"></div>
-                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            <div class="subtasks" *ngIf="task.subtasks.length > 0">
+                                <div class="progressBarSubtasks">
+                                    <div class="progress" [style.width.%]="getSubtaskCompletionPercentage(task)"></div>
+                                </div>
+                                <div class="subtaskCounter">
+                                    {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
+                                </div>
+
+
                             </div>
+
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                    <div *ngFor="let userId of task.assignedTo.slice(0, 3)" class="contact"
                                         [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
+                                    </div>
+                                    <div *ngIf="task.assignedTo.length > 3" class="contact more-circle">
+                                        +{{ task.assignedTo.length - 3 }}
                                     </div>
                                 </div>
                                 <div class="priority">
@@ -123,22 +144,32 @@
                     </div>
                     <ng-container *ngFor="let task of getTasksByStatus('awaitFeedback')">
                         <div *ngIf="task.status === 'awaitFeedback'" class="taskCard" draggable="true"
-                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
+                            (click)="openTaskDetail(task)">
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
 
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
-                            <div class="subtasks">
-                                <div class="progressBarSubtasks"></div>
-                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            <div class="subtasks" *ngIf="task.subtasks.length > 0">
+                                <div class="progressBarSubtasks">
+                                    <div class="progress" [style.width.%]="getSubtaskCompletionPercentage(task)"></div>
+                                </div>
+                                <div class="subtaskCounter">
+                                    {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
+                                </div>
+
+
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                    <div *ngFor="let userId of task.assignedTo.slice(0, 3)" class="contact"
                                         [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
+                                    </div>
+                                    <div *ngIf="task.assignedTo.length > 3" class="contact more-circle">
+                                        +{{ task.assignedTo.length - 3 }}
                                     </div>
                                 </div>
                                 <div class="priority">
@@ -165,22 +196,32 @@
                     </div>
                     <ng-container *ngFor="let task of getTasksByStatus('done')">
                         <div *ngIf="task.status === 'done'" class="taskCard" draggable="true"
-                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()">
+                            (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
+                            (click)="openTaskDetail(task)">
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
 
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
-                            <div class="subtasks">
-                                <div class="progressBarSubtasks"></div>
-                                <div class="subtaskCounter">{{ task.subtasks.length }} Subtasks</div>
+                            <div class="subtasks" *ngIf="task.subtasks.length > 0">
+                                <div class="progressBarSubtasks">
+                                    <div class="progress" [style.width.%]="getSubtaskCompletionPercentage(task)"></div>
+                                </div>
+                                <div class="subtaskCounter">
+                                    {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
+                                </div>
+
+
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
-                                    <div *ngFor="let userId of task.assignedTo" class="contact"
+                                    <div *ngFor="let userId of task.assignedTo.slice(0, 3)" class="contact"
                                         [style.background-color]="getUserColor(userId)">
                                         {{ getUserInitials(userId) }}
+                                    </div>
+                                    <div *ngIf="task.assignedTo.length > 3" class="contact more-circle">
+                                        +{{ task.assignedTo.length - 3 }}
                                     </div>
                                 </div>
                                 <div class="priority">
@@ -194,5 +235,78 @@
 
         </div>
 
+    </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showAddTaskModal">
+    <div class="modal-background" (click)="closeAddTaskModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <app-add-task [isModal]="true" (close)="closeAddTaskModal()"></app-add-task>
+        </div>
+    </div>
+</div>
+
+
+<div class="cardDetail" *ngIf="selectedTask" (click)="closeCardDetail()">
+    <div class="cardInnerDetail" (click)="$event.stopPropagation()">
+        <div class="cardDetailHead">
+            <div class="categoryHead" [ngClass]="getCategoryClass(selectedTask.category)">
+                {{ selectedTask.category }}
+            </div>
+            <img src="./../../../assets/img/close.svg" alt="" (click)="closeCardDetail()" />
+        </div>
+        <div class="cardDetailContent">
+            <h1>{{ selectedTask.title }}</h1>
+            <!-- <p class="description">{{ selectedTask.description }}</p> -->
+
+            <div class="description" (mouseover)="hoverEditIcon = true" (mouseleave)="hoverEditIcon = false">
+                <div *ngIf="!editDescription" class="descriptionField">
+                    <p>{{ selectedTask.description }}</p>
+                    <img *ngIf="hoverEditIcon" src="./../../../assets/img/edit1.png" alt="Edit"
+                        (click)="toggleEdit('description')">
+                </div>
+                <div *ngIf="editDescription" class="descriptionEditField">
+                    <textarea [(ngModel)]="selectedTask.description"></textarea>
+                    <div class="descriptionEditButtonField">
+                        <button (click)="saveEdit('description')">Save</button>
+                        <button (click)="cancelEdit('description')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <p>Due Date: {{ selectedTask.dueDate }}</p>
+            <div class="priority">
+                <div class="prioLeft">Priority:</div>
+                <div class="prioStatus"></div>
+            </div>
+            <p>Assigned To:</p>
+
+            <div class="contactsDetail">
+                <div *ngFor="let userId of selectedTask.assignedTo" class="contactWrapper">
+                    <div class="contactDetail" [style.background-color]="getUserColor(userId)">
+                        {{ getUserInitials(userId) }}
+                    </div>
+                    <span class="userName">{{ getUserName(userId) }}</span>
+                </div>
+            </div>
+
+            <p class="subt">Subtasks:</p>
+            <div class="subtaskWrapper">
+                <div *ngFor="let subtask of selectedTask.subtasks; let i = index" class="subtask">
+                    <input type="checkbox" [checked]="subtask.done" (change)="toggleSubtaskDone(i, $event)" />
+                    <span>{{ subtask.title }}</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="detailButtonContainer">
+            <div *ngIf="selectedTask?.id" (click)="deleteTask(selectedTask!.id)" class="deleteDetailButton"> <img
+                    src="./../../../assets/img/delete.png" alt=""> Delete</div>
+            <!-- <div class="line"></div> -->
+            <!-- <div class="editDetailButton" (click)="openEditTaskModal(task)"><img src="./../../../assets/img/edit1.png"
+                    alt=""> Edit</div> -->
+
+        </div>
     </div>
 </div>

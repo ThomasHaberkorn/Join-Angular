@@ -128,7 +128,7 @@ export class UsersComponent{
           initials: this.selectedUser.initials, 
           color: this.selectedUser.color,
           phone: this.selectedUser.phone,
-          // id: this.selectedUser.id
+          id: this.selectedUser.id
         });
   
         console.log('User updated:', this.selectedUser);
@@ -191,6 +191,7 @@ export class UsersComponent{
           initials: this.newUser.initials,
           color: this.newUser.color,
           phone: this.newUser.phone,
+          id: this.newUser.id
         });
   
         this.newUser.id = newUserRef.id;  

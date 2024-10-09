@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import { addDoc, collection, doc, Firestore, getDoc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Component, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
+import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Task } from '../../../models/task.class';
+import { Subtask, Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
 import { CommonModule } from '@angular/common';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddTaskComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
@@ -20,32 +21,48 @@ export class BoardComponent {
   dropdownOpen: boolean = false;
   isDragging: boolean = false;
   draggingOver: string = '';
+  showAddTaskModal: boolean = false;
+  showEditTaskModal: boolean = false;
+  selectedTask: Task | null = null;
+  editDescription: boolean = false;
+  hoverEditIcon: boolean = false;
+  
 
   constructor(private fb: FormBuilder, private firestore: Firestore) { }
 
   async ngOnInit() {
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
-
     this.task.priority = 'Medium'; 
   }
 
+  
   async loadTasksFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
       this.tasks = querySnapshot.docs.map((doc) => {
-        const task = doc.data() as Task;
-        
-        task.id = doc.id; 
+        const data = doc.data();
+        const task = new Task({
+          ...data,
+          subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
+        });
+        task.id = doc.id;
         return task;
       });
     } catch (error) {
       console.error('Error loading tasks:', error);
     }
-    console.log('Tasks loaded:', this.tasks);
+  }
+  
+  async loadUsersFromFirestore() {
+    try {
+      const querySnapshot = await getDocs(collection(this.firestore, 'users'));
+      this.users = querySnapshot.docs.map((doc) => doc.data() as User);
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
   }
 
- 
   async updateTaskStatus(task: Task) {
     if (task.id) {
       const taskDocRef = doc(this.firestore, 'tasks', task.id);
@@ -146,16 +163,7 @@ resetTaskPosition() {
 }
 
   
-  async loadUsersFromFirestore() {
-    try {
-      const querySnapshot = await getDocs(collection(this.firestore, 'users'));
-      this.users = querySnapshot.docs.map((doc) => doc.data() as User);
-    } catch (error) {
-      console.error('Error loading users:', error);
-    }
-  }
-
-  getUserColor(userId: string): string {
+    getUserColor(userId: string): string {
     const user = this.users.find(u => u.id === userId);
     return user ? user.color : '#000000'; // Standardfarbe Schwarz
   }
@@ -164,6 +172,12 @@ resetTaskPosition() {
     const user = this.users.find(u => u.id === userId);
     return user ? user.initials : '';
   }
+
+  getUserName(userId: string): string {
+    const user = this.users.find(u => u.id === userId);
+    return user ? `${user.firstName} ${user.lastName}` : 'Unknown User';
+  }
+  
 
   getCategoryClass(categoryName: string): string {
     switch (categoryName) {
@@ -203,9 +217,169 @@ resetTaskPosition() {
   hasNoTasks(status: string): boolean {
     return this.tasks.filter(task => task.status === status).length === 0;
   }
+
+  openAddTaskModal() {
+    this.showAddTaskModal = true;
+  }
+  
+  closeAddTaskModal() {
+    this.showAddTaskModal = false;
+  }
+
+  openEditTaskModal(task: Task) {
+    console.log('Edit task:', task);
+    this.selectedTask = new Task(task);
+    this.showEditTaskModal = true;
+  }
+
+  closeEditTaskModal() {
+    this.showEditTaskModal = false;
+    this.selectedTask = null;
+  }
+
+  openTaskDetail(task: Task) {
+    // Erstelle eine Kopie der Task, um Änderungen nicht direkt zu speichern
+    this.selectedTask = new Task({
+      ...task,
+      subtasks: task.subtasks.map((subtask) => new Subtask(subtask))
+    });
+  }
   
 
-  addTask() {
-    console.log('add task');
+  closeCardDetail() {
+    this.selectedTask = null;
+  }
+
+  
+  toggleSubtaskDone(subtaskIndex: number, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+  
+    if (this.selectedTask) {
+      this.selectedTask.subtasks[subtaskIndex].done = isChecked;
+  
+      // Aktualisiere den Task in der tasks-Liste
+      const taskIndex = this.tasks.findIndex((t) => t.id === this.selectedTask!.id);
+      if (taskIndex > -1) {
+        this.tasks[taskIndex].subtasks[subtaskIndex].done = isChecked;
+        // Task in Firestore aktualisieren
+        this.updateTaskSubtasks(this.tasks[taskIndex]);
+      }
+  
+      // Aktualisiere die Anzeige der TaskCard
+      this.updateTaskProgress(this.tasks[taskIndex]);
+    }
+  }
+  
+
+  async updateTaskSubtasks(task: Task) {
+    if (task.id) {
+      const taskDocRef = doc(this.firestore, 'tasks', task.id);
+      const updatedSubtasks = task.subtasks.map(subtask => subtask.toJSON()); // Konvertiere Subtasks in einfache Objekte
+      await updateDoc(taskDocRef, { subtasks: updatedSubtasks });
+    }
+  }
+
+  updateTaskProgress(task: Task) {
+    // Berechne den Fortschritt der Subtasks
+    const totalSubtasks = task.subtasks.length;
+    const completedSubtasks = task.subtasks.filter((subtask) => subtask.done).length;
+    task.progress = (completedSubtasks / totalSubtasks) * 100;
+  }
+
+  getCompletedSubtaskCount(task: Task): number {
+    return task.subtasks.filter(subtask => subtask.done).length;
+  }
+
+
+  getSubtaskCompletionPercentage(task: Task): number {
+    if (task.subtasks.length === 0) {
+      return 0;
+    }
+    const completedCount = task.subtasks.filter(subtask => subtask.done).length;
+    return (completedCount / task.subtasks.length) * 100;
+  }
+
+  async updateTask() {
+    if (this.selectedTask && this.selectedTask.id) {
+      try {
+        const taskDocRef = doc(this.firestore, 'tasks', this.selectedTask.id);
+        await updateDoc(taskDocRef, this.selectedTask.toJSON());
+        console.log('Task updated:', this.selectedTask);
+        this.closeEditTaskModal();
+        await this.loadTasksFromFirestore();
+      } catch (error) {
+        console.error('Error updating task:', error);
+      }
+    }
+  }
+  
+
+  async deleteTask(taskId?: string) {
+    if (!taskId) {
+      console.error('Task ID is not defined');
+      return;
+    }
+  
+    // if (confirm('Are you sure you want to delete this task?')) {
+      try {
+        // Lösche das Dokument aus Firestore
+        const taskDocRef = doc(this.firestore, 'tasks', taskId);
+        await deleteDoc(taskDocRef);
+  
+        // Lösche die Aufgabe aus der lokalen Liste
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+        console.log(`Task ${taskId} successfully deleted`);
+  
+        // Schließe die Detailansicht
+        this.closeCardDetail();
+      } catch (error) {
+        console.error('Error deleting task:', error);
+      }
+    // }
+  }
+  
+    // Methode zum Umschalten des Bearbeitungsmodus für ein bestimmtes Feld
+    toggleEdit(field: string) {
+      if (field === 'description') {
+        this.editDescription = true;
+      }
+      // Weitere Felder hinzufügen, wenn nötig
+    }
+    
+    // Methode zum Speichern der Änderungen
+  saveEdit(field: string) {
+    if (field === 'description') {
+      this.editDescription = false;
+      // Speichere die Änderungen in Firestore
+      if (this.selectedTask?.id) {
+        this.updateTaskField(this.selectedTask.id, 'description', this.selectedTask.description);
+      }
+    }
+    // Weitere Felder hinzufügen, wenn nötig
+  }
+
+  // Methode zum Abbrechen des Bearbeitungsmodus
+  cancelEdit(field: string) {
+    if (field === 'description') {
+      this.editDescription = false;
+      // Du kannst optional die Änderungen zurücksetzen, wenn sie noch nicht gespeichert wurden
+    }
+    // Weitere Felder hinzufügen, wenn nötig
+  }
+
+   // Update-Methode für Firestore
+   async updateTaskField(taskId: string, field: string, value: any) {
+    try {
+      const taskDocRef = doc(this.firestore, 'tasks', taskId);
+      await updateDoc(taskDocRef, {
+        [field]: value
+      });
+      console.log(`${field} successfully updated`);
+    } catch (error) {
+      console.error(`Error updating ${field}:`, error);
+    }
   }
 }
+
+
+
