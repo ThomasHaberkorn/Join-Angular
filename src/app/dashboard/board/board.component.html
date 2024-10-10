@@ -303,10 +303,139 @@
         <div class="detailButtonContainer">
             <div *ngIf="selectedTask?.id" (click)="deleteTask(selectedTask!.id)" class="deleteDetailButton"> <img
                     src="./../../../assets/img/delete.png" alt=""> Delete</div>
-            <!-- <div class="line"></div> -->
-            <!-- <div class="editDetailButton" (click)="openEditTaskModal(task)"><img src="./../../../assets/img/edit1.png"
-                    alt=""> Edit</div> -->
+            <div class="line"></div>
+            <div class="editDetailButton" (click)="openEditTaskModal(selectedTask);  $event.stopPropagation()"><img
+                    src="./../../../assets/img/edit1.png" alt=""> Edit</div>
 
         </div>
     </div>
 </div>
+
+
+
+
+<div class="editMainCard" *ngIf="showEditTaskModal">
+    <div class="editCard">
+        <div class="editCardHead">
+            <img src="./../../../assets/img/Close.png" alt="Close" (click)="cancelEditCard()">
+        </div>
+        <div class="editCardContent">
+            <div class="editTitleContent">
+                <h4 class="editCardh4">Edit Task</h4>
+                <div class="editTitleField">
+                    <input type="text" placeholder="Title" [(ngModel)]="editTitle" class="editInputField">
+
+                </div>
+            </div>
+            <div class="editDescriptionContent">
+                <h4 class="editCardh4">Description</h4>
+                <div class="editDescriptionField">
+                    <textarea placeholder="Description" [(ngModel)]="editDescription" class="editInputField"></textarea>
+                </div>
+            </div>
+            <div class="editDueDateContent">
+                <h4 class="editCardh4">Due Date</h4>
+                <div class="editDueDateField">
+                    <input type="date" [(ngModel)]="editDueDate" class="editInputField">
+                </div>
+            </div>
+            <div class="editPriorityContent">
+                <h4 class="editCardh4">Priority</h4>
+                <div class="taskPrio" id="taskPrio">
+                    <div class="urgend buttonPrio" tabindex="0" (click)="editPriority = 'Urgent'"
+                        [class.active]="editPriority === 'Urgent'" (keydown)="handlePrioKeydown($event, 'Urgent')">
+                        <span>Urgent</span>
+                        <img src="./../../../assets/img/urgentSymbol.png" alt="">
+                    </div>
+                    <div class="medium buttonPrio" tabindex="0" (click)="editPriority = 'Medium'"
+                        [class.active]="editPriority === 'Medium'" (keydown)="handlePrioKeydown($event, 'Medium')">
+                        <span>Medium</span>
+                        <img src="./../../../assets/img/mediumSymbol.png" alt="">
+                    </div>
+                    <div class="low buttonPrio" tabindex="0" (click)="editPriority = 'Low'"
+                        [class.active]="editPriority === 'Low'" (keydown)="handlePrioKeydown($event, 'Low')">
+                        <span>Low</span>
+                        <img src="./../../../assets/img/lowSymbol.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="editAssignedToContent">
+                <h4 class="editCardh4">Assigned To</h4>
+                <div class="editAssignedToField">
+                    <div *ngFor="let userId of selectedTask?.assignedTo" class="editContactWrapper">
+                        <div class="editContactDetail" [style.background-color]="getUserColor(userId)">
+                            {{ getUserInitials(userId) }}
+                        </div>
+                        <span class="userName">{{ getUserName(userId) }}</span>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="dropdown">
+                <!-- Hier könntest du eine Checkbox-basierte Dropdown-Liste hinzufügen, um die Benutzer zu bearbeiten -->
+            </div>
+
+
+            <div class="editSubtasksContent">
+                <h4 class="editCardh4">Subtasks</h4>
+                <div class="editSubtasksField">
+                    <div class="addSubtask">
+                        <input type="text" placeholder="Add new subtask" [(ngModel)]="newSubtaskTitle" />
+                        <img src="./../../../assets/img/addSubtasks.png" alt="" (click)="addSubtask()">
+                    </div>
+
+                    <div *ngFor="let subtask of selectedTask?.subtasks; let i = index" class="subtaskContent">
+
+                        <!-- View Mode -->
+                        <div *ngIf="!subtask.editing" class="subtaskViewMode">
+                            <span class="subtaskTitle">{{ subtask.title }}</span>
+                            <div class="subtaskEditDelContainer">
+                                <img src="./../../../assets/img/edit.png" alt="Edit Subtask" (click)="editSubtask(i)"
+                                    class="subtaskEdit">
+                                <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
+                                    (click)="deleteSubtask(i)" class="subtaskDel">
+                            </div>
+                        </div>
+
+                        <!-- Edit Mode -->
+                        <div *ngIf="subtask.editing" class="subtaskEditMode">
+                            <input type="text" [(ngModel)]="subtask.title" />
+                            <div class="subtaskEditDelContainer">
+                                <button (click)="saveEditSubtask(i)">Save</button>
+                                <button (click)="cancelEditSubtask(i)">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- <div class="editSubtasksContent">
+                <h4 class="editCardh4">Subtasks</h4>
+                <div class="editSubtasksField">
+                    <div class="addSubtask">
+                        <input type="text" placeholder="Add new subtask" [(ngModel)]="newSubtaskTitle" />
+                        <img src="./../../../assets/img/addSubtasks.png" alt="" (click)="addSubtask()">
+                    </div>
+                    <div *ngFor="let subtask of selectedTask?.subtasks; let i = index" class="subtaskContent">
+                        <span class="subtaskTitle">{{ subtask.title }}</span>
+                        <div class="subtaskEditDelContainer">
+                            <img src="./../../../assets/img/edit.png" alt="">
+                            <img src="./../../../assets/img/delete.png" alt="Delete Subtask" (click)="deleteSubtask(i)">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="editCardButton">
+
+            <button class="cancelEditButton" (click)="cancelEditCard()">Cancel</button>
+            <button class="saveEditButton" (click)="saveTask()">OK <img src="./../../../assets/img/check.png"
+                    alt=""></button>
+        </div>
+    </div>

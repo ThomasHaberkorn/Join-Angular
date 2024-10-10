@@ -24,11 +24,20 @@ export class BoardComponent {
   showAddTaskModal: boolean = false;
   showEditTaskModal: boolean = false;
   selectedTask: Task | null = null;
-  editDescription: boolean = false;
   hoverEditIcon: boolean = false;
-  
+  newSubtaskTitle: string = '';
+  editTitle: string = '';
+  editDueDate: Date | null = null;
+  editPriority: string = '';
+  editDescription: boolean = false;
+  editDescriptionText: string = '';
+ 
 
-  constructor(private fb: FormBuilder, private firestore: Firestore) { }
+
+
+  constructor(private fb: FormBuilder, private firestore: Firestore) {
+
+   }
 
   async ngOnInit() {
     await this.loadTasksFromFirestore();
@@ -226,11 +235,19 @@ resetTaskPosition() {
     this.showAddTaskModal = false;
   }
 
-  openEditTaskModal(task: Task) {
-    console.log('Edit task:', task);
-    this.selectedTask = new Task(task);
-    this.showEditTaskModal = true;
+   openEditTaskModal(task: Task) {
+    console.log('Received task for editing:', task);
+    if (task) {
+      this.selectedTask = new Task(task);
+      this.editTitle = this.selectedTask.title;
+      this.editDescriptionText = this.selectedTask.description; // Das ist jetzt ein String
+      this.editDueDate = this.selectedTask.dueDate ? new Date(this.selectedTask.dueDate) : null;
+      this.editPriority = this.selectedTask.priority;
+      this.showEditTaskModal = true;
+    }
   }
+  
+  
 
   closeEditTaskModal() {
     this.showEditTaskModal = false;
@@ -239,6 +256,7 @@ resetTaskPosition() {
 
   openTaskDetail(task: Task) {
     // Erstelle eine Kopie der Task, um Änderungen nicht direkt zu speichern
+    console.log('Received task for detail view:', task);
     this.selectedTask = new Task({
       ...task,
       subtasks: task.subtasks.map((subtask) => new Subtask(subtask))
@@ -250,6 +268,20 @@ resetTaskPosition() {
     this.selectedTask = null;
   }
 
+
+  addSubtask() {
+    if (this.newSubtaskTitle.trim() !== '' && this.selectedTask) {
+      const newSubtask = new Subtask({ title: this.newSubtaskTitle.trim() });
+      this.selectedTask.subtasks.push(newSubtask);
+      this.newSubtaskTitle = '';
+    }
+  }
+
+  deleteSubtask(index: number) {
+    if (this.selectedTask) {
+      this.selectedTask.subtasks.splice(index, 1);
+    }
+  }
   
   toggleSubtaskDone(subtaskIndex: number, event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
@@ -271,16 +303,18 @@ resetTaskPosition() {
   }
   
 
+
+
   async updateTaskSubtasks(task: Task) {
     if (task.id) {
       const taskDocRef = doc(this.firestore, 'tasks', task.id);
-      const updatedSubtasks = task.subtasks.map(subtask => subtask.toJSON()); // Konvertiere Subtasks in einfache Objekte
+      const updatedSubtasks = task.subtasks.map(subtask => subtask.toJSON());
       await updateDoc(taskDocRef, { subtasks: updatedSubtasks });
     }
   }
 
+
   updateTaskProgress(task: Task) {
-    // Berechne den Fortschritt der Subtasks
     const totalSubtasks = task.subtasks.length;
     const completedSubtasks = task.subtasks.filter((subtask) => subtask.done).length;
     task.progress = (completedSubtasks / totalSubtasks) * 100;
@@ -313,6 +347,23 @@ resetTaskPosition() {
     }
   }
   
+  editSubtask(index: number) {
+    if (this.selectedTask) {
+      this.selectedTask.subtasks[index].editing = true;
+    }
+  }
+
+  saveEditSubtask(index: number) {
+    if (this.selectedTask) {
+      this.selectedTask.subtasks[index].editing = false;
+    }
+  }
+  
+  cancelEditSubtask(index: number) {
+    if (this.selectedTask) {
+      this.selectedTask.subtasks[index].editing = false;
+    }
+  }
 
   async deleteTask(taskId?: string) {
     if (!taskId) {
@@ -342,30 +393,47 @@ resetTaskPosition() {
     toggleEdit(field: string) {
       if (field === 'description') {
         this.editDescription = true;
+        this.editDescriptionText = this.selectedTask?.description || '';
+      }
+      // Weitere Felder hinzufügen, wenn nötig
+    }
+
+
+    saveEdit(field: string) {
+      if (field === 'description') {
+        if (this.selectedTask) {
+          this.selectedTask.description = this.editDescriptionText;
+        }
+        this.editDescription = false;
+    
+        // Speichere die Änderungen in Firestore
+        if (this.selectedTask?.id) {
+          this.updateTaskField(this.selectedTask.id, 'description', this.selectedTask.description);
+        }
       }
       // Weitere Felder hinzufügen, wenn nötig
     }
     
-    // Methode zum Speichern der Änderungen
-  saveEdit(field: string) {
-    if (field === 'description') {
-      this.editDescription = false;
-      // Speichere die Änderungen in Firestore
-      if (this.selectedTask?.id) {
-        this.updateTaskField(this.selectedTask.id, 'description', this.selectedTask.description);
-      }
-    }
-    // Weitere Felder hinzufügen, wenn nötig
-  }
-
+    
   // Methode zum Abbrechen des Bearbeitungsmodus
-  cancelEdit(field: string) {
-    if (field === 'description') {
-      this.editDescription = false;
-      // Du kannst optional die Änderungen zurücksetzen, wenn sie noch nicht gespeichert wurden
+cancelEdit(field: string) {
+  if (field === 'description') {
+    this.editDescription = false;
+    // Du kannst optional die Änderungen zurücksetzen, wenn sie noch nicht gespeichert wurden
+    if (this.selectedTask) {
+      this.editDescriptionText = this.selectedTask.description;
     }
-    // Weitere Felder hinzufügen, wenn nötig
   }
+  // Weitere Felder hinzufügen, wenn nötig
+}
+
+handlePrioKeydown(event: KeyboardEvent, priority: string) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    this.editPriority = priority;
+  }
+}
+
 
    // Update-Methode für Firestore
    async updateTaskField(taskId: string, field: string, value: any) {
@@ -378,6 +446,41 @@ resetTaskPosition() {
     } catch (error) {
       console.error(`Error updating ${field}:`, error);
     }
+  }
+
+  // saveTask() {
+  //   if (this.selectedTask) {
+  //     this.selectedTask.title = this.editTitle;
+  //     this.selectedTask.description = this.editDescription;
+  //     this.selectedTask.dueDate = this.editDueDate;
+  //     this.selectedTask.priority = this.editPriority;
+  
+  //     this.updateTask();
+  //   }
+  //   this.closeEditTaskModal();
+  // }
+
+  saveTask() {
+    if (this.selectedTask) {
+      this.selectedTask.title = this.editTitle;
+      this.selectedTask.description = this.editDescriptionText; // Verwende editDescriptionText anstelle von editDescription
+  
+      // Sicherstellen, dass `editDueDate` nicht `null` ist
+      if (this.editDueDate) {
+        this.selectedTask.dueDate = this.editDueDate;
+      }
+  
+      this.selectedTask.priority = this.editPriority;
+  
+      this.updateTask(); // Task aktualisieren
+    }
+    this.closeEditTaskModal(); // Bearbeitungsmodal schließen
+  }
+  
+  
+
+  cancelEditCard() {
+    this.closeEditTaskModal();
   }
 }
 

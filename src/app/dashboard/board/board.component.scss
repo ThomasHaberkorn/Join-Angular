@@ -432,21 +432,339 @@
         color: $dblue;
         margin-right: 26px;
       }
-      // .line {
-      //   width: 2px;
-      //   height: 30px;
-      //   background-color: $borderGrey;
-      // }
-      // .editDetailButton {
-      //   @include dFlex();
-      //   gap: 10px;
-      //   width: 80px;
-      //   height: 40px;
-      //   margin-right: 20px;
-      //   cursor: pointer;
-      //   color: $dblue;
-      // }
+      .line {
+        width: 2px;
+        height: 30px;
+        background-color: $borderGrey;
+      }
+      .editDetailButton {
+        @include dFlex();
+        gap: 10px;
+        width: 80px;
+        height: 40px;
+        margin-right: 20px;
+        cursor: pointer;
+        color: $dblue;
+      }
     }
+  }
+}
+
+.editMainCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  @include dFlex();
+  .editCard {
+    position: relative;
+    width: 30%;
+    height: 85%;
+    background-color: $white;
+    border-radius: 20px;
+    margin-left: 10%;
+    @include flexDir(column, $jc: flex-start, $ai: center);
+    .editCardHead {
+      width: 100%;
+      height: 50px;
+      margin-top: 20px;
+      // @include dFlex($jc: space-between);
+      img {
+        cursor: pointer;
+        margin-top: 5px;
+        margin-right: 25px;
+        float: right;
+        margin-right: 25px;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+      }
+    }
+    .editCardContent {
+      width: 90%;
+      height: 70%;
+      overflow-y: scroll;
+      .editTitleContent {
+        h4 {
+          margin-top: 0;
+        }
+        .editTitleField {
+          width: 100%;
+        }
+      }
+      .editDescriptionContent {
+        .editDescriptionField {
+          width: 100%;
+          textarea {
+            max-width: 94%;
+            max-height: 25px;
+            border: 2px solid $inputGrey;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 20px;
+            resize: none;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+      }
+      .editDueDateContent {
+        .editDueDateField {
+          width: 100%;
+        }
+      }
+      .editPriorityContent {
+        .taskPrio {
+          @include dFlex($jc: flex-start);
+          gap: 30px;
+          width: 98%;
+          margin-left: 2px;
+          .buttonPrio {
+            width: 132px;
+            height: 40px;
+            @include dFlex();
+            gap: 8px;
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background-color: $white;
+            font-size: 20px;
+            cursor: pointer;
+          }
+
+          .urgend {
+            &:hover,
+            &:focus {
+              border-color: $urgend;
+            }
+
+            &.active {
+              background-color: $urgend;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.urgend img {
+              content: url("./../../../assets/img/selectedUrgent.png");
+            }
+          }
+
+          .medium {
+            &:hover,
+            &:focus {
+              border-color: $medium;
+            }
+
+            &.active {
+              background-color: $medium;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.medium img {
+              content: url("./../../../assets/img/selectedMedium.png");
+            }
+          }
+
+          .low {
+            &:hover,
+            &:focus {
+              border-color: $low;
+            }
+
+            &.active {
+              background-color: $low;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.low img {
+              content: url("./../../../assets/img/selectedLow.png");
+            }
+          }
+        }
+      }
+      .editAssignedToContent {
+        position: relative;
+        width: 100%;
+        .editAssignedToField {
+          border: 2px solid $inputGrey;
+          height: 90px;
+          border-radius: 10px;
+          overflow-y: scroll;
+          position: relative;
+          width: 97%;
+          .editContactWrapper {
+            @include dFlex($jc: flex-start);
+            margin-left: 8px;
+            margin-top: 4px;
+
+            .editContactDetail {
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              color: white;
+              font-size: 12px;
+              margin-right: 8px;
+              @include dFlex();
+            }
+          }
+        }
+      }
+      .dropdown {
+        display: none;
+        position: absolute;
+        top: 40%;
+        left: 19px;
+        width: 86%;
+        height: 300px;
+        background-color: #ffffff;
+        border: 2px solid #d1d1d1;
+        border-radius: 10px;
+        overflow-y: scroll;
+        .dropdownContact {
+          @include dFlex($jc: flex-start);
+          margin-left: 8px;
+          margin-top: 4px;
+          .dropdownContactDetail {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+            margin-right: 8px;
+            @include dFlex();
+          }
+        }
+      }
+      .editSubtasksContent {
+        .editSubtasksField {
+          width: 97%;
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          .addSubtask {
+            width: 98%;
+            height: 38px;
+            border: 2px solid $inputGrey;
+            border-radius: 10px;
+            background-color: $white;
+            margin-left: 1px;
+            margin-top: 1px;
+            @include dFlex($jc: flex-start);
+            input {
+              width: 86%;
+              height: 100%;
+              border: none;
+              outline: none;
+              padding-left: 10px;
+              font-size: 20px;
+              background-color: $borderGrey;
+              border-radius: 10px;
+              margin-right: 4px;
+              &::placeholder {
+                color: $inputGrey;
+              }
+            }
+            img {
+              cursor: pointer;
+            }
+          }
+          .subtaskContent {
+            margin-left: 8px;
+            margin-right: 8px;
+            .subtaskViewMode {
+              @include dFlex($jc: space-between);
+              .subtaskTitle {
+                font-size: 20px;
+                margin-top: 4px;
+                margin-bottom: 4px;
+              }
+              .subtaskEditDelContainer {
+                @include dFlex();
+                gap: 8px;
+                .subtaskEdit {
+                  cursor: pointer;
+                }
+                .subtaskDel {
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .editCardButton {
+    position: absolute;
+    bottom: 2vh;
+    right: 2vw;
+    width: 100%;
+    height: 50px;
+    @include dFlex($jc: flex-end, $ai: center);
+    .cancelEditButton {
+      @include dFlex();
+      gap: 10px;
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+      color: $lblue;
+      border: 2px solid $lblue;
+      border-radius: 10px;
+      background-color: $white;
+      &:hover {
+        background-color: $lblue;
+        color: $white;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
+      }
+    }
+    .saveEditButton {
+      @include dFlex();
+      gap: 10px;
+      width: 80px;
+      height: 40px;
+      cursor: pointer;
+      color: $white;
+      background-color: $dblue;
+      margin-left: 26px;
+      border-radius: 10px;
+      border: none;
+      &:hover {
+        background-color: $lblue;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
+      }
+    }
+  }
+}
+
+.editCardh4 {
+  font-size: 20px;
+  margin: 20px 0 10px;
+}
+
+.buttonPrio {
+  width: 132px;
+  height: 56px;
+  @include dFlex();
+  gap: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: $white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.editInputField {
+  width: 91%;
+  height: 25px;
+  border: 2px solid $inputGrey;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  &:focus {
+    outline: none;
   }
 }
 

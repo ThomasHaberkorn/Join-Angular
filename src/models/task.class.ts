@@ -58,10 +58,12 @@ export class Task {
 export class Subtask {
   title: string;
   done: boolean;
-
+  editing: boolean;  
+  
   constructor(obj?: any) {
     this.title = obj?.title || '';
     this.done = obj?.done ?? false;
+    this.editing = false;
   }
 
   public toJSON() {
@@ -71,5 +73,6 @@ export class Subtask {
     };
   }
 }
+
 
 
