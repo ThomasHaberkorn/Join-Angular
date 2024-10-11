@@ -93,7 +93,7 @@
       @include dFlex($ai: flex-start, $jc: space-between);
       .contentContainer {
         // @include flexDir(column, $jc: flex-start, $ai: center);
-        width: 24%;
+        width: 25%;
 
         .containerHead {
           width: 90%;
@@ -113,23 +113,17 @@
             cursor: pointer;
           }
         }
-        .cardContainer {
-          width: 95%;
-          min-height: 48px;
+        span {
+          color: $borderGrey;
+          font-size: 16px;
+          padding: 14px;
+          width: 80%;
+          min-height: 40px;
           border: 2px dotted $borderGrey;
           background-color: $noTaskGrey;
           border-radius: 10px;
           margin-top: 10px;
-          @include flexDir(column, $jc: flex-start);
-          &.drop-active {
-            height: 62vh;
-            margin-top: 2px;
-          }
-          span {
-            color: $borderGrey;
-            font-size: 16px;
-            padding: 14px;
-          }
+          @include dFlex();
         }
         .scrollContainer {
           width: 100%;
@@ -155,7 +149,7 @@
 }
 
 .taskCard {
-  width: 79%;
+  width: 77%;
   border: 2px solid $borderGrey;
   background-color: $noTaskGrey;
   border-radius: 20px;
@@ -213,7 +207,7 @@
     @include dFlex($jc: space-between);
 
     .progressBarSubtasks {
-      width: 60%;
+      width: 58%;
       height: 8px;
       background-color: $borderGrey;
       border-radius: 10px;
@@ -291,6 +285,8 @@
   .cardInnerDetail {
     position: relative;
     width: 40%;
+    min-width: 450px;
+    max-width: 550px;
     height: 80%;
     background-color: $white;
     border-radius: 20px;
@@ -365,6 +361,15 @@
           }
         }
       }
+      .priority {
+        @include dFlex($jc: flex-start);
+        gap: 3%;
+        .prioStatus {
+          @include dFlex();
+          gap: 7%;
+          width: 106px;
+        }
+      }
       .contactsDetail {
         @include flexDir(column, $jc: flex-start, $ai: flex-start);
         // gap: 10px;
@@ -400,7 +405,7 @@
       .subtaskWrapper {
         border: 2px solid $inputGrey;
         border-radius: 10px;
-        min-height: 48px;
+        min-height: 33px;
         max-height: 90px;
         overflow-y: scroll;
 
@@ -462,6 +467,7 @@
   .editCard {
     position: relative;
     width: 30%;
+    min-width: 400px;
     height: 85%;
     background-color: $white;
     border-radius: 20px;
@@ -485,7 +491,7 @@
     }
     .editCardContent {
       width: 90%;
-      height: 70%;
+      height: 75%;
       overflow-y: scroll;
       .editTitleContent {
         h4 {
@@ -520,8 +526,8 @@
       .editPriorityContent {
         .taskPrio {
           @include dFlex($jc: flex-start);
-          gap: 30px;
-          width: 98%;
+          gap: 3%;
+          width: 96%;
           margin-left: 2px;
           .buttonPrio {
             width: 132px;
@@ -613,7 +619,6 @@
         }
       }
       .dropdown {
-        display: none;
         position: absolute;
         top: 40%;
         left: 19px;
@@ -623,18 +628,38 @@
         border: 2px solid #d1d1d1;
         border-radius: 10px;
         overflow-y: scroll;
-        .dropdownContact {
+        img {
+          position: absolute;
+          top: 0px;
+          right: 2px;
+          width: 34px;
+          height: 34px;
+          cursor: pointer;
+        }
+        .dropdownUserContainer {
           @include dFlex($jc: flex-start);
-          margin-left: 8px;
+          gap: 10px;
+          margin-left: 4px;
           margin-top: 4px;
-          .dropdownContactDetail {
-            width: 25px;
-            height: 25px;
+          overflow-x: hidden;
+          // position: relative;
+          &:last-child {
+            margin-bottom: 4px;
+          }
+          input {
+            width: 15px;
+            height: 15px;
+          }
+          .userInitials {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            color: white;
-            font-size: 12px;
-            margin-right: 8px;
+            color: $white;
             @include dFlex();
+          }
+          .userName {
+            font-size: 20px;
+            color: $dblue;
           }
         }
       }
@@ -691,6 +716,31 @@
                 }
               }
             }
+            .subtaskEditMode {
+              @include dFlex($jc: space-between);
+              input {
+                width: 78%;
+                height: 30px;
+                border: none;
+                outline: none;
+                padding-left: 4px;
+                font-size: 20px;
+                background-color: $borderGrey;
+                border-radius: 10px;
+                margin-right: 4px;
+                margin-left: -3px;
+              }
+              .subtaskEditDelContainer {
+                @include dFlex();
+                gap: 8px;
+                .subtaskEdit,
+                .subtaskDel {
+                  cursor: pointer;
+                  width: 24px;
+                  height: 24px;
+                }
+              }
+            }
           }
         }
       }
@@ -740,7 +790,7 @@
 
 .editCardh4 {
   font-size: 20px;
-  margin: 20px 0 10px;
+  margin: 15px 0 10px;
 }
 
 .buttonPrio {

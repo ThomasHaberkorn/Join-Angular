@@ -6,6 +6,7 @@ import { Subtask, Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
 
 
+
 @Component({
   selector: 'app-add-task',
   standalone: true,
@@ -22,6 +23,7 @@ export class AddTaskComponent {
   dropdownOpen: boolean = false;
   newSubtask: string = '';
   @Input() isModal: boolean = false;
+  @Input() status: string = 'todo';
   // @ViewChild('subtaskInput') subtaskInput!: ElementRef;
 
   @Output() close = new EventEmitter<void>();
@@ -31,7 +33,7 @@ export class AddTaskComponent {
   async ngOnInit() {
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
-
+    
     this.task.priority = 'Medium'; // Standard-Priorität setzen
   }
 
@@ -49,8 +51,7 @@ export class AddTaskComponent {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'users'));
       this.users = querySnapshot.docs.map(doc => doc.data() as User);
-      console.log('Users loaded:', this.users);
-    } catch (error) {
+        } catch (error) {
       console.error('Error loading users:', error);
     }
   }
@@ -86,13 +87,6 @@ export class AddTaskComponent {
     }
   }
 
-  // addSubtask(inputElement: HTMLElement) {
-  //   const newSubtask = inputElement.innerText.trim();
-  //   if (newSubtask !== '') {
-  //     this.task.subtasks.push(newSubtask);
-  //     inputElement.innerText = ''; // Input-Feld leeren, aber das Bild bleibt erhalten
-  //   }
-  // }
 
   addSubtask(inputElement: HTMLElement) {
     const newSubtaskText = inputElement.innerText.trim();
@@ -123,66 +117,32 @@ export class AddTaskComponent {
   }
 
   clearForm() {
-    this.task = new Task(); // Setzt das Formular zurück
+    this.task = new Task(); 
     this.task.priority = 'Medium';
   }
 
-  // async createTask() {
-  //   if (!this.task.title || !this.task.dueDate || !this.task.category) {
-  //     console.error('Some required fields are missing');
-  //     return;
-  //   }
-  
-  //   try {
-  //     const taskCollection = collection(this.firestore, 'tasks'); // 'tasks' ist der Name der Firestore-Sammlung
-  //     await addDoc(taskCollection, {
-  //       id: this.task.id,
-  //       title: this.task.title,
-  //       description: this.task.description,
-  //       assignedTo: this.assignedUsers.map(user => user.id), // IDs der zugewiesenen Benutzer
-  //       dueDate: this.task.dueDate,
-  //       priority: this.task.priority,
-  //       category: this.task.category,
-  //       subtasks: this.task.subtasks.map(subtask => subtask.toJSON()),
-  //       status: 'todo'
-  //     });
-  
-  //     console.log('Task successfully added to Firestore', this.task);
-  //     // Optional: Formular zurücksetzen oder auf eine andere Seite navigieren
-  //     this.clearForm();
-  //   } catch (error) {
-  //     console.error('Error adding task to Firestore:', error);
-  //   }
-  //   this.closeModal();
-  // }
-
-  async createTask() {
-    // Überprüfen, ob alle Pflichtfelder vorhanden sind
+  async createTask(status: string = 'todo') {
+    
     if (!this.task.title || !this.task.dueDate || !this.task.category) {
       console.error('Some required fields are missing');
       return;
     }
-  
-    // Transformiere das Datum in ein Format, das von Firestore unterstützt wird
     const dueDate = typeof this.task.dueDate === 'string' ? this.task.dueDate : this.task.dueDate.toISOString();
-  
     try {
-      const taskCollection = collection(this.firestore, 'tasks'); // 'tasks' ist der Name der Firestore-Sammlung
+      const taskCollection = collection(this.firestore, 'tasks'); 
       await addDoc(taskCollection, {
-        id: this.task.id || '', // Setze eine leere Zeichenfolge, falls `id` nicht vorhanden ist
+        id: this.task.id || '', 
         title: this.task.title,
-        description: this.task.description || '', // Setze eine leere Zeichenfolge, falls nicht vorhanden
-        assignedTo: this.assignedUsers.map(user => user.id) || [], // Falls keine Benutzer zugewiesen sind, setze es als leeres Array
+        description: this.task.description || '', 
+        assignedTo: this.assignedUsers.map(user => user.id) || [], 
         dueDate: dueDate,
-        priority: this.task.priority || 'Medium', // Setze eine Standardpriorität
+        priority: this.task.priority || 'Medium', 
         category: this.task.category,
-        subtasks: this.task.subtasks.map(subtask => subtask.toJSON()) || [], // Setze es als leeres Array, wenn keine Subtasks vorhanden sind
-        status: 'todo', // Setze einen Standardstatus
-        progress: this.task.progress || 0 // Setze Standardfortschritt
+        subtasks: this.task.subtasks.map(subtask => subtask.toJSON()) || [], 
+        status: this.status,
+        progress: this.task.progress || 0 
       });
-  
       console.log('Task successfully added to Firestore', this.task);
-      // Optional: Formular zurücksetzen oder auf eine andere Seite navigieren
       this.clearForm();
     } catch (error) {
       console.error('Error adding task to Firestore:', error);

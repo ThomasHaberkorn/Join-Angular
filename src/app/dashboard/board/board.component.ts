@@ -31,7 +31,7 @@ export class BoardComponent {
   editPriority: string = '';
   editDescription: boolean = false;
   editDescriptionText: string = '';
- 
+  searchTerm: string = '';
 
 
 
@@ -171,6 +171,7 @@ resetTaskPosition() {
   }
 }
 
+
   
     getUserColor(userId: string): string {
     const user = this.users.find(u => u.id === userId);
@@ -199,17 +200,35 @@ resetTaskPosition() {
     }
   }
 
+  // getTasksByStatus(status: string): Task[] {
+  //   return this.tasks
+  //     .filter(task => task.status === status)
+  //     .slice() // Erstellt eine Kopie des Arrays, um das Original nicht zu verändern
+  //     .sort((a, b) => {
+  //       const dateA = new Date(a.dueDate);
+  //       const dateB = new Date(b.dueDate);
+  //       return dateA.getTime() - dateB.getTime(); // Sortiert aufsteigend nach Datum
+  //     });
+  // }
+  
   getTasksByStatus(status: string): Task[] {
     return this.tasks
       .filter(task => task.status === status)
-      .slice() // Erstellt eine Kopie des Arrays, um das Original nicht zu verändern
+      .filter(task => {
+        const term = this.searchTerm.toLowerCase();
+        return (
+          !term ||
+          task.title.toLowerCase().includes(term) ||
+          task.description.toLowerCase().includes(term)
+        );
+      })
       .sort((a, b) => {
         const dateA = new Date(a.dueDate);
         const dateB = new Date(b.dueDate);
-        return dateA.getTime() - dateB.getTime(); // Sortiert aufsteigend nach Datum
+        return dateA.getTime() - dateB.getTime();
       });
   }
-  
+
   getPriorityImage(priority: string): string {
     switch (priority) {
       case 'Low':
@@ -227,9 +246,12 @@ resetTaskPosition() {
     return this.tasks.filter(task => task.status === status).length === 0;
   }
 
-  openAddTaskModal() {
+  openAddTaskModal(status: string = 'todo') {
     this.showAddTaskModal = true;
+    this.task = new Task(status); // Neues Task-Objekt erstellen
+    this.task.status = status; // Den Status setzen, z.B. 'todo', 'inProgress', 'awaitFeedback'
   }
+  
   
   closeAddTaskModal() {
     this.showAddTaskModal = false;
@@ -241,7 +263,7 @@ resetTaskPosition() {
       this.selectedTask = new Task(task);
       this.editTitle = this.selectedTask.title;
       this.editDescriptionText = this.selectedTask.description; // Das ist jetzt ein String
-      this.editDueDate = this.selectedTask.dueDate ? new Date(this.selectedTask.dueDate) : null;
+      this.editDueDate = this.selectedTask.dueDate;
       this.editPriority = this.selectedTask.priority;
       this.showEditTaskModal = true;
     }
@@ -344,6 +366,34 @@ resetTaskPosition() {
       } catch (error) {
         console.error('Error updating task:', error);
       }
+    }
+  }
+
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+  
+  isUserAssigned(userId: string | undefined): boolean {
+   
+    return this.selectedTask?.assignedTo.includes(userId!) || false;
+  }
+  
+  toggleUserAssignment(userId: string | undefined, event: Event) {
+    if (!userId || !this.selectedTask) {
+      return;
+    }
+  
+    const isChecked = (event.target as HTMLInputElement).checked;
+  
+    if (isChecked) {
+      // Benutzer hinzufügen, wenn er ausgewählt wurde
+      if (!this.selectedTask.assignedTo.includes(userId)) {
+        this.selectedTask.assignedTo.push(userId);
+      }
+    } else {
+      // Benutzer entfernen, wenn das Häkchen entfernt wurde
+      this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
     }
   }
   

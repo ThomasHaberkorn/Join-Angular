@@ -5,7 +5,7 @@
         </div>
         <div class="headSideContent">
             <div class="searchInput">
-                <input type="text" placeholder="Find Task" class="inputField">
+                <input type="text" placeholder="Find Task" class="inputField" [(ngModel)]="searchTerm">
                 <div class="hline"></div>
                 <img src="./../../../assets/img/search.png" alt="" class="searchImg">
             </div>
@@ -16,29 +16,25 @@
     <div class="board">
         <div class="innerBoard">
 
-            <!-- ----------- todo ------------ -->
+            <!-- ----------- Todo ------------ -->
 
             <div class="todoContainer contentContainer" (drop)="onTaskDrop($event, 'todo')"
                 (dragover)="onDragOver($event, 'todo')">
                 <div class="containerHead" id="todoContainerHead">
                     <h4>To do</h4>
-                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                    <img src="./../../../assets/img/plusbutton.png" alt="" (click)="openAddTaskModal('todo')">
                 </div>
-
                 <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'todo'}">
-                    <div class="cardContainer" id="todoContent" *ngIf="hasNoTasks('todo')">
-                        <span *ngIf="hasNoTasks('todo')">No Task To do</span>
-                    </div>
+                    <span *ngIf="getTasksByStatus('todo').length === 0">
+                        {{ searchTerm ? 'No results found' : 'No Task To do' }}
+                    </span>
                     <ng-container *ngFor="let task of getTasksByStatus('todo')">
                         <div *ngIf="task.status === 'todo'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
                             (click)="openTaskDetail(task)">
-                            <!-- <div class="category" [id]="task.category">{{ task.category }}</div> -->
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
-
-
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks" *ngIf="task.subtasks.length > 0">
@@ -48,8 +44,6 @@
                                 <div class="subtaskCounter">
                                     {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
                                 </div>
-
-
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
@@ -71,21 +65,18 @@
             </div>
 
 
-
-            <!-- in Progress -->
+            <!-- In progress -->
 
             <div class="inProgressContainer contentContainer" (drop)="onTaskDrop($event, 'inProgress')"
                 (dragover)="onDragOver($event, 'inProgress')">
                 <div class="containerHead" id="inProgressHead">
-                    <h4>In Progress</h4>
-                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                    <h4>In progress</h4>
+                    <img src="./../../../assets/img/plusbutton.png" alt="" (click)="openAddTaskModal('inProgress')">
                 </div>
                 <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'inProgress'}">
-                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'inProgress'}"
-                        id="inProgressContent" *ngIf="hasNoTasks('inProgress')">
-                        <span *ngIf="hasNoTasks('inProgress')">No Task in Progress</span>
-                    </div>
-
+                    <span *ngIf="getTasksByStatus('inProgress').length === 0">
+                        {{ searchTerm ? 'No results found' : 'No Task In progress' }}
+                    </span>
                     <ng-container *ngFor="let task of getTasksByStatus('inProgress')">
                         <div *ngIf="task.status === 'inProgress'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
@@ -93,7 +84,6 @@
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
-
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks" *ngIf="task.subtasks.length > 0">
@@ -103,10 +93,7 @@
                                 <div class="subtaskCounter">
                                     {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
                                 </div>
-
-
                             </div>
-
                             <div class="contactPrioContainer">
                                 <div class="contacts">
                                     <div *ngFor="let userId of task.assignedTo.slice(0, 3)" class="contact"
@@ -127,21 +114,21 @@
             </div>
 
 
-            <!-- await Feedback -->
+            <!-- Await feedback -->
+
 
             <div class="awaitFeedbackContainer contentContainer" (drop)="onTaskDrop($event, 'awaitFeedback')"
                 (dragover)="onDragOver($event, 'awaitFeedback')">
                 <div class="containerHead" id="awaitFeedbackHead">
-                    <h4>Awaiting Feedback</h4>
-                    <img src="./../../../assets/img/plusbutton.png" alt="">
+                    <h4>Await feedback</h4>
+                    <img src="./../../../assets/img/plusbutton.png" alt="Add Task"
+                        (click)="openAddTaskModal('awaitFeedback')" />
                 </div>
                 <div class="scrollContainer"
                     [ngClass]="{'drop-active': isDragging && draggingOver === 'awaitFeedback'}">
-                    <div class="cardContainer"
-                        [ngClass]="{'drop-active': isDragging && draggingOver === 'awaitFeedback'}"
-                        id="awaitFeedbackContent" *ngIf="hasNoTasks('awaitFeedback')">
-                        <span *ngIf="hasNoTasks('awaitFeedback')">No Task Awaiting Feedback</span>
-                    </div>
+                    <span *ngIf="getTasksByStatus('awaitFeedback').length === 0">
+                        {{ searchTerm ? 'No results found' : 'No Task Await feedback' }}
+                    </span>
                     <ng-container *ngFor="let task of getTasksByStatus('awaitFeedback')">
                         <div *ngIf="task.status === 'awaitFeedback'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
@@ -149,7 +136,6 @@
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
-
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks" *ngIf="task.subtasks.length > 0">
@@ -159,8 +145,6 @@
                                 <div class="subtaskCounter">
                                     {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
                                 </div>
-
-
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
@@ -182,7 +166,7 @@
             </div>
 
 
-            <!-- done -->
+            <!-- Done -->
 
             <div class="doneContainer contentContainer" (drop)="onTaskDrop($event, 'done')"
                 (dragover)="onDragOver($event, 'done')">
@@ -190,10 +174,9 @@
                     <h4>Done</h4>
                 </div>
                 <div class="scrollContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'done'}">
-                    <div class="cardContainer" [ngClass]="{'drop-active': isDragging && draggingOver === 'done'}"
-                        id="doneContent" *ngIf="hasNoTasks('done')">
-                        <span *ngIf="hasNoTasks('done')">No Task Done</span>
-                    </div>
+                    <span *ngIf="getTasksByStatus('done').length === 0">
+                        {{ searchTerm ? 'No results found' : 'No Task Done' }}
+                    </span>
                     <ng-container *ngFor="let task of getTasksByStatus('done')">
                         <div *ngIf="task.status === 'done'" class="taskCard" draggable="true"
                             (dragstart)="task.id ? onDragStart($event, task.id) : null" (dragend)="onDragEnd()"
@@ -201,7 +184,6 @@
                             <div class="category" [ngClass]="getCategoryClass(task.category)">
                                 {{ task.category }}
                             </div>
-
                             <h3>{{ task.title }}</h3>
                             <p>{{ task.description }}</p>
                             <div class="subtasks" *ngIf="task.subtasks.length > 0">
@@ -211,8 +193,6 @@
                                 <div class="subtaskCounter">
                                     {{ getCompletedSubtaskCount(task) }}/{{ task.subtasks.length }} Subtasks
                                 </div>
-
-
                             </div>
                             <div class="contactPrioContainer">
                                 <div class="contacts">
@@ -232,20 +212,24 @@
                     </ng-container>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
+
+
+<!-- AddTask Modal -->
 
 <div class="modal-overlay" *ngIf="showAddTaskModal">
     <div class="modal-background" (click)="closeAddTaskModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
-            <app-add-task [isModal]="true" (close)="closeAddTaskModal()"></app-add-task>
+            <app-add-task [isModal]="true" [status]="task.status" (close)="closeAddTaskModal()"></app-add-task>
         </div>
     </div>
 </div>
 
+
+
+<!-- CardDetail Section -->
 
 <div class="cardDetail" *ngIf="selectedTask" (click)="closeCardDetail()">
     <div class="cardInnerDetail" (click)="$event.stopPropagation()">
@@ -257,31 +241,16 @@
         </div>
         <div class="cardDetailContent">
             <h1>{{ selectedTask.title }}</h1>
-            <!-- <p class="description">{{ selectedTask.description }}</p> -->
-
-            <div class="description" (mouseover)="hoverEditIcon = true" (mouseleave)="hoverEditIcon = false">
-                <div *ngIf="!editDescription" class="descriptionField">
-                    <p>{{ selectedTask.description }}</p>
-                    <img *ngIf="hoverEditIcon" src="./../../../assets/img/edit1.png" alt="Edit"
-                        (click)="toggleEdit('description')">
-                </div>
-                <div *ngIf="editDescription" class="descriptionEditField">
-                    <textarea [(ngModel)]="selectedTask.description"></textarea>
-                    <div class="descriptionEditButtonField">
-                        <button (click)="saveEdit('description')">Save</button>
-                        <button (click)="cancelEdit('description')">Cancel</button>
-                    </div>
-                </div>
-            </div>
-
-
+            <p class="description">{{ selectedTask.description }}</p>
             <p>Due Date: {{ selectedTask.dueDate }}</p>
             <div class="priority">
                 <div class="prioLeft">Priority:</div>
-                <div class="prioStatus"></div>
+                <div class="prioStatus">
+                    <span>{{ selectedTask.priority }}</span>
+                    <img [src]="getPriorityImage(selectedTask.priority)" alt="priority icon">
+                </div>
             </div>
             <p>Assigned To:</p>
-
             <div class="contactsDetail">
                 <div *ngFor="let userId of selectedTask.assignedTo" class="contactWrapper">
                     <div class="contactDetail" [style.background-color]="getUserColor(userId)">
@@ -290,7 +259,6 @@
                     <span class="userName">{{ getUserName(userId) }}</span>
                 </div>
             </div>
-
             <p class="subt">Subtasks:</p>
             <div class="subtaskWrapper">
                 <div *ngFor="let subtask of selectedTask.subtasks; let i = index" class="subtask">
@@ -298,7 +266,6 @@
                     <span>{{ subtask.title }}</span>
                 </div>
             </div>
-
         </div>
         <div class="detailButtonContainer">
             <div *ngIf="selectedTask?.id" (click)="deleteTask(selectedTask!.id)" class="deleteDetailButton"> <img
@@ -306,13 +273,12 @@
             <div class="line"></div>
             <div class="editDetailButton" (click)="openEditTaskModal(selectedTask);  $event.stopPropagation()"><img
                     src="./../../../assets/img/edit1.png" alt=""> Edit</div>
-
         </div>
     </div>
 </div>
 
 
-
+<!-- EditCard Section -->
 
 <div class="editMainCard" *ngIf="showEditTaskModal">
     <div class="editCard">
@@ -330,7 +296,8 @@
             <div class="editDescriptionContent">
                 <h4 class="editCardh4">Description</h4>
                 <div class="editDescriptionField">
-                    <textarea placeholder="Description" [(ngModel)]="editDescription" class="editInputField"></textarea>
+                    <textarea placeholder="Description" [(ngModel)]="editDescriptionText"
+                        class="editInputField"></textarea>
                 </div>
             </div>
             <div class="editDueDateContent">
@@ -359,26 +326,29 @@
                     </div>
                 </div>
             </div>
-
             <div class="editAssignedToContent">
                 <h4 class="editCardh4">Assigned To</h4>
-                <div class="editAssignedToField">
+                <div class="editAssignedToField" (click)="toggleDropdown()">
                     <div *ngFor="let userId of selectedTask?.assignedTo" class="editContactWrapper">
                         <div class="editContactDetail" [style.background-color]="getUserColor(userId)">
                             {{ getUserInitials(userId) }}
                         </div>
                         <span class="userName">{{ getUserName(userId) }}</span>
                     </div>
-
-
                 </div>
-
             </div>
-            <div class="dropdown">
-                <!-- Hier könntest du eine Checkbox-basierte Dropdown-Liste hinzufügen, um die Benutzer zu bearbeiten -->
+            <div class="dropdown" *ngIf="dropdownOpen">
+                <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
+                <div *ngFor="let user of users" class="dropdownUserContainer">
+
+                    <input type="checkbox" [checked]="isUserAssigned(user.id!)"
+                        (change)="toggleUserAssignment(user.id!, $event)" />
+                    <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
+                        {{ getUserInitials(user.id!) }}
+                    </div>
+                    <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
+                </div>
             </div>
-
-
             <div class="editSubtasksContent">
                 <h4 class="editCardh4">Subtasks</h4>
                 <div class="editSubtasksField">
@@ -404,38 +374,21 @@
                         <div *ngIf="subtask.editing" class="subtaskEditMode">
                             <input type="text" [(ngModel)]="subtask.title" />
                             <div class="subtaskEditDelContainer">
-                                <button (click)="saveEditSubtask(i)">Save</button>
-                                <button (click)="cancelEditSubtask(i)">Cancel</button>
+                                <img src="./../../../assets/img/check_large.png" alt="" (click)="saveEditSubtask(i)"
+                                    class="subtaskEdit">
+                                <img src="./../../../assets/img/cross_large.png" alt="" (click)="cancelEditSubtask(i)"
+                                    class="subtaskDel">
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-
-
-
-            <!-- <div class="editSubtasksContent">
-                <h4 class="editCardh4">Subtasks</h4>
-                <div class="editSubtasksField">
-                    <div class="addSubtask">
-                        <input type="text" placeholder="Add new subtask" [(ngModel)]="newSubtaskTitle" />
-                        <img src="./../../../assets/img/addSubtasks.png" alt="" (click)="addSubtask()">
-                    </div>
-                    <div *ngFor="let subtask of selectedTask?.subtasks; let i = index" class="subtaskContent">
-                        <span class="subtaskTitle">{{ subtask.title }}</span>
-                        <div class="subtaskEditDelContainer">
-                            <img src="./../../../assets/img/edit.png" alt="">
-                            <img src="./../../../assets/img/delete.png" alt="Delete Subtask" (click)="deleteSubtask(i)">
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <div class="editCardButton">
-
             <button class="cancelEditButton" (click)="cancelEditCard()">Cancel</button>
             <button class="saveEditButton" (click)="saveTask()">OK <img src="./../../../assets/img/check.png"
                     alt=""></button>
         </div>
     </div>
+</div>

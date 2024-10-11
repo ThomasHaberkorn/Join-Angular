@@ -37,7 +37,6 @@ export class UsersComponent{
         user.id = doc.id; 
         return user;
       });
-      console.log('Users loaded:', this.users);
     } catch (error) {
       console.error('Error loading users:', error);
     }
