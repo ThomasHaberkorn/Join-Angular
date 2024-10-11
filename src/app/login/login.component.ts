@@ -28,9 +28,10 @@ export class LoginComponent {
   isChecked: boolean = false;
   checkboxAccepted = false;
   emailValid: boolean = true;
-emailTouched: boolean = false;
-passwordsMatch: boolean = true;
-passwordsTouched: boolean = false;
+  emailTouched: boolean = false;
+  passwordsMatch: boolean = true;
+  passwordsTouched: boolean = false;
+  // userTypes: string[] = ['', 'user', 'guest'];
 
 constructor(private fb: FormBuilder, private firestore: Firestore, private router: Router) {
   this.loginForm = this.fb.group({
@@ -104,6 +105,7 @@ async ngOnInit() {
   const savedEmail = localStorage.getItem('userEmail');
   const savedPassword = localStorage.getItem('userPassword');
   const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+  const userType = sessionStorage.setItem('userType', '');
  
   if (savedEmail && savedPassword && rememberMeChecked) {
     this.user.email = savedEmail;
@@ -150,22 +152,28 @@ async loadUsersFromFirestore() {
   onSubmitLogin() {
     const email = this.user.email;
     const password = this.user.password;
+   
   
     // Suche den Benutzer in Firestore-Daten
     const user = this.users.find(u => u.email === email && u.password === password);
-  
+   const init = user?.initials;
+   const userType = user?.userType;
     if (user) {
       console.log('Login successful:', user, this.users);
   
       // Überprüfen, ob die "Remember Me"-Checkbox aktiviert ist
       if (this.checkboxAccepted) {
+        
         localStorage.setItem('userEmail', this.user.email);
         localStorage.setItem('userPassword', this.user.password);
+        localStorage.setItem('initials', init!);
       } else {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userPassword');
+        localStorage.removeItem('initials');
       }
-  
+      console.log('Remember me checked', init);
+      sessionStorage.setItem('userType', userType!);
       this.router.navigate(['/dashboard/summary']);
     } else {
       this.showLoginError();
@@ -198,6 +206,7 @@ showLoginError() {
         phone: this.user.phone,
         password: this.user.password,
         passwordConfirm: this.user.passwordConfirm,
+        userType: this.user.userType = 'user',
         
       });
       this.signupSuccess = true;
@@ -332,10 +341,6 @@ flipToLogIn(): void {
   }
 }
 
-
-
-
-
   showSignUpBox() {
     this.showRegister = true;
   }
@@ -345,8 +350,9 @@ flipToLogIn(): void {
   }
 
   guestLogin() {
-    // Hier die Logik für den Gast-Login hinzufügen
-    console.log('Guest login');
+    localStorage.setItem('initials', 'G');
+    sessionStorage.setItem('userType', 'guest');
+    this.router.navigate(['/dashboard/summary']);
   }
 
   login() {

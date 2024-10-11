@@ -8,6 +8,7 @@ export class User {
     password: string;
     passwordConfirm: string;
     color: string;
+    userType: string;
   
     constructor(obj?: any) {
       this.id = obj ? obj.id : '';
@@ -20,6 +21,7 @@ export class User {
       // this.color = this.getColor();
       this.color = obj && obj.color ? obj.color : this.getColor();
       this.initials = this.getInitials();
+      this.userType = obj ? obj.userType : '';
     }
 
    
@@ -46,12 +48,12 @@ export class User {
         firstName: this.firstName,
         lastName: this.lastName,
         eMail: this.email,
-        
         phone: this.phone,
         password: this.password,
         passwordConfirm: this.passwordConfirm,
         color: this.color,
         initials: this.initials ,
+        userType: this.userType
       };
   
       Object.keys(data).forEach(key => {
