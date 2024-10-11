@@ -12,6 +12,7 @@ export class Task {
     subtasks: Subtask[];
     status: string;
     progress: number;
+    userType: string;
   
     constructor(obj?: any) {
         // this.id = this.getID();
@@ -25,6 +26,7 @@ export class Task {
         this.subtasks = obj?.subtasks?.map((st: any) => new Subtask(st)) || [];
         this.status = obj ? obj.status : '';
         this.progress = obj && obj.progress !== undefined ? obj.progress : 0;
+        this.userType = obj ? obj.userType : 'guest';
     }
 
     getID(): string {
@@ -49,6 +51,7 @@ export class Task {
         subtasks: this.subtasks.map(subtask => subtask.toJSON()),
         status: this.status,
         progress: this.progress,
+        userType: this.userType
       };
       return data;
     }

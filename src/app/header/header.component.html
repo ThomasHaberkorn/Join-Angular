@@ -5,14 +5,15 @@
             <div class="help">
                 <img src="./../../assets/img/help.png" alt="">
             </div>
-            <div class="menu">
-                <div class="menuButton">TH</div>
+            <div class="menu" (mouseenter)="onMenuMouseEnter()" (mouseleave)="onMenuMouseLeave()">
+                <div class="menuButton">{{ initials }}</div>
             </div>
         </div>
     </div>
-    <div class="menuContainer" id="menuContainer" style="display: none;">
+    <div class="menuContainer" id="menuContainer" [ngStyle]="{'display': showMenu ? 'block' : 'none'}"
+        (mouseenter)="onMenuContainerMouseEnter()" (mouseleave)="onMenuContainerMouseLeave()">
         <div class="menuLink" id="privacyPolicy">Privacy Policy</div>
         <div class="menuLink" id="legalNotice">Legal Notice</div>
-        <div class="menuLink" id="logOut">Log out</div>
+        <div class="menuLink" id="logOut" (click)="logout()">Log out</div>
     </div>
 </div>

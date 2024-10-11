@@ -24,6 +24,7 @@ export class AddTaskComponent {
   newSubtask: string = '';
   @Input() isModal: boolean = false;
   @Input() status: string = 'todo';
+  loggedInUserType: string = 'guest';
   // @ViewChild('subtaskInput') subtaskInput!: ElementRef;
 
   @Output() close = new EventEmitter<void>();
@@ -31,6 +32,11 @@ export class AddTaskComponent {
   constructor(private fb: FormBuilder, private firestore: Firestore) { }
 
   async ngOnInit() {
+
+    const storedUserType = sessionStorage.getItem('userType');
+    if (storedUserType) {
+      this.loggedInUserType = storedUserType;
+    }
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
     
@@ -140,7 +146,8 @@ export class AddTaskComponent {
         category: this.task.category,
         subtasks: this.task.subtasks.map(subtask => subtask.toJSON()) || [], 
         status: this.status,
-        progress: this.task.progress || 0 
+        progress: this.task.progress || 0,
+        userType: this.loggedInUserType, 
       });
       console.log('Task successfully added to Firestore', this.task);
       this.clearForm();

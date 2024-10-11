@@ -32,7 +32,7 @@ export class BoardComponent {
   editDescription: boolean = false;
   editDescriptionText: string = '';
   searchTerm: string = '';
-
+  loggedInUserType: string = 'guest';
 
 
   constructor(private fb: FormBuilder, private firestore: Firestore) {
@@ -40,6 +40,11 @@ export class BoardComponent {
    }
 
   async ngOnInit() {
+    const storedUserType = sessionStorage.getItem('userType');
+    if (storedUserType) {
+      this.loggedInUserType = storedUserType;
+    }
+    console.log('Logged in as:', this.loggedInUserType);
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
     this.task.priority = 'Medium'; 
@@ -63,6 +68,7 @@ export class BoardComponent {
     }
   }
   
+
   async loadUsersFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'users'));
@@ -211,9 +217,30 @@ resetTaskPosition() {
   //     });
   // }
   
+  // getTasksByStatus(status: string): Task[] {
+    
+  //   // console.log('Getting tasks for status:', this.tasks);
+  //   return this.tasks
+  //     .filter(task => task.status === status)
+  //     .filter(task => {
+  //       const term = this.searchTerm.toLowerCase();
+  //       return (
+  //         !term ||
+  //         task.title.toLowerCase().includes(term) ||
+  //         task.description.toLowerCase().includes(term)
+  //       );
+  //     })
+  //     .sort((a, b) => {
+  //       const dateA = new Date(a.dueDate);
+  //       const dateB = new Date(b.dueDate);
+  //       return dateA.getTime() - dateB.getTime();
+  //     });
+  // }
+
   getTasksByStatus(status: string): Task[] {
     return this.tasks
       .filter(task => task.status === status)
+      .filter(task => task.userType === this.loggedInUserType)
       .filter(task => {
         const term = this.searchTerm.toLowerCase();
         return (
@@ -228,6 +255,7 @@ resetTaskPosition() {
         return dateA.getTime() - dateB.getTime();
       });
   }
+  
 
   getPriorityImage(priority: string): string {
     switch (priority) {
