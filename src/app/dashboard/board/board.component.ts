@@ -51,23 +51,72 @@ export class BoardComponent {
   }
 
   
-  async loadTasksFromFirestore() {
-    try {
-      const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
-      this.tasks = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        const task = new Task({
-          ...data,
-          subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
+  // async loadTasksFromFirestore() {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
+  //     this.tasks = querySnapshot.docs.map((doc) => {
+  //       const data = doc.data();
+  //       const task = new Task({
+  //         ...data,
+  //         subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
+  //       });
+  //       task.id = doc.id;
+  //       return task;
+  //     });
+  //   } catch (error) {
+  //     console.error('Error loading tasks:', error);
+  //   }
+  // }
+
+    async loadTasksFromFirestore() {
+      try {
+        const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
+        this.tasks = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const task = new Task({
+            ...data,
+            subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
+          });
+          task.id = doc.id;
+          return task;
         });
-        task.id = doc.id;
-        return task;
-      });
-    } catch (error) {
-      console.error('Error loading tasks:', error);
+    
+        console.log('Tasks successfully loaded from Firestore:', this.tasks);
+      } catch (error) {
+        console.error('Error loading tasks:', error);
+      }
+    }
+    
+
+    async removeDeletedUserFromTasks(userId: string) {
+      try {
+        const taskCollection = collection(this.firestore, 'tasks');
+        const querySnapshot = await getDocs(taskCollection);
+    
+        // Schleife über alle Aufgaben und entferne den gelöschten Benutzer aus den Zuweisungen
+        for (const taskDoc of querySnapshot.docs) {
+          const taskData = taskDoc.data() as Task;
+    
+          if (taskData.assignedTo && taskData.assignedTo.includes(userId)) {
+            const updatedAssignedTo = taskData.assignedTo.filter(id => id !== userId);
+            
+            const taskDocRef = doc(this.firestore, 'tasks', taskDoc.id);
+            await updateDoc(taskDocRef, { assignedTo: updatedAssignedTo });
+            console.log(`User ${userId} removed from task ${taskDoc.id}`);
+          }
+        }
+      } catch (error) {
+        console.error('Error removing user from tasks:', error);
+      }
+    }
+
+  
+  async updateTaskAssignedUsers(task: Task) {
+    if (task.id) {
+      const taskDocRef = doc(this.firestore, 'tasks', task.id);
+      await updateDoc(taskDocRef, { assignedTo: task.assignedTo });
     }
   }
-  
 
   async loadUsersFromFirestore() {
     try {
@@ -407,6 +456,24 @@ resetTaskPosition() {
     return this.selectedTask?.assignedTo.includes(userId!) || false;
   }
   
+  // toggleUserAssignment(userId: string | undefined, event: Event) {
+  //   if (!userId || !this.selectedTask) {
+  //     return;
+  //   }
+  
+  //   const isChecked = (event.target as HTMLInputElement).checked;
+  
+  //   if (isChecked) {
+  //     // Benutzer hinzufügen, wenn er ausgewählt wurde
+  //     if (!this.selectedTask.assignedTo.includes(userId)) {
+  //       this.selectedTask.assignedTo.push(userId);
+  //     }
+  //   } else {
+  //     // Benutzer entfernen, wenn das Häkchen entfernt wurde
+  //     this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
+  //   }
+  // }
+
   toggleUserAssignment(userId: string | undefined, event: Event) {
     if (!userId || !this.selectedTask) {
       return;
@@ -423,7 +490,48 @@ resetTaskPosition() {
       // Benutzer entfernen, wenn das Häkchen entfernt wurde
       this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
     }
+  
+    // Benutzerzuweisungen in Firestore aktualisieren
+    this.updateTaskAssignedUsers(this.selectedTask);
   }
+
+  onDocumentClick(event: Event) {
+    // Prüfe, ob der Klick auf den Dropdown-Button oder innerhalb des Dropdown-Containers erfolgte
+    const dropdownButton = document.querySelector('.editAssignedToField');
+    const dropdownElement = document.querySelector('.dropdown');
+  
+    if (
+      this.dropdownOpen &&
+      dropdownElement &&
+      !dropdownElement.contains(event.target as Node) &&
+      dropdownButton &&
+      !dropdownButton.contains(event.target as Node)
+    ) {
+      this.toggleDropdown();
+    }
+  }
+
+  toggleCheckbox(userId: string) {
+    if (!this.selectedTask) {
+      return;
+    }
+  
+    // Überprüfe, ob der Benutzer bereits zugewiesen ist
+    const isAssigned = this.isUserAssigned(userId);
+  
+    // Toggle-Logik: Wenn der Benutzer bereits zugewiesen ist, entferne ihn, sonst füge ihn hinzu
+    if (isAssigned) {
+      this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
+    } else {
+      this.selectedTask.assignedTo.push(userId);
+    }
+  
+    // Benutzerzuweisungen in Firestore aktualisieren
+    this.updateTaskAssignedUsers(this.selectedTask);
+  }
+  
+  
+  
   
   editSubtask(index: number) {
     if (this.selectedTask) {
@@ -541,7 +649,7 @@ handlePrioKeydown(event: KeyboardEvent, priority: string) {
   saveTask() {
     if (this.selectedTask) {
       this.selectedTask.title = this.editTitle;
-      this.selectedTask.description = this.editDescriptionText; // Verwende editDescriptionText anstelle von editDescription
+      this.selectedTask.description = this.editDescriptionText;
   
       // Sicherstellen, dass `editDueDate` nicht `null` ist
       if (this.editDueDate) {
@@ -550,7 +658,11 @@ handlePrioKeydown(event: KeyboardEvent, priority: string) {
   
       this.selectedTask.priority = this.editPriority;
   
-      this.updateTask(); // Task aktualisieren
+      // Aktualisieren der Benutzerzuweisungen
+      this.updateTaskAssignedUsers(this.selectedTask);
+  
+      // Task aktualisieren
+      this.updateTask(); 
     }
     this.closeEditTaskModal(); // Bearbeitungsmodal schließen
   }

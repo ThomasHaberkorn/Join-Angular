@@ -337,10 +337,10 @@
                     </div>
                 </div>
             </div>
-            <div class="dropdown" *ngIf="dropdownOpen">
+
+            <!-- <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
                 <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
                 <div *ngFor="let user of users" class="dropdownUserContainer">
-
                     <input type="checkbox" [checked]="isUserAssigned(user.id!)"
                         (change)="toggleUserAssignment(user.id!, $event)" />
                     <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
@@ -348,7 +348,35 @@
                     </div>
                     <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
                 </div>
+            </div> -->
+
+            <!-- <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
+                <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
+                <div *ngFor="let user of users" class="dropdownUserContainer"
+                    (click)="toggleUserAssignment(user.id!, $event)">
+                    <input type="checkbox" [checked]="isUserAssigned(user.id!)"
+                        (change)="toggleUserAssignment(user.id!, $event)" (click)="$event.stopPropagation()" />
+                    <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
+                        {{ getUserInitials(user.id!) }}
+                    </div>
+                    <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
+                </div>
+            </div> -->
+
+            <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
+                <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
+                <div *ngFor="let user of users" class="dropdownUserContainer" (click)="toggleCheckbox(user.id!)">
+                    <input type="checkbox" [checked]="isUserAssigned(user.id!)"
+                        (change)="toggleUserAssignment(user.id!, $event)" (click)="$event.stopPropagation()" />
+                    <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
+                        {{ getUserInitials(user.id!) }}
+                    </div>
+                    <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
+                </div>
             </div>
+
+
+
             <div class="editSubtasksContent">
                 <h4 class="editCardh4">Subtasks</h4>
                 <div class="editSubtasksField">

@@ -53,6 +53,7 @@
     background-color: $dblue;
     cursor: pointer;
     overflow: hidden;
+    z-index: 200;
     .menuLink {
       color: $navGrey;
       font-size: 16px;

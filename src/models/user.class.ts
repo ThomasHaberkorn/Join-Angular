@@ -18,13 +18,19 @@ export class User {
       this.phone = obj ? obj.phone : '';
       this.password = obj ? obj.password : '';
       this.passwordConfirm = obj ? obj.passwordConfirm : '';
-      // this.color = this.getColor();
       this.color = obj && obj.color ? obj.color : this.getColor();
       this.initials = this.getInitials();
       this.userType = obj ? obj.userType : '';
     }
 
-   
+  //   getID(): string {
+  //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //     let id = '';
+  //     for (let i = 0; i < 5; i++) {
+  //       id += characters[Math.floor(Math.random() * characters.length)];
+  //     }
+  //     return id;
+  // }
 
     getInitials(): string {
         if (this.firstName && this.lastName) {

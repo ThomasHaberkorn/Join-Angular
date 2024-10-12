@@ -62,6 +62,12 @@
     </div>
 </div>
 
+<div class="messageContainer" *ngIf="message">
+    <div class="message">
+        <p>{{ message }}</p>
+    </div>
+</div>
+
 <div class="editContactMain" *ngIf="editMode && selectedUser" (click)="closeEditContact($event)">
     <div class="editContactCard" (click)="$event.stopPropagation()">
         <div class="editContactInfo">
@@ -156,4 +162,6 @@
                     src="./../../../assets/img/check.png" alt=""></button>
         </div>
     </div>
+
+
 </div>

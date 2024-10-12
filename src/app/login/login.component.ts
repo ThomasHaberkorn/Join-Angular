@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { gsap } from 'gsap';
 import { User } from '../../models/user.class';
-import { Firestore, addDoc, collection, getDocs } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, getDocs, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 
@@ -167,10 +167,12 @@ async loadUsersFromFirestore() {
         localStorage.setItem('userEmail', this.user.email);
         localStorage.setItem('userPassword', this.user.password);
         localStorage.setItem('initials', init!);
+        localStorage.setItem('userId', user.id!);
       } else {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userPassword');
         localStorage.removeItem('initials');
+        localStorage.removeItem('userId');
       }
       console.log('Remember me checked', init);
       sessionStorage.setItem('userType', userType!);
@@ -191,12 +193,47 @@ showLoginError() {
   }
 }
 
+  // async onSubmitRegister() {
+  //   this.user.initials = this.user.getInitials();
+
+  //   try {
+  //     const userCollection = collection(this.firestore, 'users'); 
+  //     await addDoc(userCollection, {
+  //       firstName: this.user.firstName,
+  //       lastName: this.user.lastName,
+  //       email: this.user.email,
+  //       initials: this.user.initials,
+  //       color: this.user.color,
+  //       id: this.user.id,
+  //       phone: this.user.phone,
+  //       password: this.user.password,
+  //       passwordConfirm: this.user.passwordConfirm,
+  //       userType: this.user.userType = 'user',
+        
+  //     });
+  //     this.signupSuccess = true;
+  //     this.showRegister = false;
+  //     await this.loadUsersFromFirestore();
+  //     this.flipToLogIn()
+  //   } catch (error) {
+  //     console.error('Error adding user to Firestore:', error);
+  //   }
+   
+  // }
+    
   async onSubmitRegister() {
     this.user.initials = this.user.getInitials();
-
+  
     try {
-      const userCollection = collection(this.firestore, 'users'); 
-      await addDoc(userCollection, {
+      // Erstelle ein leeres Dokument, um die Firebase-generierte ID zu erhalten
+      const userCollection = collection(this.firestore, 'users');
+      const userDocRef = await addDoc(userCollection, {});
+  
+      // Setze die erhaltene ID im User-Objekt
+      this.user.id = userDocRef.id;
+  
+      // Aktualisiere das Dokument mit den tatsächlichen User-Daten
+      await setDoc(userDocRef, {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         email: this.user.email,
@@ -206,19 +243,17 @@ showLoginError() {
         phone: this.user.phone,
         password: this.user.password,
         passwordConfirm: this.user.passwordConfirm,
-        userType: this.user.userType = 'user',
-        
+        userType: 'user',
       });
+  
       this.signupSuccess = true;
       this.showRegister = false;
       await this.loadUsersFromFirestore();
-      this.flipToLogIn()
+      this.flipToLogIn();
     } catch (error) {
       console.error('Error adding user to Firestore:', error);
     }
-   
   }
-    
   
 
   
