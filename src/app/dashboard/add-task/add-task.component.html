@@ -3,7 +3,7 @@
         <div class="headline">
             <h1>Add Task</h1>
         </div>
-        <div class="addTaskContainer">
+        <div class="addTaskContainer" (click)="closeDropdownIfOpen()">
             <div class="addTaskLeft">
                 <h4>Title <span>*</span></h4>
                 <input class="inputFieldAddTask" type="text" id="title" [(ngModel)]="task.title">
@@ -13,16 +13,24 @@
 
                 <h4>Assigned to</h4>
                 <div class="dropdown">
-                    <div class="dropdown-button inputFieldAddTask" (click)="toggleDropdown()"><span>Select contacts to
+                    <div class="dropdown-button inputFieldAddTask" (click)="toggleDropdown($event)"><span>Select
+                            contacts to
                             assign</span><img src="./../../../assets/img/arrow-down.png" alt="">
                     </div>
-                    <div class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'">
+                    <div class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'"
+                        (click)="$event.stopPropagation()">
                         <div *ngFor="let user of users" class="user-row">
                             <input type="checkbox" [id]="user.id" (change)="toggleAssignedTo(user)" />
+                            <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
+                                {{ getUserInitials(user.id!) }}
+                            </div>
                             <label [for]="user.id">{{ user.firstName }} {{ user.lastName }}</label>
                         </div>
                     </div>
                 </div>
+
+
+
 
                 <div class="selected-users">
                     <div *ngFor="let user of assignedUsers.slice(0, 3)" class="user-circle"

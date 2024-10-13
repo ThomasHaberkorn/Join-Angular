@@ -4,19 +4,23 @@
     </div>
     <div class="navContainer">
         <div class="navInnerContainer">
-            <div class="summaryNav navContent" (click)="navigateToSummary()">
+            <div class="summaryNav navContent" [ngClass]="{ 'active-nav': isRouteActive('/dashboard/summary') }"
+                (click)="navigateToSummary()">
                 <img src="./../../assets/img/sidebarSummaryIcons.png" alt="">
                 <span>Summary</span>
             </div>
-            <div class="addTaskNav navContent" (click)="navigateToAddTask()">
+            <div class="addTaskNav navContent" [ngClass]="{ 'active-nav': isRouteActive('/dashboard/add-task') }"
+                (click)="navigateToAddTask()">
                 <img src="./../../assets/img/sidebarAddTaskIcons.png" alt="">
                 <span>Add Task</span>
             </div>
-            <div class="boardNav navContent" (click)="navigateToBoard()">
+            <div class="boardNav navContent" [ngClass]="{ 'active-nav': isRouteActive('/dashboard/board') }"
+                (click)="navigateToBoard()">
                 <img src="./../../assets/img/sidebarBoardIcons.png" alt="">
                 <span>Board</span>
             </div>
-            <div class="contactsNav navContent" (click)="navigateToUsers()">
+            <div class="contactsNav navContent" [ngClass]="{ 'active-nav': isRouteActive('/dashboard/users') }"
+                (click)="navigateToUsers()">
                 <img src="./../../assets/img/sidebarContactsIcons.png" alt="">
                 <span>Contacts</span>
             </div>
@@ -24,8 +28,10 @@
     </div>
     <div class="footerContent">
         <div class="footerInnerContainer">
-            <div class="privacyPolicy footerLink">Privacy Policy</div>
-            <div class="legalNotice footerLink">Legal Notice</div>
+            <div class="privacyPolicy footerLink" [ngClass]="{ 'active-footer': isRouteActive('/privacy-policy') }"
+                (click)="navigateToPrivacyPolicy()">Privacy Policy</div>
+            <div class="legalNotice footerLink" [ngClass]="{ 'active-footer': isRouteActive('/legal-notice') }"
+                (click)="navigateToLegalNotice()">Legal Notice</div>
         </div>
     </div>
 </div>

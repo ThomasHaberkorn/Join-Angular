@@ -6,6 +6,7 @@ import { AddTaskComponent } from './dashboard/add-task/add-task.component';
 import { BoardComponent } from './dashboard/board/board.component';
 import { UsersComponent } from './dashboard/users/users.component';
 import { AuthGuard } from './auth.guard';
+import { HelpPageComponent } from './shared/help-page/help-page.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'add-task', component: AddTaskComponent },
       { path: 'board', component: BoardComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'help', component: HelpPageComponent},
       { path: '', redirectTo: 'summary', pathMatch: 'full' } // Standardroute im Dashboard
     ]
   },

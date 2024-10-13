@@ -6,6 +6,7 @@ import { User } from '../../../models/user.class';
 import { CommonModule } from '@angular/common';
 import { AddTaskComponent } from '../add-task/add-task.component';
 
+
 @Component({
   selector: 'app-board',
   standalone: true,
@@ -33,13 +34,15 @@ export class BoardComponent {
   editDescriptionText: string = '';
   searchTerm: string = '';
   loggedInUserType: string = 'guest';
-
+  userType: string = ''; 
 
   constructor(private fb: FormBuilder, private firestore: Firestore) {
 
    }
 
   async ngOnInit() {
+   
+
     const storedUserType = sessionStorage.getItem('userType');
     if (storedUserType) {
       this.loggedInUserType = storedUserType;
@@ -48,26 +51,12 @@ export class BoardComponent {
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
     this.task.priority = 'Medium'; 
+
+ 
+
   }
 
-  
-  // async loadTasksFromFirestore() {
-  //   try {
-  //     const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
-  //     this.tasks = querySnapshot.docs.map((doc) => {
-  //       const data = doc.data();
-  //       const task = new Task({
-  //         ...data,
-  //         subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
-  //       });
-  //       task.id = doc.id;
-  //       return task;
-  //     });
-  //   } catch (error) {
-  //     console.error('Error loading tasks:', error);
-  //   }
-  // }
-
+ 
     async loadTasksFromFirestore() {
       try {
         const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
@@ -87,6 +76,7 @@ export class BoardComponent {
       }
     }
     
+  
 
     async removeDeletedUserFromTasks(userId: string) {
       try {
@@ -255,36 +245,7 @@ resetTaskPosition() {
     }
   }
 
-  // getTasksByStatus(status: string): Task[] {
-  //   return this.tasks
-  //     .filter(task => task.status === status)
-  //     .slice() // Erstellt eine Kopie des Arrays, um das Original nicht zu verändern
-  //     .sort((a, b) => {
-  //       const dateA = new Date(a.dueDate);
-  //       const dateB = new Date(b.dueDate);
-  //       return dateA.getTime() - dateB.getTime(); // Sortiert aufsteigend nach Datum
-  //     });
-  // }
-  
-  // getTasksByStatus(status: string): Task[] {
-    
-  //   // console.log('Getting tasks for status:', this.tasks);
-  //   return this.tasks
-  //     .filter(task => task.status === status)
-  //     .filter(task => {
-  //       const term = this.searchTerm.toLowerCase();
-  //       return (
-  //         !term ||
-  //         task.title.toLowerCase().includes(term) ||
-  //         task.description.toLowerCase().includes(term)
-  //       );
-  //     })
-  //     .sort((a, b) => {
-  //       const dateA = new Date(a.dueDate);
-  //       const dateB = new Date(b.dueDate);
-  //       return dateA.getTime() - dateB.getTime();
-  //     });
-  // }
+
 
   getTasksByStatus(status: string): Task[] {
     return this.tasks
@@ -332,6 +293,7 @@ resetTaskPosition() {
   
   closeAddTaskModal() {
     this.showAddTaskModal = false;
+    this.loadTasksFromFirestore();
   }
 
    openEditTaskModal(task: Task) {
@@ -455,24 +417,7 @@ resetTaskPosition() {
    
     return this.selectedTask?.assignedTo.includes(userId!) || false;
   }
-  
-  // toggleUserAssignment(userId: string | undefined, event: Event) {
-  //   if (!userId || !this.selectedTask) {
-  //     return;
-  //   }
-  
-  //   const isChecked = (event.target as HTMLInputElement).checked;
-  
-  //   if (isChecked) {
-  //     // Benutzer hinzufügen, wenn er ausgewählt wurde
-  //     if (!this.selectedTask.assignedTo.includes(userId)) {
-  //       this.selectedTask.assignedTo.push(userId);
-  //     }
-  //   } else {
-  //     // Benutzer entfernen, wenn das Häkchen entfernt wurde
-  //     this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
-  //   }
-  // }
+
 
   toggleUserAssignment(userId: string | undefined, event: Event) {
     if (!userId || !this.selectedTask) {
@@ -634,17 +579,6 @@ handlePrioKeydown(event: KeyboardEvent, priority: string) {
     }
   }
 
-  // saveTask() {
-  //   if (this.selectedTask) {
-  //     this.selectedTask.title = this.editTitle;
-  //     this.selectedTask.description = this.editDescription;
-  //     this.selectedTask.dueDate = this.editDueDate;
-  //     this.selectedTask.priority = this.editPriority;
-  
-  //     this.updateTask();
-  //   }
-  //   this.closeEditTaskModal();
-  // }
 
   saveTask() {
     if (this.selectedTask) {

@@ -168,11 +168,13 @@ async loadUsersFromFirestore() {
         localStorage.setItem('userPassword', this.user.password);
         localStorage.setItem('initials', init!);
         localStorage.setItem('userId', user.id!);
+        localStorage.setItem('firstName', user.firstName!);
       } else {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userPassword');
         localStorage.removeItem('initials');
         localStorage.removeItem('userId');
+        localStorage.removeItem('firstName');
       }
       console.log('Remember me checked', init);
       sessionStorage.setItem('userType', userType!);
@@ -193,34 +195,7 @@ showLoginError() {
   }
 }
 
-  // async onSubmitRegister() {
-  //   this.user.initials = this.user.getInitials();
 
-  //   try {
-  //     const userCollection = collection(this.firestore, 'users'); 
-  //     await addDoc(userCollection, {
-  //       firstName: this.user.firstName,
-  //       lastName: this.user.lastName,
-  //       email: this.user.email,
-  //       initials: this.user.initials,
-  //       color: this.user.color,
-  //       id: this.user.id,
-  //       phone: this.user.phone,
-  //       password: this.user.password,
-  //       passwordConfirm: this.user.passwordConfirm,
-  //       userType: this.user.userType = 'user',
-        
-  //     });
-  //     this.signupSuccess = true;
-  //     this.showRegister = false;
-  //     await this.loadUsersFromFirestore();
-  //     this.flipToLogIn()
-  //   } catch (error) {
-  //     console.error('Error adding user to Firestore:', error);
-  //   }
-   
-  // }
-    
   async onSubmitRegister() {
     this.user.initials = this.user.getInitials();
   

@@ -62,13 +62,29 @@
             border-radius: 10px;
             width: 437px;
             max-height: 100px;
-            padding: 15px;
+            padding: 5px 15px;
             .user-row {
+              @include dFlex($jc: flex-start);
+              gap: 4px;
+              margin-top: 3px;
+              margin-bottom: 3px;
+
               input {
                 margin: 7px 7px;
+                width: 18px;
+                height: 18px;
+              }
+              .userInitials {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                color: $white;
+                font-size: 16px;
+                @include dFlex();
               }
               label {
                 font-size: 20px;
+                cursor: pointer;
               }
             }
           }

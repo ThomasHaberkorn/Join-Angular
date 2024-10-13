@@ -28,6 +28,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  navigateToHelp() {
+    this.router.navigate(['/dashboard/help']);
+  }
+
   onMenuMouseEnter() {
     if (this.menuCloseTimeout) {
       clearTimeout(this.menuCloseTimeout);

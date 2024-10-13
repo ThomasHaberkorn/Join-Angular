@@ -1,0 +1,242 @@
+@import "../../../styles.scss";
+
+.mainContainer {
+  position: absolute;
+  top: 96px;
+  left: 232px;
+  @include flexDir(column, $ai: flex-start, $jc: flex-start);
+  width: calc(100% - 232px);
+  height: calc(100% - 96px);
+
+  .headlineContainer {
+    @include dFlex($jc: flex-start);
+    width: 100%;
+    max-width: 1920px;
+    height: 73px;
+    margin-top: 90px;
+    margin-left: 96px;
+    gap: 30px;
+    h1 {
+      font-size: 61px;
+      font-weight: 700;
+    }
+    .blueLine {
+      width: 2px;
+      height: 59px;
+      background-color: $lblue;
+    }
+    h3 {
+      font-size: 27px;
+      font-weight: 400;
+    }
+  }
+  .mainInnerContainer {
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    margin-top: 30px;
+    margin-left: 96px;
+    @include dFlex($jc: flex-start, $ai: flex-start);
+    .contentContainer {
+      @include flexDir(column, $ai: flex-start, $jc: flex-start);
+      width: 40%;
+      max-width: 560px;
+      height: 70%;
+      max-height: 562px;
+      gap: 10px;
+      position: relative;
+      .upperRow {
+        @include dFlex($jc: space-between);
+        width: 100%;
+        height: 33%;
+
+        .todoContent {
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            transform: scale(1.07);
+            background-color: $dblue;
+            img {
+              content: url("./../../../assets/img/todoLogoWhite.png");
+            }
+          }
+        }
+        .doneContent {
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            transform: scale(1.07);
+            background-color: $dblue;
+            img {
+              content: url("./../../../assets/img/doneLogoWhite.png");
+            }
+          }
+        }
+        .row1Content {
+          &:hover {
+            .row1InfoContent {
+              .row1Counter {
+                color: $white;
+              }
+              .row1Text {
+                color: $white;
+              }
+            }
+          }
+        }
+        .row1Content {
+          @include dFlex();
+          width: 47%;
+          height: 100%;
+          gap: 30px;
+          border-radius: 30px;
+          background-color: $white;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+          cursor: pointer;
+          .row1InfoContent {
+            @include flexDir(column);
+
+            .row1Counter {
+              @include dFlex();
+              font-size: 64px;
+            }
+            .row1Text {
+              @include dFlex();
+              font-size: 20px;
+            }
+          }
+        }
+      }
+      .midRow {
+        width: 100%;
+        height: 30%;
+        @include dFlex($jc: space-between);
+
+        .midRowInnerContainer {
+          @include dFlex();
+          width: 100%;
+          height: 100%;
+          border-radius: 30px;
+          background-color: $white;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.07);
+            background-color: $dblue;
+            .urgentInfoContainer {
+              .urgentCounter {
+                color: $white;
+              }
+              .urgentText {
+                color: $white;
+              }
+            }
+            .line {
+              background-color: $white;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentCounter {
+                  color: $white;
+                }
+                .urgentText {
+                  color: $white;
+                }
+              }
+            }
+          }
+          .urgentInfoContainer {
+            width: 47%;
+            height: 100%;
+            @include dFlex();
+          }
+
+          .urgentInfoContent {
+            width: 47%;
+            height: 100%;
+            @include flexDir(column);
+            .urgentCounter {
+              font-size: 64px;
+            }
+            .urgentText {
+              font-size: 20px;
+            }
+          }
+        }
+        .line {
+          width: 2px;
+          height: 102px;
+          background-color: $inputGrey;
+        }
+        .urgentDateContainer {
+          width: 47%;
+          height: 100%;
+          @include dFlex();
+          .urgentDateInnerContainer {
+            @include flexDir(column, $ai: flex-start);
+            .urgentDeadlineDate {
+              font-size: 21px;
+              font-weight: 700;
+            }
+            .urgentDeadlineText {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      .lowerRow {
+        width: 100%;
+        height: 33%;
+        @include dFlex($jc: space-between);
+        .row3InfoContent {
+          @include flexDir(column);
+          width: 30%;
+          height: 100%;
+          border-radius: 30px;
+          background-color: $white;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            background-color: $dblue;
+            transform: scale(1.1);
+            .row3Counter {
+              color: $white;
+            }
+            .row3Text {
+              color: $white;
+            }
+          }
+
+          .row3Counter {
+            @include dFlex();
+            font-size: 64px;
+            font-weight: 600;
+          }
+          .row3Text {
+            @include dFlex();
+            font-size: 20px;
+            text-align: center;
+            width: 80%;
+          }
+        }
+      }
+    }
+    .welcomeContainer {
+      width: 60%;
+      height: 70%;
+      max-height: 562px;
+      @include flexDir(column, $ai: flex-start);
+      .dayTime {
+        font-size: 47px;
+        font-weight: 500;
+        margin-left: 10%;
+      }
+      .userName {
+        font-size: 64px;
+        font-weight: 700;
+        color: $lblue;
+        margin-left: 10%;
+      }
+    }
+  }
+}

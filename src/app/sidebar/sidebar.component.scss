@@ -1,4 +1,5 @@
 @import "./../../styles.scss";
+
 .mainContent {
   width: 232px;
   height: 100vh;
@@ -22,7 +23,6 @@
     .navInnerContainer {
       width: 100%;
       height: 250px;
-      //   margin-left: 40px;
       .navContent {
         @include flexDir(row, flex-start, center);
         height: 55px;
@@ -30,9 +30,11 @@
         &:hover {
           background-color: $mblue;
         }
+        &.active-nav {
+          background-color: $mblue;
+        }
         img {
           margin-left: 40px;
-
           width: 30px;
           height: 30px;
         }
@@ -51,7 +53,6 @@
     margin-bottom: 72px;
     .footerInnerContainer {
       width: 100%;
-
       .footerLink {
         align-items: center;
         padding-left: 60px;
@@ -64,6 +65,9 @@
         }
         &:first-child {
           margin-bottom: 10px;
+        }
+        &.active-footer {
+          background-color: $mblue;
         }
       }
     }
