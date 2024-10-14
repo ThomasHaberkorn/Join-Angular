@@ -2,130 +2,139 @@
     <img src="assets/img/logo1.svg" alt="logo" id="introLogo" />
 </div>
 
+
+
 <div class="mainContent" style="display: none;">
     <div class="headerContent" id="headerContent">
         <div class="headerLogo">
             <img src="assets/img/logo1.svg" alt="logo" />
         </div>
         <div class="signUp">
-            <div class="signUpText">
-                <span>Not a Join user?</span>
-            </div>
-            <div class="notaUserButton" (click)="flipToSignUp()">Sign up</div>
-        </div>
-    </div>
-
-    <!-- ------------   Log in Container  --------------->
-
-    <div class="loginContainer" id="loginContainer">
-        <div class="loginContent">
-            <h1>Log in</h1>
-            <div class="line"></div>
-
-            <div class="formField mt24">
-                <input id="email" type="email" [disabled]="loading" [(ngModel)]="user.email" class="fullwidthInput"
-                    placeholder="E-Mail" required />
-                <img src="./../../assets/img/mail.png" alt="">
-            </div>
-
-            <div class="formField">
-                <input id="password" type="password" [disabled]="loading" [(ngModel)]="user.password"
-                    class="fullwidthInput" placeholder="Passwort" required
-                    (focus)="togglePasswordImg('logInPasswordImg', true)"
-                    (blur)="togglePasswordImg('logInPasswordImg', false)" />
-                <img src="./../../assets/img/lock.png" alt="" id="logInPasswordImg"
-                    (click)="togglePasswordVisibility('password', 'logInPasswordImg')">
-            </div>
-
-            <div class="logInError" id="logInError" style="display: none;">E-Mail-Adresse oder Passwort falsch!</div>
-
-
-            <div class="rememberMe">
-                <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
-                    (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
-                <span>Remember me</span>
-            </div>
-
-            <div class="loginButtonContainer">
-                <div class="loginButton">
-                    <button [disabled]="loading" (click)="login()" class="fullwidthButton">Log in</button>
+            <div class="signUpInner">
+                <div class="signUpText">
+                    <span>Not a Join user?</span>
                 </div>
-                <div class="guestLoginButton">
-                    <button [disabled]="loading" (click)="guestLogin()" class="fullwidthButton">Guest Log in</button>
-                </div>
+                <div class="notaUserButton" (click)="flipToSignUp()">Sign up</div>
             </div>
         </div>
-    </div>
+        <!-- </div> -->
 
-    <!-- -----------   Sign Up Container ------------->
+        <!-- ------------   Log in Container  --------------->
 
-    <div class="signupContainer" id="signupContainer" style="display: none;">
-        <div class="signupContent">
-            <img src="./../../assets/img/Vector.png" class="vectorImg" alt="" (click)="flipToLogIn()" id="vectorBtn" />
-            <h1>Sign up</h1>
-            <div class="line"></div>
+        <div class="loginContainer" id="loginContainer">
+            <div class="loginContent">
+                <h1 class="loginContentHeadline">Log in</h1>
+                <div class="line"></div>
 
-            <div class="nameContainer">
-                <div class="formFieldName mt24">
-                    <input id="firstName" type="text" [disabled]="loading" [(ngModel)]="user.firstName"
-                        class="fullwidthInput" placeholder="First Name" required />
-                    <input id="lastName" type="text" [disabled]="loading" [(ngModel)]="user.lastName"
-                        class="fullwidthInput" placeholder="Last Name" required />
+                <div class="formField mt24">
+                    <input id="email" type="email" [disabled]="loading" [(ngModel)]="user.email" class="fullwidthInput"
+                        placeholder="E-Mail" required />
+                    <img src="./../../assets/img/mail.png" alt="">
+                </div>
+
+                <div class="formField">
+                    <input id="password" type="password" [disabled]="loading" [(ngModel)]="user.password"
+                        class="fullwidthInput" placeholder="Passwort" required
+                        (focus)="togglePasswordImg('logInPasswordImg', true)"
+                        (blur)="togglePasswordImg('logInPasswordImg', false)" />
+                    <img src="./../../assets/img/lock.png" alt="" id="logInPasswordImg"
+                        (click)="togglePasswordVisibility('password', 'logInPasswordImg')">
+                </div>
+
+                <div class="logInError" id="logInError" style="display: none;">E-Mail-Adresse oder Passwort falsch!
+                </div>
+
+
+                <div class="rememberMe">
+                    <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
+                        (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
+                    <span>Remember me</span>
+                </div>
+
+                <div class="loginButtonContainer">
+                    <div class="loginButton">
+                        <button [disabled]="loading" (click)="login()" class="fullwidthButton">Log in</button>
+                    </div>
+                    <div class="guestLoginButton">
+                        <button [disabled]="loading" (click)="guestLogin()" class="fullwidthButton">Guest Log
+                            in</button>
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <!-- -----------   Sign Up Container ------------->
 
-            <div class="formField">
-                <input id="emailSignUp" type="email" [disabled]="loading" [(ngModel)]="user.email"
-                    class="fullwidthInput" placeholder="E-Mail" required (ngModelChange)="validateEmail()" />
-                <img src="./../../assets/img/mail.png" alt="">
-                <div *ngIf="!emailValid && emailTouched" class="error-message">
-                    Bitte geben Sie eine gültige E-Mail-Adresse ein.
+        <div class="signupContainer" id="signupContainer" style="display: none;">
+            <div class="signupContent">
+                <img src="./../../assets/img/Vector.png" class="vectorImg" alt="" (click)="flipToLogIn()"
+                    id="vectorBtn" />
+                <h1>Sign up</h1>
+                <div class="line"></div>
+
+                <div class="nameContainer">
+                    <div class="formFieldName mt24">
+                        <input id="firstName" type="text" [disabled]="loading" [(ngModel)]="user.firstName"
+                            class="fullwidthInput" placeholder="First Name" required />
+                        <input id="lastName" type="text" [disabled]="loading" [(ngModel)]="user.lastName"
+                            class="fullwidthInput" placeholder="Last Name" required />
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="formField">
-                <input id="signUpPassword" type="password" [disabled]="loading" [(ngModel)]="user.password"
-                    class="fullwidthInput" placeholder="Passwort" required name="password"
-                    (focus)="togglePasswordImg('SignUpPasswordImg', true)"
-                    (blur)="togglePasswordImg('SignUpPasswordImg', false)" />
-                <img src="./../../assets/img/lock.png" alt="" id="SignUpPasswordImg"
-                    (click)="togglePasswordVisibility('signUpPassword', 'SignUpPasswordImg')">
-            </div>
-
-            <div class="formField">
-                <input id="SignUpPasswordConfirm" type="password" [disabled]="loading"
-                    [(ngModel)]="user.passwordConfirm" class="fullwidthInput" placeholder="Confirm Passwort" required
-                    name="passwordConfirm" (focus)="togglePasswordImg('SignUpPasswordConfirmImg', true)"
-                    (blur)="togglePasswordImg('SignUpPasswordConfirmImg', false)"
-                    (ngModelChange)="validatePasswords()" />
-                <img src="./../../assets/img/lock.png" alt="" id="SignUpPasswordConfirmImg"
-                    (click)="togglePasswordVisibility('SignUpPasswordConfirm', 'SignUpPasswordConfirmImg')">
-                <div *ngIf="!passwordsMatch && passwordsTouched" class="error-message">
-                    Die Passwörter stimmen nicht überein.
+                <div class="formField">
+                    <input id="emailSignUp" type="email" [disabled]="loading" [(ngModel)]="user.email"
+                        class="fullwidthInput" placeholder="E-Mail" required (ngModelChange)="validateEmail()" />
+                    <img src="./../../assets/img/mail.png" alt="">
+                    <div *ngIf="!emailValid && emailTouched" class="error-message">
+                        Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="acceptCheck">
-                <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
-                    (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
-                <span>I accept the <a href="" class="ppBlue">Privacy policy</a> </span>
-            </div>
-
-            <div class="signupButtonContainer">
-                <div class="signupButton">
-                    <button (click)="signUp()" [disabled]="!isFormValid()" class="fullwidthButton">Sign up</button>
+                <div class="formField">
+                    <input id="signUpPassword" type="password" [disabled]="loading" [(ngModel)]="user.password"
+                        class="fullwidthInput" placeholder="Passwort" required name="password"
+                        (focus)="togglePasswordImg('SignUpPasswordImg', true)"
+                        (blur)="togglePasswordImg('SignUpPasswordImg', false)" />
+                    <img src="./../../assets/img/lock.png" alt="" id="SignUpPasswordImg"
+                        (click)="togglePasswordVisibility('signUpPassword', 'SignUpPasswordImg')">
                 </div>
+
+                <div class="formField">
+                    <input id="SignUpPasswordConfirm" type="password" [disabled]="loading"
+                        [(ngModel)]="user.passwordConfirm" class="fullwidthInput" placeholder="Confirm Passwort"
+                        required name="passwordConfirm" (focus)="togglePasswordImg('SignUpPasswordConfirmImg', true)"
+                        (blur)="togglePasswordImg('SignUpPasswordConfirmImg', false)"
+                        (ngModelChange)="validatePasswords()" />
+                    <img src="./../../assets/img/lock.png" alt="" id="SignUpPasswordConfirmImg"
+                        (click)="togglePasswordVisibility('SignUpPasswordConfirm', 'SignUpPasswordConfirmImg')">
+                    <div *ngIf="!passwordsMatch && passwordsTouched" class="error-message">
+                        Die Passwörter stimmen nicht überein.
+                    </div>
+                </div>
+
+
+                <div class="acceptCheck">
+                    <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
+                        (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
+                    <span>I accept the <a href="" class="ppBlue">Privacy policy</a> </span>
+                </div>
+
+                <div class="signupButtonContainer">
+                    <div class="signupButton">
+                        <button (click)="signUp()" [disabled]="!isFormValid()" class="fullwidthButton">Sign up</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
-
-    </div>
-    <div class="footerContent">
-        <div class="footerLink">
-            <span (click)="navigateToPrivacyPolicy()">Privacy Policy</span>
-            <span (click)="navigateToLegalNotice()">Legal Notice</span>
+        <div class="footerContent">
+            <div class="footerLink">
+                <span (click)="navigateToPrivacyPolicy()">Privacy Policy</span>
+                <span (click)="navigateToLegalNotice()">Legal Notice</span>
+            </div>
         </div>
     </div>
+</div>

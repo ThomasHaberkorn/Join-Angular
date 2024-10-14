@@ -49,6 +49,9 @@ constructor(private fb: FormBuilder, private firestore: Firestore, private route
   });
 }
 
+
+
+
 isFormValid(): boolean {
   if (!this.user) {
     return false; // Falls der Benutzer nicht initialisiert ist
@@ -122,7 +125,6 @@ async loadUsersFromFirestore() {
       user.id = doc.id; 
       return user;
     });
-    console.log('Users loaded:', this.users);
   } catch (error) {
     console.error('Error loading users:', error);
   }
@@ -328,7 +330,7 @@ flipToLogIn(): void {
       onComplete: () => {
         // Nach der Drehung Signup-Container verstecken und Login-Container anzeigen
         signupContainer.style.display = 'none';
-        loginContainer.style.display = 'block';
+        loginContainer.style.display = 'flex';
 
         // Setze den Login-Container zurück (Start mit -180 Grad)
         gsap.fromTo(loginContainer, { rotationX: -180 }, { duration: 0.6, rotationX: 0 });

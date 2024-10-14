@@ -1,0 +1,51 @@
+@media screen and (max-width: 1000px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        img {
+          scale: 0.75;
+        }
+      }
+      .signUp {
+        top: 90% !important;
+        right: auto !important;
+        left: auto !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .headerLogo {
+    top: -8% !important;
+    left: -80px !important;
+
+    img {
+      transition: transform 0.5s ease-in-out;
+      transform: scale(0.5) !important;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .loginContentHeadline {
+    font-size: 51px !important;
+  }
+  .logInError {
+    font-size: 14px;
+    margin-left: 0 !important;
+  }
+  .rememberMe {
+    margin-left: 0 !important;
+  }
+  .loginButtonContainer {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+    .loginButton {
+      button {
+        width: 177px !important;
+      }
+    }
+  }
+}

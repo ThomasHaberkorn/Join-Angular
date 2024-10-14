@@ -1,4 +1,5 @@
 @import "./../../styles.scss";
+@import "./loginMedia.scss";
 
 .mt24 {
   margin-top: 40px;
@@ -18,224 +19,99 @@
 }
 
 .mainContent {
-  max-width: 1920px;
   height: 100vh;
-  @include flexDir(column);
+
+  position: relative;
   .headerContent {
-    @include dFlex($jc: space-between);
+    @include flexDir(column);
     width: 100vw;
-    height: 150px;
-    top: 70px;
-    overflow: hidden;
+    max-width: 1400px;
+    height: 100%;
+    position: relative;
     .headerLogo {
       scale: 0.365;
+      position: absolute;
+      top: -5%;
+      left: 0%;
     }
+
     .signUp {
-      display: none;
-      @include flexDir($dir: row);
-      gap: 35px;
-      margin-top: -70px;
-      .signUpText {
-        font-size: 20px;
-      }
-      .notaUserButton {
-        font-size: 19px;
-        font-weight: 500;
-        color: $white;
-        background-color: $dblue;
-        width: 91px;
-        height: 49px;
-        border-radius: 5px;
-        @include dFlex();
-        margin-right: 122px;
-        cursor: pointer;
-        &:hover {
-          background-color: $lblue;
-          box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
-        }
-      }
-    }
-  }
-  .loginContainer {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    .loginContent {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      width: 652px;
-      height: 493px;
-      background-color: $white;
-      border-radius: 40px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      h1 {
-        font-size: 61px;
-        font-weight: 700;
-        margin-top: 60;
-        margin-bottom: 20px;
-      }
+      position: absolute;
+      top: 17%;
+      right: 8%;
 
-      .line {
-        width: 150px;
-        height: 3px;
-        background-color: $lblue;
-        border-radius: 10px;
-      }
-      .formField {
-        width: 422px;
-        margin-bottom: 32px;
-        position: relative;
-        input {
-          outline: none;
-          width: 98%;
-          height: 48px;
-          border-radius: 10px;
-          border: 2px solid $inputGrey;
+      .signUpInner {
+        @include flexDir($dir: row);
+        gap: 35px;
+        margin-top: -50px;
+        .signUpText {
           font-size: 20px;
-          padding-left: 10px;
-
-          &:focus {
-            outline: none;
-            border: 2px solid $lblue;
-          }
-          &::placeholder {
-            font-size: 20px;
-            margin-left: 100px;
-            color: $inputGrey;
-          }
         }
-        img {
-          position: absolute;
-          right: 13px;
-          top: 15px;
-        }
-      }
-      .logInError {
-        // display: none;
-        color: $red;
-        font-size: 16px;
-        margin-top: -24px;
-        margin-bottom: 5px;
-        margin-left: 10px;
-      }
-      .rememberMe {
-        margin-left: -190px;
-        @include flexDir($dir: row, $jc: center);
-        img {
+        .notaUserButton {
+          font-size: 19px;
+          font-weight: 500;
+          color: $white;
+          background-color: $dblue;
+          width: 91px;
+          height: 49px;
+          border-radius: 5px;
+          @include dFlex();
           cursor: pointer;
-        }
-        span {
-          margin-top: 3px;
-          margin-left: 10px;
-          font-size: 16px;
-        }
-      }
-      .loginButtonContainer {
-        @include flexDir($dir: row, $jc: space-between);
-        gap: 20px;
-        margin-top: 32px;
-        .loginButton {
-          button {
-            font-size: 19px;
-            font-weight: 700;
-            color: $white;
-            background-color: $dblue;
-            color: $white;
-            border: none;
-            border-radius: 10px;
-            width: 110px;
-            height: 48px;
-            cursor: pointer;
-            &:hover {
-              background-color: $lblue;
-              box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
-            }
-          }
-        }
-        .guestLoginButton {
-          button {
-            font-size: 19px;
-            font-weight: 700;
-            color: $white;
-            background-color: $white;
-            color: $dblue;
-            border: 2px solid $dblue;
-            border-radius: 10px;
-            width: 177px;
-            height: 48px;
-            cursor: pointer;
-            &:hover {
-              border-color: $lblue;
-              color: $lblue;
-              box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
-            }
+          &:hover {
+            background-color: $lblue;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
           }
         }
       }
     }
-  }
-  .signupContainer {
-    width: 598px;
-    height: 630px;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    .signupContent {
-      @include flexDir($dir: column);
-      position: relative;
+    // }
+    .loginContainer {
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      width: 100%;
       height: 100%;
-      margin-top: 50px;
-      background-color: $white;
-      border-radius: 40px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      .vectorImg {
-        position: absolute;
-        top: 70px;
-        left: 90px;
-        width: 21px;
-        height: 20px;
-        cursor: pointer;
-      }
-      h1 {
-        margin-top: 0px;
-        font-size: 61px;
-        font-weight: 700;
-        margin-bottom: 2px;
-      }
+      max-height: 493px;
+      @include dFlex();
+      .loginContent {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        max-width: 652px;
+        height: 100%;
+        background-color: $white;
+        border-radius: 40px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin: 0 20px;
+        h1 {
+          font-size: 61px;
+          font-weight: 700;
+          margin-top: 60;
+          margin-bottom: 20px;
+        }
 
-      .line {
-        width: 150px;
-        height: 3px;
-        background-color: $lblue;
-        border-radius: 10px;
-        margin-top: 15px;
-      }
-      .nameContainer {
-        .formFieldName {
-          @include flexDir($dir: row);
-          width: 427px;
-          margin-left: 5px;
-          margin-bottom: 24px;
+        .line {
+          width: 150px;
+          height: 3px;
+          background-color: $lblue;
+          border-radius: 10px;
+        }
+        .formField {
+          width: 100%;
+          max-width: 422px;
+          margin-bottom: 32px;
+          position: relative;
+          @include dFlex();
           input {
             outline: none;
-            width: 50%;
+            width: 98%;
             height: 48px;
+            border-radius: 10px;
+            border: 2px solid $inputGrey;
             font-size: 20px;
-
-            cursor: pointer;
-            &:first-child {
-              border-top-left-radius: 10px;
-              border-bottom-left-radius: 10px;
-              border: 2px solid $inputGrey;
-              border-right: none; // Entfernt die rechte Grenze für das erste Kind
-              padding-left: 10px;
-            }
-
-            &:last-child {
-              border-top-right-radius: 10px;
-              border-bottom-right-radius: 10px;
-              border: 2px solid $inputGrey;
-              padding-left: 10px;
-            }
+            padding-left: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
             &:focus {
               outline: none;
               border: 2px solid $lblue;
@@ -246,98 +122,241 @@
               color: $inputGrey;
             }
           }
-        }
-      }
-      .formField {
-        width: 422px;
-        margin-bottom: 24px;
-        position: relative;
-        input {
-          outline: none;
-          width: 98%;
-          height: 48px;
-          border-radius: 10px;
-          border: 2px solid $inputGrey;
-          font-size: 20px;
-          padding-left: 10px;
-          &:focus {
-            outline: none;
-            border: 2px solid $lblue;
-          }
-          &::placeholder {
-            font-size: 20px;
-            color: $inputGrey;
-            // padding-left: 10px;
+          img {
+            position: absolute;
+            right: 35px;
+            top: 15px;
           }
         }
-        img {
-          position: absolute;
-          right: 13px;
-          top: 15px;
-          cursor: pointer;
-        }
-        .error-message {
+        .logInError {
+          // display: none;
           color: $red;
-          font-size: 13px;
-          margin-top: 3px;
-          margin-bottom: -18px;
-          margin-left: 10px;
-        }
-      }
-      .acceptCheck {
-        @include flexDir($dir: row, $jc: center);
-        img {
-          cursor: pointer;
-        }
-        span {
-          margin-top: 3px;
-          margin-left: 10px;
           font-size: 16px;
-          a {
-            color: $lblue;
-            text-decoration: none;
+          margin-top: -24px;
+          margin-bottom: 5px;
+          margin-left: 10px;
+        }
+        .rememberMe {
+          margin-left: -190px;
+          @include flexDir($dir: row, $jc: center);
+          img {
+            cursor: pointer;
+          }
+          span {
+            margin-top: 3px;
+            margin-left: 10px;
+            font-size: 16px;
           }
         }
-      }
-      .signupButtonContainer {
-        button {
-          font-size: 19px;
-          font-weight: 700;
-          color: $white;
-          background-color: $dblue;
-          color: $white;
-          border: none;
-          border-radius: 10px;
-          width: 110px;
-          height: 48px;
+        .loginButtonContainer {
+          @include flexDir($dir: row, $jc: space-between);
+          gap: 20px;
           margin-top: 32px;
-          cursor: pointer;
-          &:hover {
-            background-color: $lblue;
-            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+          .loginButton {
+            button {
+              font-size: 19px;
+              font-weight: 700;
+              color: $white;
+              background-color: $dblue;
+              color: $white;
+              border: none;
+              border-radius: 10px;
+              width: 110px;
+              height: 48px;
+              cursor: pointer;
+              &:hover {
+                background-color: $lblue;
+                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+              }
+            }
           }
-          &:disabled {
-            background-color: $inputGrey;
-            cursor: not-allowed;
+          .guestLoginButton {
+            button {
+              font-size: 19px;
+              font-weight: 700;
+              color: $white;
+              background-color: $white;
+              color: $dblue;
+              border: 2px solid $dblue;
+              border-radius: 10px;
+              width: 177px;
+              height: 48px;
+              cursor: pointer;
+              &:hover {
+                border-color: $lblue;
+                color: $lblue;
+                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+              }
+            }
           }
         }
       }
     }
-  }
-  .footerContent {
-    position: absolute;
-    @include dFlex($jc: center);
-    width: 100%;
-    height: 70px;
-    bottom: 0;
-    gap: 20px;
-    .footerLink {
-      gap: 30px;
-      > span {
-        font-size: 16px;
-        color: $borderGrey;
-        margin: 0 12px;
-        cursor: pointer;
+    .signupContainer {
+      width: 598px;
+      height: 630px;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      .signupContent {
+        @include flexDir($dir: column);
+        position: relative;
+        height: 100%;
+        // margin-top: 50px;
+        background-color: $white;
+        border-radius: 40px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        .vectorImg {
+          position: absolute;
+          top: 70px;
+          left: 90px;
+          width: 21px;
+          height: 20px;
+          cursor: pointer;
+        }
+        h1 {
+          margin-top: 0px;
+          font-size: 61px;
+          font-weight: 700;
+          margin-bottom: 2px;
+        }
+
+        .line {
+          width: 150px;
+          height: 3px;
+          background-color: $lblue;
+          border-radius: 10px;
+          margin-top: 15px;
+        }
+        .nameContainer {
+          .formFieldName {
+            @include flexDir($dir: row);
+            width: 427px;
+            margin-left: 5px;
+            margin-bottom: 24px;
+            input {
+              outline: none;
+              width: 50%;
+              height: 48px;
+              font-size: 20px;
+
+              cursor: pointer;
+              &:first-child {
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                border: 2px solid $inputGrey;
+                border-right: none; // Entfernt die rechte Grenze für das erste Kind
+                padding-left: 10px;
+              }
+
+              &:last-child {
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border: 2px solid $inputGrey;
+                padding-left: 10px;
+              }
+              &:focus {
+                outline: none;
+                border: 2px solid $lblue;
+              }
+              &::placeholder {
+                font-size: 20px;
+                margin-left: 100px;
+                color: $inputGrey;
+              }
+            }
+          }
+        }
+        .formField {
+          width: 422px;
+          margin-bottom: 24px;
+          position: relative;
+          input {
+            outline: none;
+            width: 98%;
+            height: 48px;
+            border-radius: 10px;
+            border: 2px solid $inputGrey;
+            font-size: 20px;
+            padding-left: 10px;
+            &:focus {
+              outline: none;
+              border: 2px solid $lblue;
+            }
+            &::placeholder {
+              font-size: 20px;
+              color: $inputGrey;
+              // padding-left: 10px;
+            }
+          }
+          img {
+            position: absolute;
+            right: 13px;
+            top: 15px;
+            cursor: pointer;
+          }
+          .error-message {
+            color: $red;
+            font-size: 13px;
+            margin-top: 3px;
+            margin-bottom: -18px;
+            margin-left: 10px;
+          }
+        }
+        .acceptCheck {
+          @include flexDir($dir: row, $jc: center);
+          img {
+            cursor: pointer;
+          }
+          span {
+            margin-top: 3px;
+            margin-left: 10px;
+            font-size: 16px;
+            a {
+              color: $lblue;
+              text-decoration: none;
+            }
+          }
+        }
+        .signupButtonContainer {
+          button {
+            font-size: 19px;
+            font-weight: 700;
+            color: $white;
+            background-color: $dblue;
+            color: $white;
+            border: none;
+            border-radius: 10px;
+            width: 110px;
+            height: 48px;
+            margin-top: 32px;
+            cursor: pointer;
+            &:hover {
+              background-color: $lblue;
+              box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+            }
+            &:disabled {
+              background-color: $inputGrey;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+    .footerContent {
+      position: absolute;
+      @include dFlex($jc: center);
+      width: 100%;
+      height: 70px;
+      bottom: 0;
+      gap: 20px;
+      .footerLink {
+        gap: 30px;
+        > span {
+          font-size: 16px;
+          color: $borderGrey;
+          margin: 0 12px;
+          cursor: pointer;
+        }
       }
     }
   }

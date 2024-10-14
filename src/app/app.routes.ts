@@ -33,23 +33,3 @@ export const routes: Routes = [
   { path: '**', redirectTo: 'login', pathMatch: 'full' }  // Fallback
 ];
 
-
-// export const routes: Routes = [];
-
-// export const routes: Routes = [
-//   { path: 'login', component: LoginComponent },
-//   { 
-//     path: 'dashboard', 
-//     component: DashboardComponent,
-//     //canActivate: [AuthGuard],  // Schutz für eingeloggte Benutzer
-//     children: [
-//       { path: 'summary', component: SummaryComponent },
-//       { path: 'add-task', component: AddTaskComponent },
-//       { path: 'board', component: BoardComponent },
-//       { path: 'users', component: UsersComponent },
-//       { path: '', redirectTo: 'summary', pathMatch: 'full' } // Standardroute für Dashboard
-//     ]
-//   },
-//   { path: '', redirectTo: 'login', pathMatch: 'full' },  // Standardroute beim Laden der App
-//   { path: '**', redirectTo: 'login', pathMatch: 'full' }  // Fallback
-// ];
