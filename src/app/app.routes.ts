@@ -7,6 +7,8 @@ import { BoardComponent } from './dashboard/board/board.component';
 import { UsersComponent } from './dashboard/users/users.component';
 import { AuthGuard } from './auth.guard';
 import { HelpPageComponent } from './shared/help-page/help-page.component';
+import { PrivacyPolicyComponent } from './shared/privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './shared/legal-notice/legal-notice.component';
 
 
 export const routes: Routes = [
@@ -17,11 +19,13 @@ export const routes: Routes = [
     component: DashboardComponent, // Diese Komponente wird als Hauptcontainer verwendet
     //canActivate: [AuthGuard],  // Aktiviere den AuthGuard, wenn gewünscht
     children: [
-      { path: 'summary', component: SummaryComponent },
-      { path: 'add-task', component: AddTaskComponent },
-      { path: 'board', component: BoardComponent },
-      { path: 'users', component: UsersComponent },
+      { path: 'summary', component: SummaryComponent, canActivate: [AuthGuard] },
+      { path: 'add-task', component: AddTaskComponent, canActivate: [AuthGuard] },
+      { path: 'board', component: BoardComponent, canActivate: [AuthGuard] },
+      { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
       { path: 'help', component: HelpPageComponent},
+      { path: 'privacy', component: PrivacyPolicyComponent},
+      { path: 'legal', component: LegalNoticeComponent},
       { path: '', redirectTo: 'summary', pathMatch: 'full' } // Standardroute im Dashboard
     ]
   },

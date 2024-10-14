@@ -1,4 +1,4 @@
-<div class="mainContent">
+<!-- <div class="mainContent">
     <div class="logoContainer">
         <img src="./../../assets/img/join-logo-white.png" alt="">
     </div>
@@ -28,10 +28,46 @@
     </div>
     <div class="footerContent">
         <div class="footerInnerContainer">
-            <div class="privacyPolicy footerLink" [ngClass]="{ 'active-footer': isRouteActive('/privacy-policy') }"
+            <div class="privacyPolicy footerLink" [ngClass]="{ 'active-footer': isRouteActive('/dashboard/privacy') }"
                 (click)="navigateToPrivacyPolicy()">Privacy Policy</div>
-            <div class="legalNotice footerLink" [ngClass]="{ 'active-footer': isRouteActive('/legal-notice') }"
+            <div class="legalNotice footerLink" [ngClass]="{ 'active-footer': isRouteActive('/dashboard/legal') }"
                 (click)="navigateToLegalNotice()">Legal Notice</div>
+        </div>
+    </div>
+</div> -->
+
+<div class="mainContent">
+    <div class="logoContainer">
+        <img src="./../../assets/img/join-logo-white.png" alt="">
+    </div>
+    <div class="navContainer">
+        <div class="navInnerContainer">
+            <div [ngClass]="getNavClass('/dashboard/summary')" (click)="navigateToSummary()">
+                <img src="./../../assets/img/sidebarSummaryIcons.png" alt="">
+                <span>Summary</span>
+            </div>
+            <div [ngClass]="getNavClass('/dashboard/add-task')" (click)="navigateToAddTask()">
+                <img src="./../../assets/img/sidebarAddTaskIcons.png" alt="">
+                <span>Add Task</span>
+            </div>
+            <div [ngClass]="getNavClass('/dashboard/board')" (click)="navigateToBoard()">
+                <img src="./../../assets/img/sidebarBoardIcons.png" alt="">
+                <span>Board</span>
+            </div>
+            <div [ngClass]="getNavClass('/dashboard/users')" (click)="navigateToUsers()">
+                <img src="./../../assets/img/sidebarContactsIcons.png" alt="">
+                <span>Contacts</span>
+            </div>
+        </div>
+    </div>
+    <div class="footerContent">
+        <div class="footerInnerContainer">
+            <div class="privacyPolicy footerLink" [ngClass]="{ 'active-footer': isRouteActive('/dashboard/privacy') }"
+                (click)="navigateToPrivacyPolicy()">Privacy Policy
+            </div>
+            <div class="legalNotice footerLink" [ngClass]="{ 'active-footer': isRouteActive('/dashboard/legal') }"
+                (click)="navigateToLegalNotice()">Legal Notice
+            </div>
         </div>
     </div>
 </div>

@@ -20,21 +20,24 @@
 // }
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
   constructor(private router: Router) {}
 
-  canActivate(): boolean {
-    const isAuthenticated = !!localStorage.getItem('user');  // Prüfe, ob ein Nutzer angemeldet ist
-    if (!isAuthenticated) {
-      this.router.navigate(['/login']);  // Umleitung zum Login, falls nicht angemeldet
-      return false;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const userType = sessionStorage.getItem('userType');
+
+    // Prüfen, ob der Nutzer angemeldet ist
+    if (userType === 'user' || userType === 'guest') {
+      return true; // Der Nutzer ist berechtigt, die Route zu betreten
     }
-    return true;
+
+    // Wenn der Nutzer nicht angemeldet ist, leite zur Help-Seite um
+    this.router.navigate(['/dashboard/help']);
+    return false;
   }
 }

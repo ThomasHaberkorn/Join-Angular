@@ -365,6 +365,14 @@ flipToLogIn(): void {
     this.router.navigate(['/dashboard/summary']);
   }
 
+  navigateToPrivacyPolicy() {
+    this.router.navigate(['/dashboard/privacy']);
+  }
+
+  navigateToLegalNotice() {
+    this.router.navigate(['/dashboard/legal']);
+  }
+
   login() {
     this.onSubmitLogin();
    
