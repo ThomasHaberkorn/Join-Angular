@@ -20,7 +20,7 @@
 
 .mainContent {
   height: 100vh;
-
+  overflow: hidden;
   position: relative;
   .headerContent {
     @include flexDir(column);
@@ -32,7 +32,7 @@
       scale: 0.365;
       position: absolute;
       top: -5%;
-      left: 0%;
+      left: -1%;
     }
 
     .signUp {
@@ -193,22 +193,25 @@
       }
     }
     .signupContainer {
-      width: 598px;
-      height: 630px;
+      width: 100%;
+      max-width: 598px;
+      max-height: 630px;
+      height: 100%;
       transform-style: preserve-3d;
       backface-visibility: hidden;
       .signupContent {
         @include flexDir($dir: column);
         position: relative;
         height: 100%;
+        width: 100%;
         // margin-top: 50px;
         background-color: $white;
         border-radius: 40px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         .vectorImg {
           position: absolute;
-          top: 70px;
-          left: 90px;
+          top: 8%;
+          left: 7%;
           width: 21px;
           height: 20px;
           cursor: pointer;
@@ -228,9 +231,13 @@
           margin-top: 15px;
         }
         .nameContainer {
+          width: 100%;
+          max-width: 427px;
+          @include dFlex();
           .formFieldName {
             @include flexDir($dir: row);
-            width: 427px;
+            width: 100%;
+            max-width: 427px;
             margin-left: 5px;
             margin-bottom: 24px;
             input {
@@ -259,6 +266,7 @@
                 border: 2px solid $lblue;
               }
               &::placeholder {
+                width: 100%;
                 font-size: 20px;
                 margin-left: 100px;
                 color: $inputGrey;
@@ -267,7 +275,8 @@
           }
         }
         .formField {
-          width: 422px;
+          width: 100%;
+          max-width: 422px;
           margin-bottom: 24px;
           position: relative;
           input {
