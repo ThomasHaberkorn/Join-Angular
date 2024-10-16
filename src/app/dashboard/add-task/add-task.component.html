@@ -78,31 +78,6 @@
                 </select>
 
 
-                <!-- <div class="subtasks">
-                    <h4>Subtasks</h4>
-                    <div class="subtaskContainer">
-                        <div class="subtaskInputWrapper inputFieldAddTask">
-                            <div class="subtaskInput" contenteditable="true" #subtaskInput
-                                (keydown)="preventEnter($event)"></div>
-                            <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
-                                (click)="addSubtask(subtaskInput)">
-                        </div>
-                    </div>
-
-                    <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
-                        <ul class="listClass">
-                            <li *ngFor="let subtask of task.subtasks; let i = index">
-                                {{ subtask }}
-                                <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
-                                    (click)="deleteSubtask(i)" class="deleteIcon">
-                            </li>
-
-                        </ul>
-                    </div>
-
-                </div> -->
-
-
 
                 <div class="subtasks">
                     <h4>Subtasks</h4>
@@ -129,15 +104,18 @@
 
 
 
-                <div class="buttonContainer">
-                    <div class="required"><span>*</span> This field is required</div>
-                    <div class="addTaskButtons">
-                        <div class="clearButton" (click)="clearForm()">Clear <img src="./../../../assets/img/cross.png"
-                                alt="">
-                        </div>
-                        <div class="createButton" (click)="createTask()">Create Task <img
-                                src="./../../../assets/img/check.png" alt=""></div>
+
+            </div>
+        </div>
+        <div class="buttonContainer">
+            <div class="buttonInnerContainer">
+                <div class="required"><span>*</span> This field is required</div>
+                <div class="addTaskButtons">
+                    <div class="clearButton" (click)="clearForm()">Clear <img src="./../../../assets/img/cross.png"
+                            alt="">
                     </div>
+                    <div class="createButton" (click)="createTask()">Create Task <img
+                            src="./../../../assets/img/check.png" alt=""></div>
                 </div>
             </div>
         </div>

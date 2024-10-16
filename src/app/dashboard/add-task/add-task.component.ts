@@ -111,6 +111,7 @@ export class AddTaskComponent {
   clearForm() {
     this.task = new Task(); 
     this.task.priority = 'Medium';
+    this.closeModal();
   }
 
 

@@ -219,10 +219,19 @@
 
 <!-- AddTask Modal -->
 
+<!-- <div class="modal-overlay" *ngIf="showAddTaskModal" (click)="closeAddTaskModal()">
+    <div class="modal-background">
+        <div class="modal-content">
+            <app-add-task [isModal]="true" [status]="task.status" (close)="closeAddTaskModal()"
+                (click)="$event.stopPropagation()"></app-add-task>
+        </div>
+    </div>
+</div> -->
 <div class="modal-overlay" *ngIf="showAddTaskModal">
     <div class="modal-background" (click)="closeAddTaskModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
-            <app-add-task [isModal]="true" [status]="task.status" (close)="closeAddTaskModal()"></app-add-task>
+            <app-add-task [isModal]="true" [status]="task.status" (close)="closeAddTaskModal()"
+                class="modal-add-task"></app-add-task>
         </div>
     </div>
 </div>
