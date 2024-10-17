@@ -363,6 +363,7 @@
                     .listClass {
                       li {
                         .deleteIcon {
+                          margin-left: 1px;
                         }
                       }
                     }
@@ -390,6 +391,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
   @include dFlex();
+
   .cardInnerDetail {
     position: relative;
     width: 40%;
@@ -400,164 +402,173 @@
     border-radius: 20px;
     margin-left: 10%;
     @include flexDir(column, $jc: flex-start);
-    .cardDetailHead {
-      width: 100%;
-      height: 50px;
-      margin-top: 20px;
-      @include dFlex($jc: space-between);
-      .categoryHead {
-        @include dFlex();
-        width: 160px;
-        height: 40px;
-        margin-left: 28px;
-        border-radius: 10px;
-        &.techTask {
-          background-color: $techTask;
-        }
 
-        &.userStory {
-          background-color: $userStory;
-        }
-      }
-      img {
-        cursor: pointer;
-        margin-top: 10px;
-        margin-right: 10px;
-        // float: right;
-        margin-right: 25px;
-        width: 15px;
-        height: 15px;
-      }
-    }
-    .cardDetailContent {
-      width: 90%;
-      height: 60%;
-      h1 {
-        font-size: 50px;
-        font-weight: 700;
-        color: $dblue;
-        margin: 20px 0;
-      }
-      p,
-      .priority,
-      .subt {
-        font-size: 20px;
-        margin: 15px 0 10px;
-      }
-      .description {
-        .descriptionField {
-          @include dFlex($jc: space-between);
-          p {
-            font-size: 20px;
-            margin: 15px 0 10px;
+    .cardInnerContent {
+      width: 93%;
+      height: 87%;
+      overflow-y: scroll;
+      margin-left: 10px;
+      margin-top: 15px;
+      overflow-y: scroll;
+      .cardDetailHead {
+        width: 100%;
+        height: 50px;
+        margin-top: 20px;
+        @include dFlex($jc: space-between);
+        .categoryHead {
+          @include dFlex();
+          width: 160px;
+          height: 40px;
+          margin-left: 0px;
+          border-radius: 10px;
+          &.techTask {
+            background-color: $techTask;
+          }
+
+          &.userStory {
+            background-color: $userStory;
           }
         }
-        .descriptionEditField {
-          @include dFlex($jc: space-between);
-          width: 100%;
-          textarea {
-            width: 70%;
-            max-height: 25px;
-            border: 2px solid $inputGrey;
-            border-radius: 10px;
-            padding: 10px;
+        img {
+          cursor: pointer;
+          margin-top: 10px;
+          margin-right: 10px;
+          // float: right;
+          margin-right: 25px;
+          width: 15px;
+          height: 15px;
+        }
+      }
+      .cardDetailContent {
+        width: 90%;
+        height: 60%;
+        h1 {
+          font-size: 40px;
+          font-weight: 700;
+          color: $dblue;
+          margin: 20px 0;
+        }
+        p,
+        .priority,
+        .subt {
+          font-size: 20px;
+          margin: 15px 0 10px;
+        }
+        .description {
+          .descriptionField {
+            @include dFlex($jc: space-between);
+            p {
+              font-size: 20px;
+              margin: 15px 0 10px;
+            }
+          }
+          .descriptionEditField {
+            @include dFlex($jc: space-between);
+            width: 100%;
+            textarea {
+              width: 70%;
+              max-height: 25px;
+              border: 2px solid $inputGrey;
+              border-radius: 10px;
+              padding: 10px;
+              font-size: 20px;
+              resize: none;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+        }
+        .priority {
+          @include dFlex($jc: flex-start);
+          gap: 3%;
+          .prioStatus {
+            @include dFlex();
+            gap: 7%;
+            width: 106px;
+          }
+        }
+        .contactsDetail {
+          @include flexDir(column, $jc: flex-start, $ai: flex-start);
+          // gap: 10px;
+          min-height: 96px;
+          max-height: 144px;
+          overflow-y: scroll;
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          .contactWrapper {
+            @include dFlex($jc: flex-start);
+            gap: 10px;
+            margin-top: 10px;
+            margin-left: 20px;
+            &:last-child {
+              margin-bottom: 10px;
+            }
+            .contactDetail {
+              @include dFlex();
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              color: white;
+              font-size: 16px;
+            }
+            .userName {
+              font-size: 20px;
+              color: black;
+            }
+          }
+        }
+        // .subt {
+        // }
+        .subtaskWrapper {
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          min-height: 33px;
+          max-height: 90px;
+          overflow-y: scroll;
+
+          .subtask {
             font-size: 20px;
-            resize: none;
-            &:focus {
-              outline: none;
+            margin-top: 4px;
+            margin-left: 20px;
+            &:last-child {
+              margin-bottom: 5px;
+            }
+            input {
+              margin-right: 10px;
             }
           }
         }
       }
-      .priority {
-        @include dFlex($jc: flex-start);
-        gap: 3%;
-        .prioStatus {
+      .detailButtonContainer {
+        position: absolute;
+        bottom: 2vh;
+        width: 100%;
+        height: 50px;
+        @include dFlex($jc: flex-end, $ai: center);
+        .deleteDetailButton {
           @include dFlex();
-          gap: 7%;
-          width: 106px;
-        }
-      }
-      .contactsDetail {
-        @include flexDir(column, $jc: flex-start, $ai: flex-start);
-        // gap: 10px;
-        min-height: 96px;
-        max-height: 144px;
-        overflow-y: scroll;
-        border: 2px solid $inputGrey;
-        border-radius: 10px;
-        .contactWrapper {
-          @include dFlex($jc: flex-start);
           gap: 10px;
-          margin-top: 10px;
-          margin-left: 20px;
-          &:last-child {
-            margin-bottom: 10px;
-          }
-          .contactDetail {
-            @include dFlex();
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            color: white;
-            font-size: 16px;
-          }
-          .userName {
-            font-size: 20px;
-            color: black;
-          }
+          width: 100px;
+          height: 40px;
+          cursor: pointer;
+          color: $dblue;
+          margin-right: 26px;
         }
-      }
-      // .subt {
-      // }
-      .subtaskWrapper {
-        border: 2px solid $inputGrey;
-        border-radius: 10px;
-        min-height: 33px;
-        max-height: 90px;
-        overflow-y: scroll;
-
-        .subtask {
-          font-size: 20px;
-          margin-top: 4px;
-          margin-left: 20px;
-          &:last-child {
-            margin-bottom: 5px;
-          }
-          input {
-            margin-right: 10px;
-          }
+        .line {
+          width: 2px;
+          height: 30px;
+          background-color: $borderGrey;
         }
-      }
-    }
-    .detailButtonContainer {
-      position: absolute;
-      bottom: 2vh;
-      width: 100%;
-      height: 50px;
-      @include dFlex($jc: flex-end, $ai: center);
-      .deleteDetailButton {
-        @include dFlex();
-        gap: 10px;
-        width: 100px;
-        height: 40px;
-        cursor: pointer;
-        color: $dblue;
-        margin-right: 26px;
-      }
-      .line {
-        width: 2px;
-        height: 30px;
-        background-color: $borderGrey;
-      }
-      .editDetailButton {
-        @include dFlex();
-        gap: 10px;
-        width: 80px;
-        height: 40px;
-        margin-right: 20px;
-        cursor: pointer;
-        color: $dblue;
+        .editDetailButton {
+          @include dFlex();
+          gap: 10px;
+          width: 80px;
+          height: 40px;
+          margin-right: 20px;
+          cursor: pointer;
+          color: $dblue;
+        }
       }
     }
   }

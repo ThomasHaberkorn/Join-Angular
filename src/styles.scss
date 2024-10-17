@@ -44,6 +44,7 @@ body {
   @include dFlex();
   font-family: "Inter", sans-serif;
   overflow: hidden;
+  position: relative;
 }
 
 html,

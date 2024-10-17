@@ -242,50 +242,51 @@
 
 <div class="cardDetail" *ngIf="selectedTask" (click)="closeCardDetail()">
     <div class="cardInnerDetail" (click)="$event.stopPropagation()">
-        <div class="cardDetailHead">
-            <div class="categoryHead" [ngClass]="getCategoryClass(selectedTask.category)">
-                {{ selectedTask.category }}
-            </div>
-            <img src="./../../../assets/img/close.svg" alt="" (click)="closeCardDetail()" />
-        </div>
-        <div class="cardDetailContent">
-            <h1>{{ selectedTask.title }}</h1>
-            <p class="description">{{ selectedTask.description }}</p>
-            <p>Due Date: {{ selectedTask.dueDate }}</p>
-            <div class="priority">
-                <div class="prioLeft">Priority:</div>
-                <div class="prioStatus">
-                    <span>{{ selectedTask.priority }}</span>
-                    <img [src]="getPriorityImage(selectedTask.priority)" alt="priority icon">
+        <div class="cardInnerContent">
+            <div class="cardDetailHead">
+                <div class="categoryHead" [ngClass]="getCategoryClass(selectedTask.category)">
+                    {{ selectedTask.category }}
                 </div>
+                <img src="./../../../assets/img/close.svg" alt="" (click)="closeCardDetail()" />
             </div>
-            <p>Assigned To:</p>
-            <div class="contactsDetail">
-                <div *ngFor="let userId of selectedTask.assignedTo" class="contactWrapper">
-                    <div class="contactDetail" [style.background-color]="getUserColor(userId)">
-                        {{ getUserInitials(userId) }}
+            <div class="cardDetailContent">
+                <h1>{{ selectedTask.title }}</h1>
+                <p class="description">{{ selectedTask.description }}</p>
+                <p>Due Date: {{ selectedTask.dueDate }}</p>
+                <div class="priority">
+                    <div class="prioLeft">Priority:</div>
+                    <div class="prioStatus">
+                        <span>{{ selectedTask.priority }}</span>
+                        <img [src]="getPriorityImage(selectedTask.priority)" alt="priority icon">
                     </div>
-                    <span class="userName">{{ getUserName(userId) }}</span>
+                </div>
+                <p>Assigned To:</p>
+                <div class="contactsDetail">
+                    <div *ngFor="let userId of selectedTask.assignedTo" class="contactWrapper">
+                        <div class="contactDetail" [style.background-color]="getUserColor(userId)">
+                            {{ getUserInitials(userId) }}
+                        </div>
+                        <span class="userName">{{ getUserName(userId) }}</span>
+                    </div>
+                </div>
+                <p class="subt">Subtasks:</p>
+                <div class="subtaskWrapper">
+                    <div *ngFor="let subtask of selectedTask.subtasks; let i = index" class="subtask">
+                        <input type="checkbox" [checked]="subtask.done" (change)="toggleSubtaskDone(i, $event)" />
+                        <span>{{ subtask.title }}</span>
+                    </div>
                 </div>
             </div>
-            <p class="subt">Subtasks:</p>
-            <div class="subtaskWrapper">
-                <div *ngFor="let subtask of selectedTask.subtasks; let i = index" class="subtask">
-                    <input type="checkbox" [checked]="subtask.done" (change)="toggleSubtaskDone(i, $event)" />
-                    <span>{{ subtask.title }}</span>
-                </div>
+            <div class="detailButtonContainer">
+                <div *ngIf="selectedTask?.id" (click)="deleteTask(selectedTask!.id)" class="deleteDetailButton"> <img
+                        src="./../../../assets/img/delete.png" alt=""> Delete</div>
+                <div class="line"></div>
+                <div class="editDetailButton" (click)="openEditTaskModal(selectedTask);  $event.stopPropagation()"><img
+                        src="./../../../assets/img/edit1.png" alt=""> Edit</div>
             </div>
-        </div>
-        <div class="detailButtonContainer">
-            <div *ngIf="selectedTask?.id" (click)="deleteTask(selectedTask!.id)" class="deleteDetailButton"> <img
-                    src="./../../../assets/img/delete.png" alt=""> Delete</div>
-            <div class="line"></div>
-            <div class="editDetailButton" (click)="openEditTaskModal(selectedTask);  $event.stopPropagation()"><img
-                    src="./../../../assets/img/edit1.png" alt=""> Edit</div>
         </div>
     </div>
 </div>
-
 
 <!-- EditCard Section -->
 

@@ -1,0 +1,48 @@
+@media screen and (max-width: 1200px) {
+  .mainContent {
+    width: 100% !important;
+    height: 100px !important;
+    top: auto !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    z-index: 1000 !important;
+    .logoContainer {
+      display: none !important;
+    }
+    .navContainer {
+      height: 100% !important;
+      .navInnerContainer {
+        // max-width: 1440px !important;
+        height: 100% !important;
+        @include dFlex($jc: space-between);
+        .navContent {
+          flex-direction: column !important;
+          justify-content: center !important;
+          align-items: center !important;
+          //   padding: 15px !important;
+          border-radius: 20px !important;
+          width: 100px !important;
+          height: 80px !important;
+          img {
+            margin-left: 0 !important;
+            margin-bottom: 10px !important;
+          }
+          span {
+            margin-left: 0 !important;
+          }
+          &:first-child {
+            margin-left: 70px !important;
+          }
+          &:last-child {
+            margin-right: 70px !important;
+          }
+        }
+      }
+    }
+    .footerContent {
+      display: none !important;
+    }
+  }
+}
+// top: calc(100vh - 200px) !important;
+// @include dFlex();

@@ -1,4 +1,5 @@
 @import "./../../styles.scss";
+@import "./header.media.scss";
 
 .mainContent {
   @include dFlex();
@@ -12,6 +13,9 @@
   .headerContainer {
     @include dFlex($jc: space-between);
     width: 100%;
+    .logo {
+      display: none;
+    }
     .headline {
       font-size: 20px;
       margin-left: 100px;
