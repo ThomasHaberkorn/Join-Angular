@@ -1,6 +1,6 @@
 @media screen and (max-width: 1200px) {
   .mainContent {
-    width: 100% !important;
+    width: 100vw !important;
     height: 100px !important;
     top: auto !important;
     position: fixed !important;
@@ -46,3 +46,78 @@
 }
 // top: calc(100vh - 200px) !important;
 // @include dFlex();
+@media screen and (max-width: 600px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 40px !important;
+          }
+          &:last-child {
+            margin-right: 40px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 30px !important;
+          }
+          &:last-child {
+            margin-right: 30px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          img {
+            width: 25px !important;
+            height: 25px !important;
+          }
+          span {
+            font-size: 14px !important;
+          }
+
+          &:first-child {
+            margin-left: 20px !important;
+          }
+          &:last-child {
+            margin-right: 20px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 10px !important;
+          }
+          &:last-child {
+            margin-right: 10px !important;
+          }
+        }
+      }
+    }
+  }
+}
