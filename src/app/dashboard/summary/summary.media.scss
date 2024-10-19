@@ -12,6 +12,7 @@
       justify-content: center !important;
       .contentContainer {
         width: 100% !important;
+        max-width: 440px !important;
         margin-left: 10px !important;
         margin-right: 10px !important;
         .headlineContainer {
@@ -21,7 +22,7 @@
           justify-content: center !important;
           gap: 10px !important;
           margin-left: 5px !important;
-          margin-top: 45px !important;
+          margin-top: 35px !important;
           margin-bottom: 40px !important;
           width: 70vw !important;
           h1 {
