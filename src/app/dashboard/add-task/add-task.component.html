@@ -6,30 +6,35 @@
         <div class="addTaskContainer" (click)="closeDropdownIfOpen()">
             <div class="addTaskLeft">
                 <h4>Title <span>*</span></h4>
-                <input class="inputFieldAddTask" type="text" id="title" [(ngModel)]="task.title">
-
-                <h4>Description</h4>
-                <textarea class="inputFieldAddTask textarea" id="description" [(ngModel)]="task.description"></textarea>
-
-                <h4>Assigned to</h4>
-                <div class="dropdown">
-                    <div class="dropdown-button inputFieldAddTask" (click)="toggleDropdown($event)"><span>Select
-                            contacts to
-                            assign</span><img src="./../../../assets/img/arrow-down.png" alt="">
-                    </div>
-                    <div class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'"
-                        (click)="$event.stopPropagation()">
-                        <div *ngFor="let user of users" class="user-row">
-                            <input type="checkbox" [id]="user.id" (change)="toggleAssignedTo(user)" />
-                            <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
-                                {{ getUserInitials(user.id!) }}
-                            </div>
-                            <label [for]="user.id">{{ user.firstName }} {{ user.lastName }}</label>
-                        </div>
-                    </div>
+                <div class="inputContainer">
+                    <input class="inputFieldAddTask" type="text" id="title" [(ngModel)]="task.title">
                 </div>
 
+                <h4>Description</h4>
+                <div class="inputContainer">
+                    <textarea class="inputFieldAddTask textarea" id="description"
+                        [(ngModel)]="task.description"></textarea>
+                </div>
+                <h4>Assigned to</h4>
+                <div class="inputContainer">
+                    <div class="dropdown">
+                        <div class="dropdown-button inputFieldAddTask" (click)="toggleDropdown($event)"><span>Select
+                                contacts to
+                                assign</span><img src="./../../../assets/img/arrow-down.png" alt="">
+                        </div>
+                        <div class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'"
+                            (click)="$event.stopPropagation()">
+                            <div *ngFor="let user of users" class="user-row">
+                                <input type="checkbox" [id]="user.id" (change)="toggleAssignedTo(user)" />
+                                <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
+                                    {{ getUserInitials(user.id!) }}
+                                </div>
+                                <label [for]="user.id">{{ user.firstName }} {{ user.lastName }}</label>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
 
 
                 <div class="selected-users">
@@ -47,9 +52,10 @@
 
             <div class="addTaskRight">
                 <h4>Due date <span>*</span></h4>
-                <input class="inputFieldAddTask" style="cursor: pointer;" type="date" id="dueDate"
-                    [(ngModel)]="task.dueDate">
-
+                <div class="inputContainer">
+                    <input class="inputFieldAddTask" style="cursor: pointer;" type="date" id="dueDate"
+                        [(ngModel)]="task.dueDate">
+                </div>
                 <h4>Prio</h4>
                 <div class="taskPrio" id="taskPrio">
                     <div class="urgend buttonPrio" tabindex="0" (click)="setPriority('Urgent')"
@@ -71,38 +77,39 @@
 
 
                 <h4>Category <span>*</span></h4>
-                <select class="inputFieldAddTask selectFieldAddTask" [(ngModel)]="task.category">
-                    <option value="" disabled>Select task category</option>
-                    <option value="Technical Task">Technical Task</option>
-                    <option value="User Story">User Story</option>
-                </select>
+                <div class="inputContainer">
+                    <select class="inputFieldAddTask selectFieldAddTask" [(ngModel)]="task.category">
+                        <option value="" disabled>Select task category</option>
+                        <option value="Technical Task">Technical Task</option>
+                        <option value="User Story">User Story</option>
+                    </select>
+                </div>
 
-
-
-                <div class="subtasks">
-                    <h4>Subtasks</h4>
-                    <div class="subtaskContainer">
-                        <div class="subtaskInputWrapper inputFieldAddTask">
-                            <div class="subtaskInput" contenteditable="true" #subtaskInput
-                                (keydown)="preventEnter($event)"></div>
-                            <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
-                                (click)="addSubtask(subtaskInput)">
+                <div class="inputContainer">
+                    <div class="subtasks">
+                        <h4>Subtasks</h4>
+                        <div class="subtaskContainer">
+                            <div class="subtaskInputWrapper inputFieldAddTask">
+                                <div class="subtaskInput" contenteditable="true" #subtaskInput
+                                    (keydown)="preventEnter($event)"></div>
+                                <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
+                                    (click)="addSubtask(subtaskInput)">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
-                        <ul class="listClass">
-                            <li *ngFor="let subtask of task.subtasks; let i = index">
-                                {{ subtask.title }}
-                                <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
-                                    (click)="deleteSubtask(i)" class="deleteIcon">
-                            </li>
-                        </ul>
+                        <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
+                            <ul class="listClass">
+                                <li *ngFor="let subtask of task.subtasks; let i = index">
+                                    {{ subtask.title }}
+                                    <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
+                                        (click)="deleteSubtask(i)" class="deleteIcon">
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
                 </div>
-
-
 
 
             </div>

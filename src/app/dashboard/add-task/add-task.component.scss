@@ -2,8 +2,8 @@
 @import "./add-task.media.scss";
 
 .mainContainer {
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 232px);
+  height: calc(100% - 196px);
   position: absolute;
   top: 96px;
   left: 232px;
@@ -22,7 +22,8 @@
       }
     }
     .addTaskContainer {
-      @include dFlex($ai: flex-start);
+      @include dFlex($ai: flex-start, $jc: flex-start);
+      width: 85%;
       .addTaskLeft {
         width: 45%;
         margin-left: 16px;
@@ -121,7 +122,7 @@
       }
       .addTaskRight {
         width: 44%;
-        margin-left: 20px;
+        margin-left: 5px;
         h4 {
           font-size: 20px;
           font-weight: 400;
@@ -138,15 +139,18 @@
           // gap: 30px;
 
           .buttonPrio {
-            width: 132px;
-            height: 56px;
+            width: 100%;
+            max-width: 90px;
+            height: 100%;
+            max-height: 48px;
+            padding: 8px;
             @include dFlex();
             gap: 8px;
             box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
             border: 2px solid transparent;
             border-radius: 10px;
             background-color: $white;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
           }
 
@@ -275,9 +279,10 @@
       }
     }
     .buttonContainer {
-      width: 100%;
+      width: 85%;
       @include dFlex($jc: flex-end);
       margin-top: 70px;
+      margin-left: -16px;
       .buttonInnerContainer {
         @include dFlex($jc: flex-end);
         margin-bottom: 20px;
@@ -335,14 +340,19 @@
   }
 }
 
-.inputFieldAddTask {
-  width: 440px;
-  height: 40px;
-  border: 1px solid $inputGrey;
-  border-radius: 10px;
-  padding: 4px 14px;
-  margin-bottom: 10px;
-  font-size: 20px;
+.inputContainer {
+  // border: 2px solid $red;
+  .inputFieldAddTask {
+    max-width: 400px;
+    width: 100%;
+    height: 48px;
+    border: 1px solid $inputGrey;
+    border-radius: 10px;
+    padding: 4px 14px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    box-sizing: border-box;
+  }
 }
 
 .selectFieldAddTask {

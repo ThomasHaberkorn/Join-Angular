@@ -15,14 +15,9 @@
 //     }
 // }
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
   .mainContainer {
-    left: 0 !important;
-    height: calc(100% - 196px) !important;
-    @include dFlex();
     .mainInnerContainer {
-      margin-left: 0px !important;
-      margin-top: 0px !important;
       .headline {
       }
       .addTaskContainer {
@@ -34,6 +29,283 @@
         }
       }
       .buttonContainer {
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .mainContainer {
+    left: 0 !important;
+    height: calc(100% - 196px) !important;
+    width: 100% !important;
+    @include dFlex();
+    .mainInnerContainer {
+      margin-left: 0px !important;
+      margin-top: 0px !important;
+      @include flexDir(column);
+      .headline {
+        display: flex !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        margin-left: 10vw !important;
+        h1 {
+          font-size: 55px !important;
+          margin-left: 41px !important;
+        }
+      }
+      .addTaskContainer {
+        .addTaskLeft {
+          margin-right: 5px !important;
+          .inputContainer {
+            .inputFieldAddTask {
+              max-width: 440px !important;
+              width: 100% !important;
+            }
+          }
+        }
+        .centerLine {
+          height: 400px !important;
+        }
+        .addTaskRight {
+          .inputContainer {
+            .inputFieldAddTask {
+              max-width: 440px !important;
+              width: 100% !important;
+            }
+          }
+          .selectFieldAddTask {
+            max-width: 470px !important;
+            width: 100% !important;
+          }
+        }
+      }
+      .buttonContainer {
+        margin-top: 66px !important;
+        .buttonInnerContainer {
+          .addTaskButtons {
+            .clearButton {
+              width: 100px !important;
+              height: 44px !important;
+            }
+            .createButton {
+              width: 160px !important;
+              height: 48px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .addTaskButtons {
+    margin-right: 1vw !important;
+  }
+  .buttonPrio {
+    font-size: 16px !important;
+    padding: 8px 4px !important;
+    img {
+      width: 16px !important;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .mainContainer {
+    overflow-x: hidden !important;
+    .mainInnerContainer {
+      height: 95% !important;
+      .addTaskContainer {
+        flex-direction: column !important;
+        height: 90% !important;
+        overflow-y: scroll !important;
+        box-sizing: border-box !important;
+        .addTaskLeft {
+          width: 98% !important;
+          margin-left: 0 !important;
+          .inputContainer {
+            width: 100% !important;
+            .inputFieldAddTask {
+              max-width: 100% !important;
+              width: 100% !important;
+            }
+          }
+          .dropdown {
+            .dropdown-content {
+              max-width: 100% !important;
+              width: 93% !important;
+            }
+          }
+        }
+        .centerLine {
+          display: none !important;
+        }
+        .addTaskRight {
+          width: 98% !important;
+          margin-left: 0 !important;
+          .inputContainer {
+            width: 100% !important;
+            .inputFieldAddTask {
+              max-width: 100% !important;
+              width: 100% !important;
+            }
+            .subtasks {
+              .innerLIContainer {
+                max-width: 100% !important;
+                .listClass {
+                  box-sizing: border-box !important;
+                  width: 100% !important;
+                  max-width: 100% !important;
+                  li {
+                    img {
+                      margin-right: 7px !important;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .taskPrio {
+            width: 70% !important;
+            margin-right: auto !important;
+            margin-left: auto !important;
+            margin-bottom: 20px !important;
+          }
+        }
+      }
+      .buttonContainer {
+        margin-top: 30px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 580px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .buttonContainer {
+        justify-content: center !important;
+        .buttonInnerContainer {
+          flex-direction: column !important;
+          gap: 5px !important;
+          margin-bottom: 5px !important;
+          width: 100% !important;
+          .addTaskButtons {
+            width: 100% !important;
+          }
+          .required {
+            margin-left: 0 !important;
+          }
+          .addTaskButtons {
+            margin-right: 0 !important;
+            .clearButton {
+              width: 100% !important;
+              height: 44px !important;
+              font-size: 16px !important;
+            }
+            .createButton {
+              width: 100% !important;
+              height: 48px !important;
+              font-size: 16px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .addTaskContainer {
+        .addTaskLeft {
+          .dropdown {
+            .dropdown-content {
+              box-sizing: border-box !important;
+              width: 100% !important;
+            }
+          }
+        }
+        .addTaskRight {
+          .taskPrio {
+            width: 85% !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .addTaskContainer {
+        .addTaskLeft {
+          .dropdown {
+            .dropdown-button {
+              font-size: 16px !important;
+            }
+            .dropdown-content {
+              box-sizing: border-box !important;
+            }
+          }
+        }
+        .addTaskRight {
+          .taskPrio {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .addTaskContainer {
+        .addTaskLeft {
+          .dropdown {
+            .dropdown-button {
+              span {
+                font-size: 16px !important;
+              }
+            }
+            .dropdown-content {
+              .user-row {
+                input {
+                  width: 16px !important;
+                  height: 16px !important;
+                }
+                .userInitials {
+                  width: 25px !important;
+                  height: 25px !important;
+                  font-size: 14px !important;
+                }
+                label {
+                  font-size: 16px !important;
+                }
+              }
+            }
+          }
+        }
+        .addTaskRight {
+          .taskPrio {
+            width: 100% !important;
+            .buttonPrio {
+              font-size: 12px !important;
+              padding: 8px 0 !important;
+              max-width: 80px !important;
+              img {
+                width: 10px !important;
+              }
+            }
+          }
+        }
       }
     }
   }
