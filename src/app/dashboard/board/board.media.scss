@@ -28,6 +28,50 @@
       }
     }
   }
+  .modal-overlay {
+    .modal-background {
+      .modal-content {
+        width: 100% !important;
+        height: 100% !important;
+        scale: 0.85 !important;
+        margin-top: -100px !important;
+        margin-left: 0 !important;
+        ::ng-deep app-add-task {
+          .mainContainer {
+            .mainInnerContainer {
+              // padding-left: 28px !important;
+              .headline {
+                margin-left: 0px !important;
+                h1 {
+                  margin-top: 0px !important;
+                  margin-left: 0px !important;
+                }
+              }
+              .addTaskContainer {
+                .addTaskRight {
+                  .taskPrio {
+                    max-width: 440px !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .cardDetail {
+    .cardInnerDetail {
+      margin-left: 0px !important;
+      height: 75% !important;
+    }
+  }
+  .editMainCard {
+    .editCard {
+      margin-left: 0px !important;
+      height: 75% !important;
+    }
+  }
 }
 
 @media (max-width: 950px) {
@@ -93,7 +137,7 @@
         ::ng-deep app-add-task {
           .mainContainer {
             .mainInnerContainer {
-              padding-left: 28px !important;
+              // padding-left: 28px !important;
               .headline {
                 margin-left: 0px !important;
                 h1 {
@@ -206,6 +250,67 @@
       .innerBoard {
         margin-top: 30px !important;
         height: calc(100% - 25px) !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .cardDetail {
+    .cardInnerDetail {
+      min-width: 390px !important;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .cardDetail {
+    .cardInnerDetail {
+      min-width: 300px !important;
+      .cardInnerContent {
+        .cardDetailContent {
+          h1 {
+            font-size: 20px !important;
+          }
+          p {
+            font-size: 14px !important;
+          }
+          .priority {
+            .prioLeft {
+              font-size: 14px !important;
+            }
+            .prioStatus {
+              font-size: 14px !important;
+              img {
+                width: 14px !important;
+              }
+            }
+          }
+          .contactsDetail {
+            .contactWrapper {
+              .contactDetail {
+                width: 25px !important;
+                height: 25px !important;
+                font-size: 12px !important;
+              }
+              .userName {
+                font-size: 16px !important;
+              }
+            }
+          }
+          .subtaskWrapper {
+            .subtask {
+              input {
+                width: 12px !important;
+                height: 12px !important;
+              }
+              span {
+                font-size: 16px !important;
+                line-height: 20px !important;
+              }
+            }
+          }
+        }
       }
     }
   }
