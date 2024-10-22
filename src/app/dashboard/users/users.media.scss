@@ -1,0 +1,84 @@
+@media (max-width: 1400px) {
+  .contactListContent {
+    height: calc(100% - 96px) !important;
+  }
+  .contactShow {
+    .headline {
+      h1 {
+        font-size: 48px !important;
+        line-height: 52px !important;
+      }
+
+      h2 {
+        font-size: 20px !important;
+        line-height: 22px !important;
+        font-weight: 400 !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 1250px) {
+  .contactCard {
+    .contactCardHeader {
+      .inicialCircle {
+        width: 80px !important;
+        height: 80px !important;
+        font-size: 40px !important;
+      }
+      .nameEditContainer {
+        h1 {
+          font-size: 40px !important;
+          line-height: 42px !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .mainContent {
+    left: 0px !important;
+    height: calc(100% - 196px) !important;
+    .contactList {
+      .contactListContent {
+        .letterGroup {
+          //   h2 {
+          //     margin-left: 0px !important;
+          //   }
+          //   .userCard {
+          //     margin-left: 0px !important;
+          //   }
+        }
+      }
+    }
+    .contactShow {
+      .headline {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        position: relative !important;
+        gap: 0px !important;
+        margin-bottom: 10px !important;
+        h1 {
+          font-size: 48px !important;
+          line-height: 52px !important;
+          margin-bottom: 0px !important;
+        }
+        .line {
+          height: 3px !important;
+          width: 94px !important;
+          position: absolute !important;
+          bottom: 0px !important;
+          left: 0px !important;
+        }
+        h2 {
+          font-size: 20px !important;
+          line-height: 22px !important;
+          margin-top: 2px !important;
+          margin-bottom: 5px !important;
+          font-weight: 400 !important;
+        }
+      }
+    }
+  }
+}
