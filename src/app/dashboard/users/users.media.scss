@@ -28,8 +28,8 @@
       }
       .nameEditContainer {
         h1 {
-          font-size: 40px !important;
-          line-height: 42px !important;
+          font-size: 26px !important;
+          line-height: 28px !important;
         }
       }
     }
@@ -77,6 +77,157 @@
           margin-top: 2px !important;
           margin-bottom: 5px !important;
           font-weight: 400 !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .mainContent {
+    .contactList {
+      width: 70% !important;
+      position: relative !important;
+      .contactButton {
+        position: absolute !important;
+        right: 20px !important ;
+        bottom: 20px !important;
+        .addContactButton {
+          width: 60px !important;
+          height: 60px !important;
+          border-radius: 50px !important;
+          span {
+            display: none !important;
+          }
+        }
+      }
+      .contactListContent {
+        height: 100% !important;
+        .letterGroup {
+          .colored-line {
+            width: 85% !important;
+          }
+        }
+      }
+    }
+    .contactShow {
+      width: 70% !important;
+      align-items: center !important;
+      .headline {
+        margin-left: 0 !important;
+      }
+      .contactCard {
+        margin-left: 0 !important;
+        .contactCardInfo {
+          position: relative;
+          img {
+            display: block !important;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 620px) {
+  .mainContent {
+    .contactList {
+      width: 100% !important;
+      .contactListContent {
+        .letterGroup {
+          h2 {
+            margin-left: 58px !important;
+          }
+          .userCard {
+            margin-left: 45px !important;
+          }
+        }
+      }
+    }
+    .contactShow {
+      width: 100% !important;
+      .headline {
+        margin-top: 20px !important;
+        h1 {
+          font-size: 44px !important;
+          line-height: 44px !important;
+        }
+      }
+      .contactCard {
+        .contactCardHeader {
+          .inicialCircle {
+            width: 70px !important;
+            height: 70px !important;
+            font-size: 34px !important;
+          }
+          .nameEditContainer {
+            h1 {
+              margin: 6px;
+              font-size: 20px !important;
+              line-height: 20px !important;
+            }
+            .nameEditButtonContainer {
+              margin-left: 3px !important;
+              gap: 16px !important;
+              .editContainer {
+                img {
+                  width: 20px !important;
+                  height: 20px !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 370px) {
+  .mainContent {
+    .contactList {
+      .contactListContent {
+        .letterGroup {
+          h2 {
+            margin-left: 36px !important;
+          }
+          .userCard {
+            margin-left: 24px !important;
+          }
+        }
+      }
+    }
+    .contactShow {
+      .contactCard {
+        .contactCardHeader {
+          margin: 24px !important;
+          gap: 8px !important;
+          .inicialCircle {
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 28px !important;
+          }
+          .nameEditContainer {
+            h1 {
+              margin: 6px !important;
+              font-size: 18px !important;
+              line-height: 20px !important;
+            }
+            .nameEditButtonContainer {
+              margin-left: 3px !important;
+              gap: 16px !important;
+              .editContainer {
+                img {
+                  width: 20px !important;
+                  height: 20px !important;
+                }
+              }
+            }
+          }
         }
       }
     }

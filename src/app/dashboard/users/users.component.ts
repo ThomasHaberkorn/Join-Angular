@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { collection, Firestore, getDocs, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { User } from '../../../models/user.class';
 import { CommonModule } from '@angular/common';
@@ -22,13 +22,26 @@ export class UsersComponent{
   newUser: User = new User();
   @ViewChild('contactCard') contactCard!: ElementRef;
   message: string = '';
+  isSmallScreen: boolean = window.innerWidth < 1000;
+  showContactList: boolean = true;
 
   constructor(private firestore: Firestore) { }
+
+  // async ngOnInit() {
+  //   await this.loadUsersFromFirestore();
+  //   this.groupUsersByFirstLetter();
+  // }
 
   async ngOnInit() {
     await this.loadUsersFromFirestore();
     this.groupUsersByFirstLetter();
+    if (this.isSmallScreen) {
+      this.showContactList = !this.selectedUser;
+    } else {
+      this.showContactList = true;
+    }
   }
+  
 
   async loadUsersFromFirestore() {
     try {
@@ -53,6 +66,63 @@ export class UsersComponent{
       return groups;
     }, {});
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.isSmallScreen = window.innerWidth < 1000;
+    if (!this.isSmallScreen) {
+      // Auf größeren Bildschirmen beides anzeigen
+      this.showContactList = true;
+    } else {
+      // Auf kleineren Bildschirmen die Liste oder Karte basierend auf der Benutzerauswahl anzeigen
+      this.showContactList = !this.selectedUser;
+    }
+  }
+  
+
+  // showContactCard(user: User) {
+  //   if (this.selectedUser && this.selectedUser === user) {
+  //     gsap.to(this.contactCard.nativeElement, {
+  //       x: '100%', 
+  //       opacity: 0, 
+  //       duration: 0.5, 
+  //       ease: 'power2.in', 
+  //       onComplete: () => {
+  //         this.selectedUser = null; 
+  //       }
+  //     });
+  //   } else {
+  //     if (this.selectedUser) {
+  //       gsap.to(this.contactCard.nativeElement, {
+  //         x: '100%', 
+  //         opacity: 0, 
+  //         duration: 0.5, 
+  //         ease: 'power2.in', 
+  //         onComplete: () => {
+  //           this.selectedUser = user;
+  //           setTimeout(() => {
+  //             if (this.contactCard) {
+  //               gsap.fromTo(this.contactCard.nativeElement, 
+  //                 { x: '100%', opacity: 0 }, 
+  //                 { x: '0%', opacity: 1, duration: 0.5, ease: 'power2.out' }
+  //               );
+  //             }
+  //           }, 300);
+  //         }
+  //       });
+  //     } else {
+  //       this.selectedUser = user;
+  //       setTimeout(() => {
+  //         if (this.contactCard) {
+  //           gsap.fromTo(this.contactCard.nativeElement, 
+  //             { x: '100%', opacity: 0 }, 
+  //             { x: '0%', opacity: 1, duration: 0.5, ease: 'power2.out' }
+  //           );
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 
   showContactCard(user: User) {
     if (this.selectedUser && this.selectedUser === user) {
@@ -96,6 +166,9 @@ export class UsersComponent{
         });
       }
     }
+    if (this.isSmallScreen) {
+      this.showContactList = false;
+    }
   }
 
 
@@ -105,6 +178,14 @@ export class UsersComponent{
         this.selectedUser = null;
       } });
   }
+
+  goBackToList() {
+    if (this.isSmallScreen) {
+      this.showContactList = true;
+      this.selectedUser = null; // Optional: Setzen Sie den ausgewählten Benutzer zurück
+    }
+  }
+  
 
   // ------------- Edit User ------------
 
@@ -176,37 +257,6 @@ export class UsersComponent{
   }
   
 
-  // async saveNewContact() {
-  //   if (this.newUser.firstName && this.newUser.email) {
-  //     this.newUser.firstName = this.capitalizeName(this.newUser.firstName);
-  //     this.newUser.lastName = this.capitalizeName(this.newUser.lastName);
-  //     this.newUser.initials = this.newUser.getInitials();
-  
-  //     try {
-  //       const userCollection = collection(this.firestore, 'users');
-  //       const newUserRef = await addDoc(userCollection, {
-  //         firstName: this.newUser.firstName,
-  //         lastName: this.newUser.lastName,
-  //         email: this.newUser.email,
-  //         initials: this.newUser.initials,
-  //         color: this.newUser.color,
-  //         phone: this.newUser.phone,
-  //         id: this.newUser.id, 
-  //         userType: this.newUser.userType = 'user',
-  //         password: this.newUser.password = '1'
-  //       });
-  
-  //       this.newUser.id = newUserRef.id;  
-  
-  //       await this.loadUsersFromFirestore();
-  //       this.groupUsersByFirstLetter();
-        
-  //       this.closeAddContact();
-  //     } catch (error) {
-  //       console.error('Error adding user to Firestore:', error);
-  //     }
-  //   }
-  // }
   
   async saveNewContact() {
     if (this.newUser.firstName && this.newUser.email) {
@@ -253,61 +303,7 @@ export class UsersComponent{
   // ------------- Ende Add User -------------
 
 
-
-  // async deleteContact() {
-  //   console.log('Delete user:', this.selectedUser);
-  //   if (this.selectedUser && this.selectedUser.id) {
-  //     try {
-  //       const userDocRef = doc(this.firestore, 'users', this.selectedUser.id);
-  //       await deleteDoc(userDocRef);
-  //       console.log('User deleted:', this.selectedUser);
-  
-  //       // Entferne den gelöschten Benutzer aus allen Aufgaben
-  //       await this.removeDeletedUserFromTasks(this.selectedUser.id);
-  
-  //       await this.loadUsersFromFirestore();
-  //       this.groupUsersByFirstLetter();
-  
-  //       this.selectedUser = null;
-  //     }
-  //     catch (error) {
-  //       console.error('Error deleting user from Firestore:', error);
-  //     }
-  //   }
-  // }
-  
-
-  // async deleteContact() {
-  //   console.log('Delete user:', this.selectedUser);
-  //   if (this.selectedUser && this.selectedUser.id) {
-  //     // Get the logged-in user's ID from localStorage
-  //     const loggedInUserId = localStorage.getItem('userId');
-      
-  //     // Prevent deletion if the user is currently logged in
-  //     if (this.selectedUser.id === loggedInUserId) {
-  //       console.error('Cannot delete the currently logged-in user.');
-  //       return;
-  //     }
-  
-  //     try {
-  //       const userDocRef = doc(this.firestore, 'users', this.selectedUser.id);
-  //       await deleteDoc(userDocRef);
-  //       console.log('User deleted:', this.selectedUser);
-  
-  //       // Remove the deleted user from all tasks
-  //       await this.removeDeletedUserFromTasks(this.selectedUser.id);
-  
-  //       await this.loadUsersFromFirestore();
-  //       this.groupUsersByFirstLetter();
-  
-  //       this.selectedUser = null;
-  //     } catch (error) {
-  //       console.error('Error deleting user from Firestore:', error);
-  //     }
-  //   }
-  // }
-
-  async deleteContact() {
+   async deleteContact() {
     console.log('Delete user:', this.selectedUser);
     if (this.selectedUser && this.selectedUser.id) {
       const loggedInUserId = localStorage.getItem('userId');
@@ -368,47 +364,3 @@ export class UsersComponent{
   }
 }
 
-// async deleteContact() {
-//   console.log('Delete user:', this.selectedUser);
-//   if (this.selectedUser && this.selectedUser.id) {
-//     try {
-//       // Benutzer aus Firestore löschen
-//       const userDocRef = doc(this.firestore, 'users', this.selectedUser.id);
-//       await deleteDoc(userDocRef);
-//       console.log('User deleted:', this.selectedUser);
-
-//       // Entferne den Benutzer aus allen zugehörigen Aufgaben
-//       await this.removeDeletedUserFromTasks(this.selectedUser.id);
-
-//       // Benutzerliste aktualisieren
-//       await this.loadUsersFromFirestore();
-//       this.groupUsersByFirstLetter();
-//       this.selectedUser = null;
-//     } catch (error) {
-//       console.error('Error deleting user from Firestore:', error);
-//     }
-//   }
-// }
-
-// async removeDeletedUserFromTasks(userId: string) {
-//   try {
-//     const taskCollection = collection(this.firestore, 'tasks');
-//     const querySnapshot = await getDocs(taskCollection);
-
-//     // Schleife über alle Aufgaben und entferne den gelöschten Benutzer aus den Zuweisungen
-//     querySnapshot.forEach(async (taskDoc) => {
-//       const taskData = taskDoc.data() as Task;
-
-//       if (taskData.assignedTo.includes(userId)) {
-//         const updatedAssignedTo = taskData.assignedTo.filter(id => id !== userId);
-        
-//         const taskDocRef = doc(this.firestore, 'tasks', taskDoc.id);
-//         await updateDoc(taskDocRef, { assignedTo: updatedAssignedTo });
-//         console.log(`User ${userId} removed from task ${taskDoc.id}`);
-//       }
-//     });
-//   } catch (error) {
-//     console.error('Error removing user from tasks:', error);
-//   }
-// }
-// }

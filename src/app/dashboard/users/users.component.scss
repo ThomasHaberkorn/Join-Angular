@@ -21,12 +21,17 @@
         width: 352px;
         height: 56px;
         background-color: $dblue;
+        border: none;
         border-radius: 10px;
         color: $white;
         font-size: 21px;
         line-height: 26px;
         margin-top: 20px;
         margin-bottom: 20px;
+        &:hover {
+          background-color: $lblue;
+          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+        }
         img {
           width: 29px;
           height: 29px;
@@ -165,6 +170,7 @@
       }
       .contactCardInfo {
         margin: 30px;
+        position: relative;
         h3 {
           font-size: 20px;
           font-weight: 400;
@@ -194,6 +200,9 @@
             font-size: 16px;
             font-weight: 400;
           }
+        }
+        img {
+          display: none;
         }
       }
     }

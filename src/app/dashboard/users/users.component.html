@@ -1,7 +1,7 @@
 <div class="mainContent">
-    <div class="contactList">
+    <div class="contactList" *ngIf="!isSmallScreen || (isSmallScreen && showContactList)">
         <div class="contactButton">
-            <button class="addContactButton" (click)="openAddContact()">Add New Contact <img
+            <button class="addContactButton" (click)="openAddContact()"><span>Add New Contact </span><img
                     src="./../../../assets/img/person_add.png" alt=""></button>
         </div>
         <div class="contactListContent">
@@ -24,7 +24,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="contactShow">
+    <div class="contactShow" *ngIf="!isSmallScreen || (isSmallScreen && !showContactList)">
         <div class="headline">
             <h1>Contacts</h1>
             <div class="line"></div>
@@ -57,6 +57,7 @@
                     <h4>Phone</h4>
                     <span>{{ selectedUser.phone }}</span>
                 </div>
+                <img src="./../../../assets/img/Vector.png" alt="" (click)="goBackToList()">
             </div>
         </div>
     </div>
