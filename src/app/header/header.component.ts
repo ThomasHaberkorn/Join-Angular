@@ -32,6 +32,14 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/dashboard/help']);
   }
 
+  navigateToPrivacyPolicy() {
+    this.router.navigate(['/dashboard/privacy']);
+  }
+
+  navigateToLegalNotice() {
+    this.router.navigate(['/dashboard/legal']);
+  }
+
   onMenuMouseEnter() {
     if (this.menuCloseTimeout) {
       clearTimeout(this.menuCloseTimeout);

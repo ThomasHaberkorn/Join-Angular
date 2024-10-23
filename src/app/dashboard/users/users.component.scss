@@ -262,7 +262,7 @@
       border-radius: 17px 0 0 17px;
       img {
         width: 54px;
-        height: 66px;
+        aspect-ratio: 54/66;
         margin-top: 38%;
         margin-left: 30px;
       }
@@ -386,15 +386,15 @@
   width: 100%;
   height: 100%;
   .addContactCard {
-    width: 1000px;
-    height: 570px;
+    width: 980px;
+    height: 530px;
     background-color: $white;
     border-radius: 20px;
     border: none;
     @include dFlex();
     position: relative;
     .addContactInfo {
-      @include flexDir(column, flex-start, flex-start);
+      @include flexDir(column, center, flex-start);
       background-color: $dblue;
       position: absolute;
       top: 0;
@@ -404,8 +404,8 @@
       border-radius: 17px 0 0 17px;
       img {
         width: 54px;
-        height: 66px;
-        margin-top: 38%;
+        aspect-ratio: 54/66;
+        margin-top: 3%;
         margin-left: 30px;
       }
       h2 {

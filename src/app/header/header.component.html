@@ -15,8 +15,8 @@
     </div>
     <div class="menuContainer" id="menuContainer" [ngStyle]="{'display': showMenu ? 'block' : 'none'}"
         (mouseenter)="onMenuContainerMouseEnter()" (mouseleave)="onMenuContainerMouseLeave()">
-        <div class="menuLink" id="privacyPolicy">Privacy Policy</div>
-        <div class="menuLink" id="legalNotice">Legal Notice</div>
+        <div class="menuLink" id="privacyPolicy" (click)="navigateToPrivacyPolicy()">Privacy Policy</div>
+        <div class="menuLink" id="legalNotice" (click)="navigateToLegalNotice()">Legal Notice</div>
         <div class="menuLink" id="logOut" (click)="logout()">Log out</div>
     </div>
 </div>
