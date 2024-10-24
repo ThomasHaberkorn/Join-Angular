@@ -4,9 +4,7 @@
     width: 100% !important;
     height: calc(100% - 196px) !important;
     width: 100% !important;
-
     @include dFlex();
-
     .mainInnerContainer {
       margin-left: 0 !important;
       justify-content: center !important;
@@ -16,13 +14,12 @@
         margin-left: 10px !important;
         margin-right: 10px !important;
         .headlineContainer {
-          //   display: none !important;
           flex-direction: column !important;
           align-items: flex-start !important;
           justify-content: center !important;
           gap: 10px !important;
           margin-left: 5px !important;
-          margin-top: 35px !important;
+          margin-top: 0px !important;
           margin-bottom: 40px !important;
           width: 70vw !important;
           h1 {
@@ -37,6 +34,11 @@
           h3 {
             font-size: 20px !important;
             margin: 0 !important;
+          }
+        }
+        .upperRow {
+          .row1Content {
+            width: 47% !important;
           }
         }
       }
@@ -267,7 +269,7 @@
   .mainContainer {
     .mainInnerContainer {
       .contentContainer {
-        max-width: 560px !important;
+        max-width: 470px !important;
       }
     }
   }

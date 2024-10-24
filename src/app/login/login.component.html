@@ -2,13 +2,12 @@
     <img src="assets/img/logo1.svg" alt="logo" id="introLogo" />
 </div>
 
-
-
 <div class="mainContent" style="display: none;">
     <div class="headerContent" id="headerContent">
         <div class="headerLogo">
             <img src="assets/img/logo1.svg" alt="logo" />
         </div>
+
         <div class="signUp">
             <div class="signUpInner">
                 <div class="signUpText">
@@ -17,7 +16,6 @@
                 <div class="notaUserButton" (click)="flipToSignUp()">Sign up</div>
             </div>
         </div>
-        <!-- </div> -->
 
         <!-- ------------   Log in Container  --------------->
 
@@ -60,6 +58,7 @@
                             in</button>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -91,7 +90,6 @@
                     </div>
                 </div>
 
-
                 <div class="formField">
                     <input id="signUpPassword" type="password" [disabled]="loading" [(ngModel)]="user.password"
                         class="fullwidthInput" placeholder="Passwort" required name="password"
@@ -114,7 +112,6 @@
                     </div>
                 </div>
 
-
                 <div class="acceptCheck">
                     <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
                         (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
@@ -126,15 +123,15 @@
                         <button (click)="signUp()" [disabled]="!isFormValid()" class="fullwidthButton">Sign up</button>
                     </div>
                 </div>
-
             </div>
-
         </div>
+
         <div class="footerContent">
             <div class="footerLink">
                 <span (click)="navigateToPrivacyPolicy()">Privacy Policy</span>
                 <span (click)="navigateToLegalNotice()">Legal Notice</span>
             </div>
         </div>
+
     </div>
 </div>

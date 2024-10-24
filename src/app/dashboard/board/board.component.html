@@ -19,7 +19,7 @@
             <!-- ----------- Todo ------------ -->
 
             <div class="todoContainer contentContainer" (drop)="onTaskDrop($event, 'todo')"
-                (dragover)="onDragOver($event, 'todo')">
+                (dragover)="onDragOver($event, 'todo')" data-zone="todo">
                 <div class="containerHead" id="todoContainerHead">
                     <h4>To do</h4>
                     <img src="./../../../assets/img/plusbutton.png" alt="" (click)="openAddTaskModal('todo')">
@@ -68,7 +68,7 @@
             <!-- In progress -->
 
             <div class="inProgressContainer contentContainer" (drop)="onTaskDrop($event, 'inProgress')"
-                (dragover)="onDragOver($event, 'inProgress')">
+                (dragover)="onDragOver($event, 'inProgress')" data-zone="inProgress">
                 <div class="containerHead" id="inProgressHead">
                     <h4>In progress</h4>
                     <img src="./../../../assets/img/plusbutton.png" alt="" (click)="openAddTaskModal('inProgress')">
@@ -118,7 +118,7 @@
 
 
             <div class="awaitFeedbackContainer contentContainer" (drop)="onTaskDrop($event, 'awaitFeedback')"
-                (dragover)="onDragOver($event, 'awaitFeedback')">
+                (dragover)="onDragOver($event, 'awaitFeedback')" data-zone="awaitFeedback">
                 <div class="containerHead" id="awaitFeedbackHead">
                     <h4>Await feedback</h4>
                     <img src="./../../../assets/img/plusbutton.png" alt="Add Task"
@@ -169,7 +169,7 @@
             <!-- Done -->
 
             <div class="doneContainer contentContainer" (drop)="onTaskDrop($event, 'done')"
-                (dragover)="onDragOver($event, 'done')">
+                (dragover)="onDragOver($event, 'done')" data-zone="done">
                 <div class="containerHead" id="doneHead">
                     <h4>Done</h4>
                 </div>
@@ -217,16 +217,6 @@
 </div>
 
 
-<!-- AddTask Modal -->
-
-<!-- <div class="modal-overlay" *ngIf="showAddTaskModal" (click)="closeAddTaskModal()">
-    <div class="modal-background">
-        <div class="modal-content">
-            <app-add-task [isModal]="true" [status]="task.status" (close)="closeAddTaskModal()"
-                (click)="$event.stopPropagation()"></app-add-task>
-        </div>
-    </div>
-</div> -->
 <div class="modal-overlay" *ngIf="showAddTaskModal">
     <div class="modal-background" (click)="closeAddTaskModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
@@ -247,6 +237,17 @@
                 <div class="categoryHead" [ngClass]="getCategoryClass(selectedTask.category)">
                     {{ selectedTask.category }}
                 </div>
+                <div class="statusSelect">
+                    <label for="status-select">Change Status:</label>
+                    <select id="status-select" [(ngModel)]="selectedTask.status"
+                        (change)="updateTaskStatus(selectedTask)">
+                        <option value="todo">To do</option>
+                        <option value="inProgress">In progress</option>
+                        <option value="awaitFeedback">Await feedback</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
+
                 <img src="./../../../assets/img/close.svg" alt="" (click)="closeCardDetail()" />
             </div>
             <div class="cardDetailContent">
@@ -348,30 +349,6 @@
                 </div>
             </div>
 
-            <!-- <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
-                <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
-                <div *ngFor="let user of users" class="dropdownUserContainer">
-                    <input type="checkbox" [checked]="isUserAssigned(user.id!)"
-                        (change)="toggleUserAssignment(user.id!, $event)" />
-                    <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
-                        {{ getUserInitials(user.id!) }}
-                    </div>
-                    <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
-                </div>
-            </div> -->
-
-            <!-- <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
-                <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">
-                <div *ngFor="let user of users" class="dropdownUserContainer"
-                    (click)="toggleUserAssignment(user.id!, $event)">
-                    <input type="checkbox" [checked]="isUserAssigned(user.id!)"
-                        (change)="toggleUserAssignment(user.id!, $event)" (click)="$event.stopPropagation()" />
-                    <div class="userInitials" [style.background-color]="getUserColor(user.id!)">
-                        {{ getUserInitials(user.id!) }}
-                    </div>
-                    <span class="userName">{{ user.firstName }} {{ user.lastName }}</span>
-                </div>
-            </div> -->
 
             <div class="dropdown" *ngIf="dropdownOpen" (document:click)="onDocumentClick($event)">
                 <img src="./../../../assets/img/Close.png" alt="" (click)="toggleDropdown()">

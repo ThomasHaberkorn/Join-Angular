@@ -264,6 +264,10 @@ flipToSignUp(): void {
   const signUpElement = document.querySelector('.signUp') as HTMLElement;
   const vectorBtn = document.getElementById('vectorBtn');
 
+  this.user.email = '';
+  this.user.password = '';
+  this.user.passwordConfirm = '';
+
   if (loginContainer && signupContainer && signUpElement && vectorBtn) {
     // Animation für das Umdrehen des Login-Containers
     gsap.to(loginContainer, {
@@ -321,6 +325,18 @@ flipToLogIn(): void {
   const loginContainer = document.getElementById('loginContainer');
   const signupContainer = document.getElementById('signupContainer');
   const signUpElement = document.querySelector('.signUp') as HTMLElement;
+
+  const savedEmail = localStorage.getItem('userEmail');
+  const savedPassword = localStorage.getItem('userPassword');
+  const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+ 
+ 
+  if (savedEmail && savedPassword && rememberMeChecked) {
+    this.user.email = savedEmail;
+    this.user.password = savedPassword;
+    this.checkboxAccepted = true;
+  }
+
 
   if (signupContainer && loginContainer && signUpElement) {
     // Animation für das Umdrehen des Signup-Containers

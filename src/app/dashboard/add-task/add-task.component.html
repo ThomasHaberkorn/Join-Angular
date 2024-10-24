@@ -33,9 +33,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
 
                 <div class="selected-users">
                     <div *ngFor="let user of assignedUsers.slice(0, 3)" class="user-circle"
@@ -52,10 +50,12 @@
 
             <div class="addTaskRight">
                 <h4>Due date <span>*</span></h4>
+
                 <div class="inputContainer">
                     <input class="inputFieldAddTask" style="cursor: pointer;" type="date" id="dueDate"
                         [(ngModel)]="task.dueDate">
                 </div>
+
                 <h4>Prio</h4>
                 <div class="taskPrio" id="taskPrio">
                     <div class="urgend buttonPrio" tabindex="0" (click)="setPriority('Urgent')"
@@ -74,7 +74,6 @@
                         <img src="./../../../assets/img/lowSymbol.png" alt="">
                     </div>
                 </div>
-
 
                 <h4>Category <span>*</span></h4>
                 <div class="inputContainer">
@@ -106,14 +105,11 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
-
                 </div>
-
-
             </div>
         </div>
+
         <div class="buttonContainer">
             <div class="buttonInnerContainer">
                 <div class="required"><span>*</span> This field is required</div>

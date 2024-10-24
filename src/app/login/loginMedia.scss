@@ -2,6 +2,7 @@
   .mainContent {
     .headerContent {
       .headerLogo {
+        top: -8% !important;
         img {
           scale: 0.75;
         }
@@ -10,6 +11,20 @@
         top: 90% !important;
         right: auto !important;
         left: auto !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        top: -13% !important;
+        left: -1% !important;
+        img {
+          scale: 0.5;
+        }
       }
     }
   }

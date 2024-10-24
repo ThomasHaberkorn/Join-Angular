@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
-import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Component } from '@angular/core';
+import { collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subtask, Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
@@ -36,13 +36,12 @@ export class BoardComponent {
   loggedInUserType: string = 'guest';
   userType: string = ''; 
 
+
   constructor(private fb: FormBuilder, private firestore: Firestore) {
 
    }
 
   async ngOnInit() {
-   
-
     const storedUserType = sessionStorage.getItem('userType');
     if (storedUserType) {
       this.loggedInUserType = storedUserType;
@@ -51,9 +50,6 @@ export class BoardComponent {
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
     this.task.priority = 'Medium'; 
-
- 
-
   }
 
  
@@ -117,15 +113,28 @@ export class BoardComponent {
     }
   }
 
+  
   async updateTaskStatus(task: Task) {
     if (task.id) {
-      const taskDocRef = doc(this.firestore, 'tasks', task.id);
-      await updateDoc(taskDocRef, { status: task.status });
+      try {
+        const taskDocRef = doc(this.firestore, 'tasks', task.id);
+        await updateDoc(taskDocRef, { status: task.status });
+        console.log(`Task ${task.id} status updated to ${task.status}`);
+        // Optional: Aktualisiere die lokale Liste der Tasks oder aktualisiere die Ansicht
+        await this.loadTasksFromFirestore();
+      } catch (error) {
+        console.error('Error updating task status:', error);
+      }
     }
+    this.closeCardDetail()
   }
+  
+
+// ----------------- Drag & Drop ----------------- //
 
 
   onDragStart(event: DragEvent, taskId: string) {
+    // event.preventDefault();
     this.isDragging = true;
     event.dataTransfer?.setData('taskId', taskId);
   
@@ -134,10 +143,10 @@ export class BoardComponent {
     if (taskCardElement && event.dataTransfer) {
       // Klone die taskCard
       const dragImageNode = taskCardElement.cloneNode(true);
-      const dragImage = dragImageNode as HTMLElement; // Cast auf HTMLElement
+      const dragImage = dragImageNode as HTMLElement;
       dragImage.style.position = 'absolute';
       dragImage.style.pointerEvents = 'none';
-      dragImage.style.top = '-1000px'; // Verstecke es außerhalb des sichtbaren Bereichs
+      dragImage.style.top = '-1000px';
       dragImage.style.left = '-1000px';
       dragImage.style.width = `${taskCardElement.offsetWidth}px`;
   
@@ -158,67 +167,66 @@ export class BoardComponent {
     }
   }
   
-  
-
-
-  onDragOver(event: DragEvent, zone: string) {
-    event.preventDefault(); 
-    this.draggingOver = zone; 
+onDragOver(event: Event, zone: string) {
+  if (event instanceof DragEvent) {
+    event.preventDefault();
     event.dataTransfer!.dropEffect = 'move';
   }
+  this.draggingOver = zone;
+}
+  
 
+onTaskDrop(event: Event, newStatus: string) {
+  this.isDragging = false;
+  this.draggingOver = '';
 
-  onTaskDrop(event: DragEvent, newStatus: string) {
-    this.isDragging = false; // Dragging auf false setzen
-    this.draggingOver = ''; // Reset der Dropzone
-    const taskId = event.dataTransfer?.getData('taskId');
+  let taskId: string | undefined;
+
+  if (event instanceof DragEvent) {
+    event.preventDefault();
+    taskId = event.dataTransfer?.getData('taskId');
+  }
+
+  if (taskId) {
     const task = this.tasks.find(t => t.id === taskId);
-
     if (task) {
-        // Task-Status nur ändern, wenn eine gültige neue Dropzone vorhanden ist
-        task.status = newStatus;
-        this.updateTaskStatus(task);
-    } else {
-        // Wenn keine gültige Dropzone erreicht wird, kehrt die Karte zurück
-        this.resetTaskPosition();
+      // Setze den neuen Status
+      task.status = newStatus;
+      this.updateTaskStatus(task);
+
+      // Entferne das transform und z-index
+      const taskCardElement = document.querySelector('.taskCard.dragging') as HTMLElement;
+      if (taskCardElement) {
+        taskCardElement.style.transform = '';
+        taskCardElement.style.position = '';
+        taskCardElement.style.zIndex = '';
+      }
     }
+  }
 }
 
-  
   onDragEnd() {
     this.isDragging = false;
     this.draggingOver = '';
-  
-    // Entferne das Drag-Image
     const dragImages = document.querySelectorAll('.taskCard');
     dragImages.forEach(img => {
-      const element = img as HTMLElement; // Cast auf HTMLElement
+      const element = img as HTMLElement;
       if (element.style.top === '-1000px') {
         element.remove();
       }
     });
-  
-    // Entferne die Klasse 'dragging' von der Originalkarte
     const taskCards = document.querySelectorAll('.taskCard.dragging');
     taskCards.forEach(card => {
-      const element = card as HTMLElement; // Cast auf HTMLElement
+      const element = card as HTMLElement;
       element.classList.remove('dragging');
     });
   }
-  
-  
-
-resetTaskPosition() {
-  const taskCard = document.querySelector('.taskCard.dragging') as HTMLElement;
-  if (taskCard) {
-      // Optional: Rücksetzanimation oder Stiländerungen entfernen
-      taskCard.classList.remove('dragging');
-  }
-}
-
 
   
-    getUserColor(userId: string): string {
+// ----------------- Drag & Drop End ----------------- //
+
+  
+  getUserColor(userId: string): string {
     const user = this.users.find(u => u.id === userId);
     return user ? user.color : '#000000'; // Standardfarbe Schwarz
   }
@@ -244,7 +252,6 @@ resetTaskPosition() {
         return 'defaultCategory'; 
     }
   }
-
 
 
   getTasksByStatus(status: string): Task[] {
