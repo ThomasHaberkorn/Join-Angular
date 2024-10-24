@@ -1,6 +1,6 @@
 @media (max-width: 1400px) {
   .contactListContent {
-    height: calc(100% - 96px) !important;
+    height: calc(100% - 196px) !important;
   }
   .contactShow {
     .headline {
@@ -42,14 +42,7 @@
     height: calc(100% - 196px) !important;
     .contactList {
       .contactListContent {
-        .letterGroup {
-          //   h2 {
-          //     margin-left: 0px !important;
-          //   }
-          //   .userCard {
-          //     margin-left: 0px !important;
-          //   }
-        }
+        height: calc(100% - 96px) !important;
       }
     }
     .contactShow {

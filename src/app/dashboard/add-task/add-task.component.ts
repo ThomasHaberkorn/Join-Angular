@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, EventEmitter, Output, Input, Renderer2 } from '@angular/core';
-import { addDoc, collection, Firestore, getDocs } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, getDocs, updateDoc } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subtask, Task } from '../../../models/task.class';
 import { User } from '../../../models/user.class';
@@ -20,12 +20,15 @@ export class AddTaskComponent {
   assignedUsers: User[] = [];
   dropdownOpen = false;
   newSubtask: string = '';
+  selectedTask: Task | null = null;
   @Input() isModal: boolean = false;
   @Input() status: string = 'todo';
   loggedInUserType: string = 'guest';
   @ViewChild('dropdownContent') dropdownContent!: ElementRef;
   @Output() close = new EventEmitter<void>();
-  constructor(private fb: FormBuilder, private firestore: Firestore, private renderer: Renderer2, private elRef: ElementRef) { }
+
+  constructor(private fb: FormBuilder, private firestore: Firestore, private renderer: Renderer2, private elRef: ElementRef) { 
+  }
 
 
   async ngOnInit() {
@@ -103,6 +106,49 @@ export class AddTaskComponent {
   }
   
 
+  editSubtask(index: number) {
+    if (this.task) {
+      const subtask = this.task.subtasks[index];
+      subtask.originalTitle = subtask.title; // Speichere den ursprünglichen Titel
+      subtask.editing = true;
+    }
+  }
+  
+  saveEditSubtask(index: number) {
+    if (this.task) {
+      const subtask = this.task.subtasks[index];
+      subtask.editing = false;
+      delete subtask.originalTitle; // Entferne die temporäre Eigenschaft
+    }
+  }
+  
+  cancelEditSubtask(index: number) {
+    if (this.task) {
+      const subtask = this.task.subtasks[index];
+      subtask.title = subtask.originalTitle || subtask.title; // Stelle den ursprünglichen Titel wieder her
+      subtask.editing = false;
+      delete subtask.originalTitle; // Entferne die temporäre Eigenschaft
+    }
+  }
+  
+  async updateTaskSubtasks(task: Task) {
+    if (task.id) {
+      try {
+        const taskDocRef = doc(this.firestore, 'tasks', task.id);
+        const updatedSubtasks = task.subtasks.map(subtask => ({
+          title: subtask.title,
+          done: subtask.done
+        }));
+        await updateDoc(taskDocRef, { subtasks: updatedSubtasks });
+        console.log('Subtasks updated successfully');
+      } catch (error) {
+        console.error('Error updating subtasks:', error);
+      }
+    }
+  }
+  
+  
+
   deleteSubtask(index: number) {
     this.task.subtasks.splice(index, 1); 
   }
@@ -166,3 +212,4 @@ export class AddTaskComponent {
 
   
 }
+

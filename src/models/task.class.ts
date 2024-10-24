@@ -58,15 +58,38 @@ export class Task {
 
 }
 
+// export class Subtask {
+//   title: string;
+//   done: boolean;
+//   editing: boolean;  
+  
+//   constructor(obj?: any) {
+//     this.title = obj?.title || '';
+//     this.done = obj?.done ?? false;
+//     this.editing = false;
+//   }
+
+//   public toJSON() {
+//     return {
+//       title: this.title,
+//       done: this.done
+//     };
+//   }
+// }
+
+
+
 export class Subtask {
   title: string;
   done: boolean;
-  editing: boolean;  
+  editing: boolean;
+  originalTitle?: string; // Hinzugefügt
   
   constructor(obj?: any) {
     this.title = obj?.title || '';
     this.done = obj?.done ?? false;
     this.editing = false;
+    this.originalTitle = obj?.originalTitle; // Hinzugefügt
   }
 
   public toJSON() {
@@ -76,6 +99,3 @@ export class Subtask {
     };
   }
 }
-
-
-

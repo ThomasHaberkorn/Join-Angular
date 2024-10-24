@@ -84,7 +84,7 @@
                     </select>
                 </div>
 
-                <div class="inputContainer">
+                <!-- <div class="inputContainer">
                     <div class="subtasks">
                         <h4>Subtasks</h4>
                         <div class="subtaskContainer">
@@ -100,13 +100,54 @@
                             <ul class="listClass">
                                 <li *ngFor="let subtask of task.subtasks; let i = index">
                                     {{ subtask.title }}
+                                    <img src="./../../../assets/img/edit1.png" alt="" (click)="editSubtask(i)"
+                                        class="editIcon">
                                     <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
                                         (click)="deleteSubtask(i)" class="deleteIcon">
                                 </li>
                             </ul>
                         </div>
                     </div>
+                </div> -->
+                <div class="inputContainer">
+                    <div class="subtasks">
+                        <h4>Subtasks</h4>
+                        <div class="subtaskContainer">
+                            <div class="subtaskInputWrapper inputFieldAddTask">
+                                <div class="subtaskInput" contenteditable="true" #subtaskInput
+                                    (keydown)="preventEnter($event)"></div>
+                                <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
+                                    (click)="addSubtask(subtaskInput)">
+                            </div>
+                        </div>
+
+                        <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
+                            <ul class="listClass">
+                                <li *ngFor="let subtask of task.subtasks; let i = index">
+                                    <!-- Bearbeitungsmodus -->
+                                    <div *ngIf="subtask.editing" class="subtaskEditMode">
+                                        <input type="text" [(ngModel)]="subtask.title" />
+                                        <img src="./../../../assets/img/check_large.png" alt="Save"
+                                            (click)="saveEditSubtask(i)" class="saveIcon">
+                                        <img src="./../../../assets/img/Close.png" alt="Cancel"
+                                            (click)="cancelEditSubtask(i)" class="cancelIcon">
+                                    </div>
+
+                                    <!-- Anzeigemodus -->
+                                    <div *ngIf="!subtask.editing" class="subtaskViewMode">
+                                        {{ subtask.title }}
+                                        <img src="./../../../assets/img/edit1.png" alt="Edit" (click)="editSubtask(i)"
+                                            class="editIcon">
+                                        <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
+                                            (click)="deleteSubtask(i)" class="deleteIcon">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
         </div>
 
