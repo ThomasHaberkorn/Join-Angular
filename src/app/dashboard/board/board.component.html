@@ -247,7 +247,6 @@
                         <option value="done">Done</option>
                     </select>
                 </div>
-
                 <img src="./../../../assets/img/close.svg" alt="" (click)="closeCardDetail()" />
             </div>
             <div class="cardDetailContent">
@@ -371,7 +370,6 @@
                         <input type="text" placeholder="Add new subtask" [(ngModel)]="newSubtaskTitle" />
                         <img src="./../../../assets/img/addSubtasks.png" alt="" (click)="addSubtask()">
                     </div>
-
                     <div *ngFor="let subtask of selectedTask?.subtasks; let i = index" class="subtaskContent">
 
                         <!-- View Mode -->

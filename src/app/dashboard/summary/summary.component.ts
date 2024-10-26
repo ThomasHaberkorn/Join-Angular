@@ -5,6 +5,11 @@ import { Task } from '../../../models/task.class';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+
+/**
+ * Component for displaying a summary view of tasks, task counts, and a greeting for the user.
+ * Loads tasks from Firestore based on the user type and provides task statistics.
+ */
 @Component({
   selector: 'app-summary',
   standalone: true,
@@ -13,10 +18,16 @@ import { Router } from '@angular/router';
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
+  /** Array of tasks loaded from Firestore. */
   tasks: Task[] = [];
+  
+  /** Type of the logged-in user ('guest' by default). */
   userType: string = 'guest';
+  
+  /** First name of the logged-in user. */
   firstName: string = '';
-
+  
+  /** Counts of tasks in various statuses. */
   todoCount: number = 0;
   doneCount: number = 0;
   urgentCount: number = 0;
@@ -24,10 +35,23 @@ export class SummaryComponent {
   tasksInBoardCount: number = 0;
   inProgressCount: number = 0;
   awaitingFeedbackCount: number = 0;
+  
+  /** Greeting message for the user based on the time of day. */
   greeting: string = '';
 
+ 
+    /**
+   * Initializes component with Firestore and Router services.
+   * @param {Firestore} firestore - Firestore service for loading tasks.
+   * @param {Router} router - Router service for navigation.
+   */
   constructor(private firestore: Firestore, private router: Router) {}
 
+
+    /**
+   * Initializes the component by setting user details, updating greeting,
+   * loading tasks, and counting task statuses.
+   */
   async ngOnInit() {
     this.userType = sessionStorage.getItem('userType') || 'guest';
     this.firstName = localStorage.getItem('firstName') || '';
@@ -36,6 +60,10 @@ export class SummaryComponent {
     this.countTasks();
   }
 
+
+  /**
+   * Loads tasks from Firestore for the current user type and filters based on the user type.
+   */
   async loadTasksFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
@@ -47,6 +75,10 @@ export class SummaryComponent {
     }
   }
 
+
+    /**
+   * Counts tasks by their status and priority and calculates the next urgent deadline.
+   */
   countTasks() {
     this.todoCount = this.tasks.filter(task => task.status === 'todo').length;
     this.doneCount = this.tasks.filter(task => task.status === 'done').length;
@@ -62,6 +94,10 @@ export class SummaryComponent {
     }
   }
 
+
+   /**
+   * Updates the greeting message based on the current time of day.
+   */
   updateGreeting() {
     const now = new Date();
     const hour = now.getHours();
@@ -78,6 +114,10 @@ export class SummaryComponent {
     }
   }
 
+
+   /**
+   * Navigates to the board view.
+   */
   navigateToBoard() {
     this.router.navigate(['/dashboard/board']);
   }

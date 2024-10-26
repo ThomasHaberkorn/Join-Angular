@@ -1,6 +1,3 @@
-
-
-
 export class Task {
     id?: string;
     title: string;
@@ -15,7 +12,6 @@ export class Task {
     userType: string;
   
     constructor(obj?: any) {
-        // this.id = this.getID();
         this.id = obj ? obj.id : '';
         this.title = obj ? obj.title : '';
         this.description = obj ? obj.description : '';
@@ -58,38 +54,18 @@ export class Task {
 
 }
 
-// export class Subtask {
-//   title: string;
-//   done: boolean;
-//   editing: boolean;  
-  
-//   constructor(obj?: any) {
-//     this.title = obj?.title || '';
-//     this.done = obj?.done ?? false;
-//     this.editing = false;
-//   }
-
-//   public toJSON() {
-//     return {
-//       title: this.title,
-//       done: this.done
-//     };
-//   }
-// }
-
-
 
 export class Subtask {
   title: string;
   done: boolean;
   editing: boolean;
-  originalTitle?: string; // Hinzugefügt
+  originalTitle?: string; 
   
   constructor(obj?: any) {
     this.title = obj?.title || '';
     this.done = obj?.done ?? false;
     this.editing = false;
-    this.originalTitle = obj?.originalTitle; // Hinzugefügt
+    this.originalTitle = obj?.originalTitle; 
   }
 
   public toJSON() {

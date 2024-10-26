@@ -1,150 +1,132 @@
 @import "../../../styles.scss";
-@import "./summary.media.scss";
 
-.mainContainer {
-  position: absolute;
-  top: 96px;
-  left: 232px;
-  @include flexDir(column, $ai: flex-start, $jc: flex-start);
-  width: calc(100% - 232px);
-  height: calc(100% - 96px);
-
-  .mainInnerContainer {
-    width: 100%;
-    max-width: 1920px;
-    height: 100%;
-    margin-top: 30px;
-    margin-left: 96px;
-    @include dFlex($jc: flex-start, $ai: flex-start);
-    .contentContainer {
-      @include flexDir(column, $ai: flex-start, $jc: flex-start);
-      width: 40%;
-      max-width: 560px;
-      height: 70%;
-      max-height: 562px;
-      gap: 10px;
-      position: relative;
-      .headlineContainer {
-        @include dFlex($jc: flex-start);
-        width: 170%;
-        max-width: 1920px;
-        height: 73px;
-        margin-top: 45px;
-        margin-bottom: 40px;
-        gap: 30px;
-        h1 {
-          font-size: 61px;
-          font-weight: 700;
-        }
-        .blueLine {
-          width: 2px;
-          height: 59px;
-          background-color: $lblue;
-          border-radius: 10px;
-        }
-        h3 {
-          font-size: 27px;
-          font-weight: 400;
-        }
-      }
-      .upperRow {
-        @include dFlex($jc: space-between);
-        width: 100%;
-        height: 33%;
-
-        .todoContent {
-          transition: all 0.3s ease-in-out;
-          &:hover {
-            transform: scale(1.07);
-            background-color: $dblue;
-            img {
-              content: url("./../../../assets/img/todoLogoWhite.png");
-            }
+@media (max-width: 100vw) {
+  .mainContainer {
+    position: absolute;
+    top: 96px;
+    left: 232px;
+    @include flexDir(column, $ai: flex-start, $jc: flex-start);
+    width: calc(100% - 232px);
+    height: calc(100% - 96px);
+    .mainInnerContainer {
+      width: 100%;
+      max-width: 1920px;
+      height: 100%;
+      margin-top: 30px;
+      margin-left: 96px;
+      @include dFlex($jc: flex-start, $ai: flex-start);
+      .contentContainer {
+        @include flexDir(column, $ai: flex-start, $jc: flex-start);
+        width: 40%;
+        max-width: 560px;
+        height: 70%;
+        max-height: 562px;
+        gap: 10px;
+        position: relative;
+        .headlineContainer {
+          @include dFlex($jc: flex-start);
+          width: 170%;
+          max-width: 1920px;
+          height: 73px;
+          margin-top: 45px;
+          margin-bottom: 40px;
+          gap: 30px;
+          h1 {
+            font-size: 61px;
+            font-weight: 700;
+          }
+          .blueLine {
+            width: 2px;
+            height: 59px;
+            background-color: $lblue;
+            border-radius: 10px;
+          }
+          h3 {
+            font-size: 27px;
+            font-weight: 400;
           }
         }
-        .doneContent {
-          transition: all 0.3s ease-in-out;
-          &:hover {
-            transform: scale(1.07);
-            background-color: $dblue;
-            img {
-              content: url("./../../../assets/img/doneLogoWhite.png");
+        .upperRow {
+          @include dFlex($jc: space-between);
+          width: 100%;
+          height: 33%;
+
+          .todoContent {
+            transition: all 0.3s ease-in-out;
+            &:hover {
+              transform: scale(1.07);
+              background-color: $dblue;
+              img {
+                content: url("./../../../assets/img/todoLogoWhite.png");
+              }
             }
           }
-        }
-        .row1Content {
-          &:hover {
+          .doneContent {
+            transition: all 0.3s ease-in-out;
+            &:hover {
+              transform: scale(1.07);
+              background-color: $dblue;
+              img {
+                content: url("./../../../assets/img/doneLogoWhite.png");
+              }
+            }
+          }
+          .row1Content {
+            &:hover {
+              .row1InfoContent {
+                .row1Counter {
+                  color: $white;
+                }
+                .row1Text {
+                  color: $white;
+                }
+              }
+            }
+          }
+          .row1Content {
+            @include dFlex();
+            width: 47%;
+            aspect-ratio: 216/145;
+            gap: 30px;
+            border-radius: 30px;
+            background-color: $white;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            img {
+              width: 70px;
+              height: 70px;
+            }
             .row1InfoContent {
+              @include flexDir(column);
+
               .row1Counter {
-                color: $white;
+                @include dFlex();
+                font-size: 64px;
               }
               .row1Text {
-                color: $white;
+                @include dFlex();
+                font-size: 20px;
               }
             }
           }
         }
-        .row1Content {
-          @include dFlex();
-          width: 47%;
-          // height: 100%;
-          aspect-ratio: 216/145;
-          gap: 30px;
-          border-radius: 30px;
-          background-color: $white;
-          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
-          cursor: pointer;
-          img {
-            width: 70px;
-            height: 70px;
-          }
-          .row1InfoContent {
-            @include flexDir(column);
-
-            .row1Counter {
-              @include dFlex();
-              font-size: 64px;
-            }
-            .row1Text {
-              @include dFlex();
-              font-size: 20px;
-            }
-          }
-        }
-      }
-      .midRow {
-        width: 100%;
-        // height: 30%;
-        aspect-ratio: 560/166;
-        @include dFlex($jc: space-between);
-
-        .midRowInnerContainer {
-          @include dFlex();
+        .midRow {
           width: 100%;
-          height: 100%;
-          border-radius: 30px;
-          background-color: $white;
-          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
-          transition: all 0.3s ease-in-out;
-          cursor: pointer;
-          &:hover {
-            transform: scale(1.07);
-            background-color: $dblue;
-            .urgentInfoContainer {
-              .urgentCounter {
-                color: $white;
-              }
-              .urgentText {
-                color: $white;
-              }
-            }
-            .urgentLine {
-              background-color: $white;
-              width: 2px;
-              height: 90px;
-            }
-            .urgentDateContainer {
-              .urgentDateInnerContainer {
+          aspect-ratio: 560/166;
+          @include dFlex($jc: space-between);
+          .midRowInnerContainer {
+            @include dFlex();
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            background-color: $white;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            &:hover {
+              transform: scale(1.07);
+              background-color: $dblue;
+              .urgentInfoContainer {
                 .urgentCounter {
                   color: $white;
                 }
@@ -152,106 +134,393 @@
                   color: $white;
                 }
               }
+              .urgentLine {
+                background-color: $white;
+                width: 2px;
+                height: 90px;
+              }
+              .urgentDateContainer {
+                .urgentDateInnerContainer {
+                  .urgentCounter {
+                    color: $white;
+                  }
+                  .urgentText {
+                    color: $white;
+                  }
+                }
+              }
+            }
+            .urgentInfoContainer {
+              width: 47%;
+              height: 100%;
+              @include dFlex();
+            }
+            img {
+              width: 70px;
+              height: 70px;
+            }
+            .urgentInfoContent {
+              width: 47%;
+              height: 100%;
+              @include flexDir(column);
+              .urgentCounter {
+                font-size: 64px;
+              }
+              .urgentText {
+                font-size: 20px;
+              }
             }
           }
-          .urgentInfoContainer {
+          .urgentLine {
+            width: 2px;
+            height: 90px;
+            background-color: $inputGrey;
+          }
+          .urgentDateContainer {
             width: 47%;
             height: 100%;
-
             @include dFlex();
+            .urgentDateInnerContainer {
+              @include flexDir(column, $ai: flex-start);
+              .urgentDeadlineDate {
+                font-size: 21px;
+                font-weight: 700;
+              }
+              .urgentDeadlineText {
+                font-size: 16px;
+              }
+            }
           }
-          img {
-            width: 70px;
-            height: 70px;
-          }
-          .urgentInfoContent {
-            width: 47%;
-            height: 100%;
+        }
+        .lowerRow {
+          width: 100%;
+          height: 33%;
+          @include dFlex($jc: space-between);
+          .row3InfoContent {
             @include flexDir(column);
-
-            .urgentCounter {
+            width: 30%;
+            aspect-ratio: 1/1;
+            border-radius: 30px;
+            background-color: $white;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            &:hover {
+              background-color: $dblue;
+              transform: scale(1.1);
+              .row3Counter {
+                color: $white;
+              }
+              .row3Text {
+                color: $white;
+              }
+            }
+            .row3Counter {
+              @include dFlex();
               font-size: 64px;
+              font-weight: 600;
             }
-            .urgentText {
+            .row3Text {
+              @include dFlex();
               font-size: 20px;
-            }
-          }
-        }
-        .urgentLine {
-          width: 2px;
-          height: 90px;
-          background-color: $inputGrey;
-        }
-        .urgentDateContainer {
-          width: 47%;
-          height: 100%;
-          @include dFlex();
-          .urgentDateInnerContainer {
-            @include flexDir(column, $ai: flex-start);
-            .urgentDeadlineDate {
-              font-size: 21px;
-              font-weight: 700;
-            }
-            .urgentDeadlineText {
-              font-size: 16px;
+              text-align: center;
+              width: 80%;
             }
           }
         }
       }
-      .lowerRow {
+      .welcomeContainer {
+        width: 52%;
+        height: 70%;
+        max-height: 562px;
+        @include flexDir(column);
+        .dayTime {
+          font-size: 47px;
+          font-weight: 500;
+          margin-top: 10%;
+        }
+        .userName {
+          font-size: 64px;
+          font-weight: 700;
+          color: $lblue;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .mainContainer {
+    left: 0;
+    width: 100%;
+    height: calc(100% - 196px);
+    width: 100%;
+    @include dFlex();
+    .mainInnerContainer {
+      margin-left: 0;
+      justify-content: center;
+      .contentContainer {
         width: 100%;
-        height: 33%;
-        @include dFlex($jc: space-between);
-        .row3InfoContent {
-          @include flexDir(column);
-          width: 30%;
-          // height: 100%;
-          aspect-ratio: 1/1;
-          border-radius: 30px;
-          background-color: $white;
-          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
-          transition: all 0.3s ease-in-out;
-          cursor: pointer;
-          &:hover {
-            background-color: $dblue;
-            transform: scale(1.1);
+        max-width: 440px;
+        margin-left: 10px;
+        margin-right: 10px;
+        .headlineContainer {
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 10px;
+          margin-left: 5px;
+          margin-top: 0px;
+          margin-bottom: 40px;
+          width: 70vw;
+          h1 {
+            font-size: 45px;
+            margin: 0;
+          }
+          .blueLine {
+            width: 200px;
+            height: 2px;
+            padding: 1px;
+          }
+          h3 {
+            font-size: 20px;
+            margin: 0;
+          }
+        }
+        .upperRow {
+          .row1Content {
+            width: 47%;
+          }
+        }
+      }
+      .welcomeContainer {
+        display: none;
+        align-items: center;
+        .dayTime {
+          margin-left: 0;
+        }
+        .userName {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        .headlineContainer {
+          margin-top: 0;
+          margin-bottom: 20px;
+        }
+        .upperRow {
+          .row1Content {
+            img {
+              width: 60px;
+              height: 60px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 60px;
+                height: 60px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 16px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+        .lowerRow {
+          .row3InfoContent {
             .row3Counter {
-              color: $white;
+              font-size: 50px;
             }
             .row3Text {
-              color: $white;
+              font-size: 16px;
+              width: 80%;
             }
-          }
-
-          .row3Counter {
-            @include dFlex();
-            font-size: 64px;
-            font-weight: 600;
-          }
-          .row3Text {
-            @include dFlex();
-            font-size: 20px;
-            text-align: center;
-            width: 80%;
           }
         }
       }
     }
-    .welcomeContainer {
-      width: 60%;
-      height: 70%;
-      max-height: 562px;
-      @include flexDir(column, $ai: flex-start);
-      .dayTime {
-        font-size: 47px;
-        font-weight: 500;
-        margin-left: 10%;
+  }
+}
+
+@media (max-width: 400px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        gap: 8px;
+        .upperRow {
+          .row1Content {
+            gap: 20px;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 50px;
+                height: 50px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 16px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
       }
-      .userName {
-        font-size: 64px;
-        font-weight: 700;
-        color: $lblue;
-        margin-left: 10%;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        gap: 5px;
+        .upperRow {
+          .row1Content {
+            gap: 10px;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 50px;
+                height: 50px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+              height: 75px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 14px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+        .lowerRow {
+          .row3InfoContent {
+            .row3Counter {
+              font-size: 45px;
+            }
+            .row3Text {
+              font-size: 12px;
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1800px) and (max-height: 830px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        max-width: 500px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) and (max-height: 830px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        max-width: 470px;
       }
     }
   }

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-
+/**
+ * Component for displaying the help page and handling navigation based on user type.
+ */
 @Component({
   selector: 'app-help-page',
   standalone: true,
@@ -11,23 +13,22 @@ import { Router } from '@angular/router';
 })
 export class HelpPageComponent {
 
+  /**
+   * Initializes the component with the router for navigation.
+   * @param {Router} router - Router service for navigating between pages.
+   */
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-    // Ihr bestehender Code
-  }
-
-
+  /**
+   * Navigates the user based on their session user type.
+   * If no user type is found, navigates to the root page; otherwise, navigates to the dashboard summary.
+   */
   navigateTo() {
     const userType = sessionStorage.getItem('userType');
-  
     if (!userType || userType === '') {
-      // Wenn der userType nicht gesetzt oder leer ist, zur Login-Seite navigieren
       this.router.navigate(['/']);
     } else {
-      // Andernfalls zur Summary-Seite navigieren
       this.router.navigate(['/dashboard/summary']);
     }
   }
-  
-
 }

@@ -239,6 +239,12 @@
 
 @media (max-width: 380px) {
   .mainContainer {
+    .validation-overlay {
+      .validation-overlay-content {
+        max-width: 300px !important;
+        box-sizing: border-box !important;
+      }
+    }
     .mainInnerContainer {
       .addTaskContainer {
         .addTaskLeft {
@@ -276,6 +282,40 @@
               img {
                 width: 10px !important;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 380px) and (max-height: 750px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .headline {
+        h1 {
+          font-size: 40px !important;
+        }
+      }
+      .buttonContainer {
+        margin-top: 8px !important;
+        .buttonInnerContainer {
+          .required {
+            span {
+              font-size: 14px !important;
+            }
+          }
+          .addTaskButtons {
+            .clearButton {
+              width: 100% !important;
+              height: 32px !important;
+              font-size: 16px !important;
+            }
+            .createButton {
+              width: 100% !important;
+              height: 36px !important;
+              font-size: 16px !important;
             }
           }
         }

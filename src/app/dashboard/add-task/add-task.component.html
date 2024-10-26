@@ -1,4 +1,10 @@
 <div class="mainContainer" [ngClass]="{'modal-version': isModal}">
+    <div *ngIf="showValidationOverlay" class="validation-overlay" (click)="closeValidationOverlay()">
+        <div class="validation-overlay-content">
+            <p>Please fill in all required fields to continue.</p>
+            <button (click)="closeValidationOverlay()">OK</button>
+        </div>
+    </div>
     <div class="mainInnerContainer">
         <div class="headline">
             <h1>Add Task</h1>
@@ -7,9 +13,9 @@
             <div class="addTaskLeft">
                 <h4>Title <span>*</span></h4>
                 <div class="inputContainer">
-                    <input class="inputFieldAddTask" type="text" id="title" [(ngModel)]="task.title">
+                    <input class="inputFieldAddTask" type="text" id="title" [(ngModel)]="task.title"
+                        [ngClass]="{'input-error': !task.title && showValidationErrors}">
                 </div>
-
                 <h4>Description</h4>
                 <div class="inputContainer">
                     <textarea class="inputFieldAddTask textarea" id="description"
@@ -34,7 +40,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="selected-users">
                     <div *ngFor="let user of assignedUsers.slice(0, 3)" class="user-circle"
                         [ngStyle]="{ 'background-color': user.color }">
@@ -45,17 +50,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="centerLine"></div>
-
             <div class="addTaskRight">
                 <h4>Due date <span>*</span></h4>
-
                 <div class="inputContainer">
-                    <input class="inputFieldAddTask" style="cursor: pointer;" type="date" id="dueDate"
-                        [(ngModel)]="task.dueDate">
+                    <input class="inputFieldAddTask" type="date" id="dueDate" [(ngModel)]="task.dueDate"
+                        [ngClass]="{'input-error': !task.dueDate && showValidationErrors}">
                 </div>
-
                 <h4>Prio</h4>
                 <div class="taskPrio" id="taskPrio">
                     <div class="urgend buttonPrio" tabindex="0" (click)="setPriority('Urgent')"
@@ -74,41 +75,15 @@
                         <img src="./../../../assets/img/lowSymbol.png" alt="">
                     </div>
                 </div>
-
                 <h4>Category <span>*</span></h4>
                 <div class="inputContainer">
-                    <select class="inputFieldAddTask selectFieldAddTask" [(ngModel)]="task.category">
+                    <select class="inputFieldAddTask selectFieldAddTask" [(ngModel)]="task.category"
+                        [ngClass]="{'input-error': !task.category && showValidationErrors}">
                         <option value="" disabled>Select task category</option>
                         <option value="Technical Task">Technical Task</option>
                         <option value="User Story">User Story</option>
                     </select>
                 </div>
-
-                <!-- <div class="inputContainer">
-                    <div class="subtasks">
-                        <h4>Subtasks</h4>
-                        <div class="subtaskContainer">
-                            <div class="subtaskInputWrapper inputFieldAddTask">
-                                <div class="subtaskInput" contenteditable="true" #subtaskInput
-                                    (keydown)="preventEnter($event)"></div>
-                                <img src="./../../../assets/img/addSubtasks.png" alt="Add Subtask" class="addSubtask"
-                                    (click)="addSubtask(subtaskInput)">
-                            </div>
-                        </div>
-
-                        <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
-                            <ul class="listClass">
-                                <li *ngFor="let subtask of task.subtasks; let i = index">
-                                    {{ subtask.title }}
-                                    <img src="./../../../assets/img/edit1.png" alt="" (click)="editSubtask(i)"
-                                        class="editIcon">
-                                    <img src="./../../../assets/img/delete.png" alt="Delete Subtask"
-                                        (click)="deleteSubtask(i)" class="deleteIcon">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="inputContainer">
                     <div class="subtasks">
                         <h4>Subtasks</h4>
@@ -120,11 +95,9 @@
                                     (click)="addSubtask(subtaskInput)">
                             </div>
                         </div>
-
                         <div class="innerLIContainer" *ngIf="task.subtasks.length > 0">
                             <ul class="listClass">
                                 <li *ngFor="let subtask of task.subtasks; let i = index">
-                                    <!-- Bearbeitungsmodus -->
                                     <div *ngIf="subtask.editing" class="subtaskEditMode">
                                         <input type="text" [(ngModel)]="subtask.title" />
                                         <img src="./../../../assets/img/check_large.png" alt="Save"
@@ -132,8 +105,6 @@
                                         <img src="./../../../assets/img/Close.png" alt="Cancel"
                                             (click)="cancelEditSubtask(i)" class="cancelIcon">
                                     </div>
-
-                                    <!-- Anzeigemodus -->
                                     <div *ngIf="!subtask.editing" class="subtaskViewMode">
                                         {{ subtask.title }}
                                         <img src="./../../../assets/img/edit1.png" alt="Edit" (click)="editSubtask(i)"
@@ -144,13 +115,10 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
-
         <div class="buttonContainer">
             <div class="buttonInnerContainer">
                 <div class="required"><span>*</span> This field is required</div>

@@ -6,6 +6,11 @@ import { gsap } from 'gsap';
 import { FormsModule } from '@angular/forms';
 import { Task } from '../../../models/task.class';
 
+
+/**
+ * Component for managing users in the application.
+ * Provides CRUD operations for users and groups users alphabetically.
+ */
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -14,24 +19,48 @@ import { Task } from '../../../models/task.class';
   styleUrl: './users.component.scss'
 })
 export class UsersComponent{
-  users: User[] = [];
-  groupedUsers: { [key: string]: User[] } = {};
-  selectedUser: User | null = null;
-  editMode: boolean = false;
-  addMode: boolean = false;
-  newUser: User = new User();
-  @ViewChild('contactCard') contactCard!: ElementRef;
-  message: string = '';
-  isSmallScreen: boolean = window.innerWidth < 1000;
-  showContactList: boolean = true;
+   /** Array of users loaded from Firestore. */
+   users: User[] = [];
+  
+   /** Users grouped alphabetically by the first letter of their first name. */
+   groupedUsers: { [key: string]: User[] } = {};
+   
+   /** Currently selected user for viewing or editing. */
+   selectedUser: User | null = null;
+   
+   /** Flag indicating if edit mode is active. */
+   editMode: boolean = false;
+   
+   /** Flag indicating if add mode is active. */
+   addMode: boolean = false;
+   
+   /** New user instance for adding a contact. */
+   newUser: User = new User();
+   
+   /** Reference to the contact card element for animations. */
+   @ViewChild('contactCard') contactCard!: ElementRef;
+   
+   /** Message to display feedback to the user. */
+   message: string = '';
+   
+   /** Flag indicating if the screen width is considered small. */
+   isSmallScreen: boolean = window.innerWidth < 1000;
+   
+   /** Flag to toggle the display of the contact list on small screens. */
+   showContactList: boolean = true;
 
+
+     /**
+   * Initializes the component with Firestore.
+   * @param {Firestore} firestore - Firestore service for accessing the database.
+   */
   constructor(private firestore: Firestore) { }
 
-  // async ngOnInit() {
-  //   await this.loadUsersFromFirestore();
-  //   this.groupUsersByFirstLetter();
-  // }
-
+ 
+    /**
+   * Initializes the component by loading users, grouping them,
+   * and setting the display of the contact list based on screen size.
+   */
   async ngOnInit() {
     await this.loadUsersFromFirestore();
     this.groupUsersByFirstLetter();
@@ -43,6 +72,9 @@ export class UsersComponent{
   }
   
 
+  /**
+   * Loads users from Firestore and assigns unique IDs from Firestore.
+   */
   async loadUsersFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'users'));
@@ -56,6 +88,10 @@ export class UsersComponent{
     }
   }
 
+
+   /**
+   * Groups users alphabetically by the first letter of their first name.
+   */
   groupUsersByFirstLetter() {
     this.groupedUsers = this.users.reduce((groups: { [key: string]: User[] }, user: User) => {
       const firstLetter = user.firstName[0].toUpperCase(); 
@@ -67,63 +103,26 @@ export class UsersComponent{
     }, {});
   }
 
+
+  /**
+   * Updates the screen size properties and toggles the contact list display on resize.
+   * @param {Event} event - The resize event.
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.isSmallScreen = window.innerWidth < 1000;
     if (!this.isSmallScreen) {
-      // Auf größeren Bildschirmen beides anzeigen
       this.showContactList = true;
     } else {
-      // Auf kleineren Bildschirmen die Liste oder Karte basierend auf der Benutzerauswahl anzeigen
       this.showContactList = !this.selectedUser;
     }
   }
   
 
-  // showContactCard(user: User) {
-  //   if (this.selectedUser && this.selectedUser === user) {
-  //     gsap.to(this.contactCard.nativeElement, {
-  //       x: '100%', 
-  //       opacity: 0, 
-  //       duration: 0.5, 
-  //       ease: 'power2.in', 
-  //       onComplete: () => {
-  //         this.selectedUser = null; 
-  //       }
-  //     });
-  //   } else {
-  //     if (this.selectedUser) {
-  //       gsap.to(this.contactCard.nativeElement, {
-  //         x: '100%', 
-  //         opacity: 0, 
-  //         duration: 0.5, 
-  //         ease: 'power2.in', 
-  //         onComplete: () => {
-  //           this.selectedUser = user;
-  //           setTimeout(() => {
-  //             if (this.contactCard) {
-  //               gsap.fromTo(this.contactCard.nativeElement, 
-  //                 { x: '100%', opacity: 0 }, 
-  //                 { x: '0%', opacity: 1, duration: 0.5, ease: 'power2.out' }
-  //               );
-  //             }
-  //           }, 300);
-  //         }
-  //       });
-  //     } else {
-  //       this.selectedUser = user;
-  //       setTimeout(() => {
-  //         if (this.contactCard) {
-  //           gsap.fromTo(this.contactCard.nativeElement, 
-  //             { x: '100%', opacity: 0 }, 
-  //             { x: '0%', opacity: 1, duration: 0.5, ease: 'power2.out' }
-  //           );
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
-
+   /**
+   * Animates the display of the contact card for the selected user.
+   * @param {User} user - The user to display in the contact card.
+   */
   showContactCard(user: User) {
     if (this.selectedUser && this.selectedUser === user) {
       gsap.to(this.contactCard.nativeElement, {
@@ -172,6 +171,9 @@ export class UsersComponent{
   }
 
 
+   /**
+   * Hides the contact card with an animation and resets the selected user.
+   */
   hideContactCard() {
     gsap.to(this.contactCard.nativeElement, 
       { x: '100%', opacity: 0, duration: 0.5, ease: 'power2.in', onComplete: () => {
@@ -179,22 +181,34 @@ export class UsersComponent{
       } });
   }
 
+
+    /**
+   * Returns to the contact list view on small screens.
+   */
   goBackToList() {
     if (this.isSmallScreen) {
       this.showContactList = true;
-      this.selectedUser = null; // Optional: Setzen Sie den ausgewählten Benutzer zurück
+      this.selectedUser = null; 
     }
   }
   
 
   // ------------- Edit User ------------
 
+
+   /**
+   * Activates edit mode for the selected user.
+   */
   openEditContact() {
     if (this.selectedUser) {  
       this.editMode = true;
     }
   }
 
+
+  /**
+   * Saves changes to the selected user's details in Firestore.
+   */
   async editContact() {
     if (this.selectedUser && this.selectedUser.id) {
       this.selectedUser.firstName = this.capitalizeName(this.selectedUser.firstName);
@@ -211,12 +225,8 @@ export class UsersComponent{
           phone: this.selectedUser.phone,
           id: this.selectedUser.id
         });
-  
-        console.log('User updated:', this.selectedUser);
-  
         await this.loadUsersFromFirestore();
         this.groupUsersByFirstLetter();
-  
         this.closeEditContact();
       } catch (error) {
         console.error('Error updating user in Firestore:', error);
@@ -224,31 +234,49 @@ export class UsersComponent{
     }
   }
   
+
+  /**
+   * Generates initials for a user based on their first and last name.
+   * @param {string} firstName - The user's first name.
+   * @param {string} lastName - The user's last name.
+   * @returns {string} - The initials of the user.
+   */
   getInitialsEdit(firstName: string, lastName: string): string {
     const firstInitial = firstName?.trim().charAt(0).toUpperCase() || '';
     const lastInitial = lastName?.trim().charAt(0).toUpperCase() || '';
-    
     return `${firstInitial}${lastInitial}`;
   }
   
   
+  /**
+   * Exits edit mode for the selected user.
+   * @param {MouseEvent} [event] - The mouse event triggering this action.
+   */
   closeEditContact(event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
     }
     this.editMode = false;
   } 
-
   
 
   // ------------- Ende Edit User ------------
   // ------------- Add User ------------
 
+
+  /**
+   * Prepares a new user instance and activates add mode.
+   */
   openAddContact() {
     this.newUser = new User(); 
     this.addMode = true; 
   }
   
+
+  /**
+   * Exits add mode without saving the new user.
+   * @param {MouseEvent} [event] - The mouse event triggering this action.
+   */
   closeAddContact(event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
@@ -257,20 +285,18 @@ export class UsersComponent{
   }
   
 
-  
+  /**
+   * Saves the new user to Firestore and updates the user list.
+   */
   async saveNewContact() {
     if (this.newUser.firstName && this.newUser.email) {
       this.newUser.firstName = this.capitalizeName(this.newUser.firstName);
       this.newUser.lastName = this.capitalizeName(this.newUser.lastName);
       this.newUser.initials = this.newUser.getInitials();
-  
       try {
         const userCollection = collection(this.firestore, 'users');
-        const newUserRef = await addDoc(userCollection, {}); // Leeres Dokument erstellen, um die ID zu erhalten
-  
-        this.newUser.id = newUserRef.id; // ID des erstellten Dokuments setzen
-  
-        // Benutzerdaten in Firestore aktualisieren
+        const newUserRef = await addDoc(userCollection, {}); 
+        this.newUser.id = newUserRef.id; 
         await updateDoc(newUserRef, {
           firstName: this.newUser.firstName,
           lastName: this.newUser.lastName,
@@ -282,10 +308,8 @@ export class UsersComponent{
           userType: 'user',
           password: '1',
         });
-  
         await this.loadUsersFromFirestore();
         this.groupUsersByFirstLetter();
-  
         this.closeAddContact();
       } catch (error) {
         console.error('Error adding user to Firestore:', error);
@@ -294,44 +318,39 @@ export class UsersComponent{
   }
   
 
-
+  /**
+   * Capitalizes the first letter of a name.
+   * @param {string} name - The name to capitalize.
+   * @returns {string} - The capitalized name.
+   */
   capitalizeName(name: string): string {
     if (!name) return ''; 
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 
   // ------------- Ende Add User -------------
+  // ------------- Delete User ------------
 
-
+  /**
+   * Deletes the selected user from Firestore and removes their assignments from tasks.
+   */
    async deleteContact() {
-    console.log('Delete user:', this.selectedUser);
     if (this.selectedUser && this.selectedUser.id) {
       const loggedInUserId = localStorage.getItem('userId');
-      
       if (this.selectedUser.id === loggedInUserId) {
         this.message = 'Der angemeldete Benutzer kann nicht gelöscht werden.';
-        
         setTimeout(() => {
           this.message = '';
         }, 2500); 
-        
         return;
       }
-  
       try {
         const userDocRef = doc(this.firestore, 'users', this.selectedUser.id);
         await deleteDoc(userDocRef);
-        console.log('User deleted:', this.selectedUser);
-  
-        // Remove the deleted user from all tasks
         await this.removeDeletedUserFromTasks(this.selectedUser.id);
-  
         await this.loadUsersFromFirestore();
         this.groupUsersByFirstLetter();
-  
         this.selectedUser = null;
-  
-        // Nach erfolgreicher Löschung die Nachricht löschen
         this.message = '';
       } catch (error) {
         console.error('Error deleting user from Firestore:', error);
@@ -341,21 +360,20 @@ export class UsersComponent{
   }
   
 
+  /**
+   * Removes a deleted user from all tasks they were assigned to in Firestore.
+   * @param {string} userId - The ID of the user to remove.
+   */
   async removeDeletedUserFromTasks(userId: string) {
     try {
       const taskCollection = collection(this.firestore, 'tasks');
       const querySnapshot = await getDocs(taskCollection);
-  
-      // Schleife über alle Aufgaben und entferne den gelöschten Benutzer aus den Zuweisungen
       for (const taskDoc of querySnapshot.docs) {
         const taskData = taskDoc.data() as Task;
-  
         if (taskData.assignedTo && taskData.assignedTo.includes(userId)) {
           const updatedAssignedTo = taskData.assignedTo.filter(id => id !== userId);
-          
           const taskDocRef = doc(this.firestore, 'tasks', taskDoc.id);
           await updateDoc(taskDocRef, { assignedTo: updatedAssignedTo });
-          console.log(`User ${userId} removed from task ${taskDoc.id}`);
         }
       }
     } catch (error) {

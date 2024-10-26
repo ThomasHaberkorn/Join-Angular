@@ -16,87 +16,135 @@ import { AddTaskComponent } from '../add-task/add-task.component';
 })
 export class BoardComponent {
   task: Task = new Task();
-  tasks: Task[] = [];
-  users: User[] = [];
-  assignedUsers: User[] = [];
-  dropdownOpen: boolean = false;
-  isDragging: boolean = false;
-  draggingOver: string = '';
-  showAddTaskModal: boolean = false;
-  showEditTaskModal: boolean = false;
-  selectedTask: Task | null = null;
-  hoverEditIcon: boolean = false;
+  // tasks: Task[] = [];
+  // users: User[] = [];
+  // assignedUsers: User[] = [];
+  // dropdownOpen: boolean = false;
+  // isDragging: boolean = false;
+  // draggingOver: string = '';
+  // showAddTaskModal: boolean = false;
+  // showEditTaskModal: boolean = false;
+  // selectedTask: Task | null = null;
+  // hoverEditIcon: boolean = false;
   newSubtaskTitle: string = '';
+  searchTerm: string = '';
+  // editTitle: string = '';
+  // editDueDate: Date | null = null;
+  // editPriority: string = '';
+  // editDescription: boolean = false;
+  // editDescriptionText: string = '';
+ 
+  // loggedInUserType: string = 'guest';
+  // userType: string = ''; 
+
+
+
+  /** Currently selected task for viewing or editing. */
+  selectedTask: Task | null = null;
+  
+  /** Array of tasks loaded from Firestore. */
+  tasks: Task[] = [];
+  
+  /** Array of users loaded from Firestore. */
+  users: User[] = [];
+  
+  /** Boolean indicating if Add Task modal is visible. */
+  showAddTaskModal: boolean = false;
+  
+  /** Boolean indicating if Edit Task modal is visible. */
+  showEditTaskModal: boolean = false;
+  
+  /** Boolean indicating if the user is dragging a task. */
+  isDragging: boolean = false;
+  
+  /** Currently hovered task status column during drag-and-drop. */
+  draggingOver: string = '';
+
+  /** Form control variables for task editing. */
   editTitle: string = '';
   editDueDate: Date | null = null;
   editPriority: string = '';
   editDescription: boolean = false;
   editDescriptionText: string = '';
-  searchTerm: string = '';
+
+  /** Indicates the logged-in user's type ('guest' by default). */
   loggedInUserType: string = 'guest';
-  userType: string = ''; 
+
+  /** Shows or hides the user assignment dropdown. */
+  dropdownOpen: boolean = false;
 
 
-  constructor(private fb: FormBuilder, private firestore: Firestore) {
 
-   }
+   /**
+   * Initializes the component with FormBuilder and Firestore.
+   * @param {FormBuilder} fb - Angular form builder for reactive forms.
+   * @param {Firestore} firestore - Angular Firestore service for Firebase data operations.
+   */
+  constructor(private fb: FormBuilder, private firestore: Firestore) {}
 
+  
+ /**
+   * Initializes component by loading tasks and users from Firestore
+   * and sets default task priority.
+   */
   async ngOnInit() {
     const storedUserType = sessionStorage.getItem('userType');
     if (storedUserType) {
       this.loggedInUserType = storedUserType;
     }
-    console.log('Logged in as:', this.loggedInUserType);
     await this.loadTasksFromFirestore();
     await this.loadUsersFromFirestore();
     this.task.priority = 'Medium'; 
   }
 
- 
-    async loadTasksFromFirestore() {
-      try {
-        const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
-        this.tasks = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          const task = new Task({
-            ...data,
-            subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
-          });
-          task.id = doc.id;
-          return task;
+  /**
+   * Loads all tasks from Firestore and maps them to Task objects.
+   */
+  async loadTasksFromFirestore() {
+    try {
+      const querySnapshot = await getDocs(collection(this.firestore, 'tasks'));
+      this.tasks = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        const task = new Task({
+          ...data,
+          subtasks: data['subtasks'] ? data['subtasks'].map((st: any) => new Subtask(st)) : [],
         });
-    
-        console.log('Tasks successfully loaded from Firestore:', this.tasks);
-      } catch (error) {
-        console.error('Error loading tasks:', error);
+        task.id = doc.id;
+        return task;
       }
+    );}
+    catch (error) {
+      console.error('Error loading tasks:', error);
     }
+  }
     
   
-
-    async removeDeletedUserFromTasks(userId: string) {
-      try {
-        const taskCollection = collection(this.firestore, 'tasks');
-        const querySnapshot = await getDocs(taskCollection);
-    
-        // Schleife über alle Aufgaben und entferne den gelöschten Benutzer aus den Zuweisungen
-        for (const taskDoc of querySnapshot.docs) {
-          const taskData = taskDoc.data() as Task;
-    
-          if (taskData.assignedTo && taskData.assignedTo.includes(userId)) {
-            const updatedAssignedTo = taskData.assignedTo.filter(id => id !== userId);
-            
-            const taskDocRef = doc(this.firestore, 'tasks', taskDoc.id);
-            await updateDoc(taskDocRef, { assignedTo: updatedAssignedTo });
-            console.log(`User ${userId} removed from task ${taskDoc.id}`);
-          }
-        }
-      } catch (error) {
-        console.error('Error removing user from tasks:', error);
+  /**
+   * Removes a deleted user from assigned tasks.
+   * @param {string} userId - ID of the user to remove from tasks.
+   */
+  async removeDeletedUserFromTasks(userId: string) {
+    try {
+      const taskCollection = collection(this.firestore, 'tasks');
+      const querySnapshot = await getDocs(taskCollection);
+      for (const taskDoc of querySnapshot.docs) {
+        const taskData = taskDoc.data() as Task;
+        if (taskData.assignedTo && taskData.assignedTo.includes(userId)) {
+          const updatedAssignedTo = taskData.assignedTo.filter(id => id !== userId);
+          const taskDocRef = doc(this.firestore, 'tasks', taskDoc.id);
+          await updateDoc(taskDocRef, { assignedTo: updatedAssignedTo });
+         }
       }
+    } catch (error) {
+      console.error('Error removing user from tasks:', error);
     }
+  }
 
   
+  /**
+  * Updates the assigned users for a specific task in Firestore.
+  * @param {Task} task - The task to update with assigned users.
+  */
   async updateTaskAssignedUsers(task: Task) {
     if (task.id) {
       const taskDocRef = doc(this.firestore, 'tasks', task.id);
@@ -104,6 +152,10 @@ export class BoardComponent {
     }
   }
 
+
+  /**
+   * Loads all users from Firestore and maps them to User objects.
+   */
   async loadUsersFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'users'));
@@ -114,13 +166,15 @@ export class BoardComponent {
   }
 
   
+  /**
+   * Updates the task status in Firestore and reloads tasks.
+   * @param {Task} task - The task to update.
+   */
   async updateTaskStatus(task: Task) {
     if (task.id) {
       try {
         const taskDocRef = doc(this.firestore, 'tasks', task.id);
         await updateDoc(taskDocRef, { status: task.status });
-        console.log(`Task ${task.id} status updated to ${task.status}`);
-        // Optional: Aktualisiere die lokale Liste der Tasks oder aktualisiere die Ansicht
         await this.loadTasksFromFirestore();
       } catch (error) {
         console.error('Error updating task status:', error);
@@ -133,15 +187,16 @@ export class BoardComponent {
 // ----------------- Drag & Drop ----------------- //
 
 
+ /**
+   * Handles drag start event for a task card, setting up drag image and data transfer.
+   * @param {DragEvent} event - The drag event.
+   * @param {string} taskId - ID of the task being dragged.
+   */
   onDragStart(event: DragEvent, taskId: string) {
-    // event.preventDefault();
     this.isDragging = true;
     event.dataTransfer?.setData('taskId', taskId);
-  
     const taskCardElement = (event.target as HTMLElement).closest('.taskCard') as HTMLElement;
-  
     if (taskCardElement && event.dataTransfer) {
-      // Klone die taskCard
       const dragImageNode = taskCardElement.cloneNode(true);
       const dragImage = dragImageNode as HTMLElement;
       dragImage.style.position = 'absolute';
@@ -149,62 +204,64 @@ export class BoardComponent {
       dragImage.style.top = '-1000px';
       dragImage.style.left = '-1000px';
       dragImage.style.width = `${taskCardElement.offsetWidth}px`;
-  
-      // Entferne die Klasse 'dragging' vom Drag-Image
       dragImage.classList.remove('dragging');
-  
-      // Füge das Drag-Image dem Body hinzu
       document.body.appendChild(dragImage);
-  
-      // Verwende den Klon als Drag-Image
       const rect = taskCardElement.getBoundingClientRect();
       const offsetX = event.clientX - rect.left;
       const offsetY = event.clientY - rect.top;
       event.dataTransfer.setDragImage(dragImage, offsetX, offsetY);
   
-      // Blende die originale Karte aus
       taskCardElement.classList.add('dragging');
     }
   }
-  
-onDragOver(event: Event, zone: string) {
-  if (event instanceof DragEvent) {
-    event.preventDefault();
-    event.dataTransfer!.dropEffect = 'move';
+ 
+
+    /**
+   * Handles the drag-over event for tasks to allow drop.
+   * @param {Event} event - The drag event.
+   * @param {string} zone - The zone the task is being dragged over.
+   */
+  onDragOver(event: Event, zone: string) {
+    if (event instanceof DragEvent) {
+      event.preventDefault();
+      event.dataTransfer!.dropEffect = 'move';
+    }
+    this.draggingOver = zone;
   }
-  this.draggingOver = zone;
-}
   
 
-onTaskDrop(event: Event, newStatus: string) {
-  this.isDragging = false;
-  this.draggingOver = '';
-
-  let taskId: string | undefined;
-
-  if (event instanceof DragEvent) {
-    event.preventDefault();
-    taskId = event.dataTransfer?.getData('taskId');
-  }
-
-  if (taskId) {
-    const task = this.tasks.find(t => t.id === taskId);
-    if (task) {
-      // Setze den neuen Status
-      task.status = newStatus;
-      this.updateTaskStatus(task);
-
-      // Entferne das transform und z-index
-      const taskCardElement = document.querySelector('.taskCard.dragging') as HTMLElement;
-      if (taskCardElement) {
-        taskCardElement.style.transform = '';
-        taskCardElement.style.position = '';
-        taskCardElement.style.zIndex = '';
+  /**
+   * Handles the drop event for a task to update its status in Firestore.
+   * @param {Event} event - The drop event.
+   * @param {string} newStatus - The new status to assign to the task.
+   */
+  onTaskDrop(event: Event, newStatus: string) {
+    this.isDragging = false;
+    this.draggingOver = '';
+    let taskId: string | undefined;
+    if (event instanceof DragEvent) {
+      event.preventDefault();
+      taskId = event.dataTransfer?.getData('taskId');
+    }
+    if (taskId) {
+      const task = this.tasks.find(t => t.id === taskId);
+      if (task) {
+        task.status = newStatus;
+        this.updateTaskStatus(task);
+        const taskCardElement = document.querySelector('.taskCard.dragging') as HTMLElement;
+        if (taskCardElement) {
+          taskCardElement.style.transform = '';
+          taskCardElement.style.position = '';
+          taskCardElement.style.zIndex = '';
+        }
       }
     }
   }
-}
 
+
+   /**
+   * Ends the drag event, cleans up drag images, and resets dragging status.
+   */
   onDragEnd() {
     this.isDragging = false;
     this.draggingOver = '';
@@ -226,22 +283,44 @@ onTaskDrop(event: Event, newStatus: string) {
 // ----------------- Drag & Drop End ----------------- //
 
   
+  /**
+   * Retrieves a user's color by their ID.
+   * @param {string} userId - The ID of the user.
+   * @returns {string} - The color assigned to the user.
+   */
   getUserColor(userId: string): string {
     const user = this.users.find(u => u.id === userId);
-    return user ? user.color : '#000000'; // Standardfarbe Schwarz
+    return user ? user.color : '#000000'; 
   }
 
+
+    /**
+   * Retrieves a user's initials by their ID.
+   * @param {string} userId - The ID of the user.
+   * @returns {string} - The initials of the user.
+   */
   getUserInitials(userId: string): string {
     const user = this.users.find(u => u.id === userId);
     return user ? user.initials : '';
   }
 
+
+   /**
+   * Retrieves the full name of a user by their ID.
+   * @param {string} userId - The ID of the user.
+   * @returns {string} - The full name of the user or 'Unknown User' if not found.
+   */
   getUserName(userId: string): string {
     const user = this.users.find(u => u.id === userId);
     return user ? `${user.firstName} ${user.lastName}` : 'Unknown User';
   }
   
 
+   /**
+   * Returns a CSS class for the category type of a task.
+   * @param {string} categoryName - The name of the category.
+   * @returns {string} - The CSS class for the category.
+   */
   getCategoryClass(categoryName: string): string {
     switch (categoryName) {
       case 'User Story':
@@ -254,6 +333,11 @@ onTaskDrop(event: Event, newStatus: string) {
   }
 
 
+   /**
+   * Filters tasks by status, user type, search term, and sorts by due date.
+   * @param {string} status - The status to filter tasks by.
+   * @returns {Task[]} - Array of tasks matching the criteria.
+   */
   getTasksByStatus(status: string): Task[] {
     return this.tasks
       .filter(task => task.status === status)
@@ -274,6 +358,11 @@ onTaskDrop(event: Event, newStatus: string) {
   }
   
 
+  /**
+   * Returns the path to the image representing the task priority.
+   * @param {string} priority - The priority of the task.
+   * @returns {string} - The path to the priority image.
+   */
   getPriorityImage(priority: string): string {
     switch (priority) {
       case 'Low':
@@ -287,44 +376,65 @@ onTaskDrop(event: Event, newStatus: string) {
     }
   }
 
+
+   /**
+   * Checks if there are no tasks with a specified status.
+   * @param {string} status - The status to check for tasks.
+   * @returns {boolean} - True if there are no tasks with the given status, false otherwise.
+   */
   hasNoTasks(status: string): boolean {
     return this.tasks.filter(task => task.status === status).length === 0;
   }
 
+
+    /**
+   * Toggles the display of the Add Task modal and initializes a new task.
+   * @param {string} [status='todo'] - Initial status for the new task.
+   */
   openAddTaskModal(status: string = 'todo') {
     this.showAddTaskModal = true;
-    this.task = new Task(status); // Neues Task-Objekt erstellen
-    this.task.status = status; // Den Status setzen, z.B. 'todo', 'inProgress', 'awaitFeedback'
+    this.task = new Task(status); 
+    this.task.status = status; 
   }
   
-  
+
+  /**
+   * Closes the Add Task modal and reloads tasks from Firestore.
+   */
   closeAddTaskModal() {
     this.showAddTaskModal = false;
     this.loadTasksFromFirestore();
   }
 
+/**
+   * Toggles the Edit modal for the specified task, preloading editable fields.
+   * @param {Task} task - Task to be edited.
+   */
    openEditTaskModal(task: Task) {
-    console.log('Received task for editing:', task);
     if (task) {
       this.selectedTask = new Task(task);
       this.editTitle = this.selectedTask.title;
-      this.editDescriptionText = this.selectedTask.description; // Das ist jetzt ein String
+      this.editDescriptionText = this.selectedTask.description; 
       this.editDueDate = this.selectedTask.dueDate;
       this.editPriority = this.selectedTask.priority;
       this.showEditTaskModal = true;
     }
   }
   
-  
-
+  /**
+   * Closes the Edit Task modal without saving changes.
+   */
   closeEditTaskModal() {
     this.showEditTaskModal = false;
     this.selectedTask = null;
   }
 
+ 
+  /**
+   * Opens the task detail view for a specific task.
+   * @param {Task} task - The task to view in detail.
+   */
   openTaskDetail(task: Task) {
-    // Erstelle eine Kopie der Task, um Änderungen nicht direkt zu speichern
-    console.log('Received task for detail view:', task);
     this.selectedTask = new Task({
       ...task,
       subtasks: task.subtasks.map((subtask) => new Subtask(subtask))
@@ -332,11 +442,17 @@ onTaskDrop(event: Event, newStatus: string) {
   }
   
 
+    /**
+   * Closes the task detail view.
+   */
   closeCardDetail() {
     this.selectedTask = null;
   }
 
 
+  /**
+   * Adds a new subtask to the currently selected task.
+   */
   addSubtask() {
     if (this.newSubtaskTitle.trim() !== '' && this.selectedTask) {
       const newSubtask = new Subtask({ title: this.newSubtaskTitle.trim() });
@@ -345,34 +461,41 @@ onTaskDrop(event: Event, newStatus: string) {
     }
   }
 
+
+   /**
+   * Deletes a subtask from the currently selected task.
+   * @param {number} index - The index of the subtask to delete.
+   */
   deleteSubtask(index: number) {
     if (this.selectedTask) {
       this.selectedTask.subtasks.splice(index, 1);
     }
   }
+
   
+  /**
+   * Toggles the completion status of a subtask and updates progress.
+   * @param {number} subtaskIndex - Index of the subtask.
+   * @param {Event} event - Checkbox change event.
+   */
   toggleSubtaskDone(subtaskIndex: number, event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-  
     if (this.selectedTask) {
       this.selectedTask.subtasks[subtaskIndex].done = isChecked;
-  
-      // Aktualisiere den Task in der tasks-Liste
       const taskIndex = this.tasks.findIndex((t) => t.id === this.selectedTask!.id);
       if (taskIndex > -1) {
         this.tasks[taskIndex].subtasks[subtaskIndex].done = isChecked;
-        // Task in Firestore aktualisieren
         this.updateTaskSubtasks(this.tasks[taskIndex]);
       }
-  
-      // Aktualisiere die Anzeige der TaskCard
       this.updateTaskProgress(this.tasks[taskIndex]);
     }
   }
   
 
-
-
+    /**
+   * Updates the subtasks of a task in Firestore.
+   * @param {Task} task - The task to update subtasks for.
+   */
   async updateTaskSubtasks(task: Task) {
     if (task.id) {
       const taskDocRef = doc(this.firestore, 'tasks', task.id);
@@ -382,17 +505,32 @@ onTaskDrop(event: Event, newStatus: string) {
   }
 
 
+   /**
+   * Updates the progress of a task based on completed subtasks.
+   * @param {Task} task - The task to update.
+   */
   updateTaskProgress(task: Task) {
     const totalSubtasks = task.subtasks.length;
     const completedSubtasks = task.subtasks.filter((subtask) => subtask.done).length;
     task.progress = (completedSubtasks / totalSubtasks) * 100;
   }
 
+
+    /**
+   * Retrieves the count of completed subtasks for a task.
+   * @param {Task} task - The task to count completed subtasks for.
+   * @returns {number} - The number of completed subtasks.
+   */
   getCompletedSubtaskCount(task: Task): number {
     return task.subtasks.filter(subtask => subtask.done).length;
   }
 
 
+    /**
+   * Calculates the percentage of completed subtasks for a task.
+   * @param {Task} task - The task to calculate completion for.
+   * @returns {number} - The completion percentage.
+   */
   getSubtaskCompletionPercentage(task: Task): number {
     if (task.subtasks.length === 0) {
       return 0;
@@ -401,12 +539,15 @@ onTaskDrop(event: Event, newStatus: string) {
     return (completedCount / task.subtasks.length) * 100;
   }
 
+
+    /**
+   * Updates the selected task in Firestore.
+   */
   async updateTask() {
     if (this.selectedTask && this.selectedTask.id) {
       try {
         const taskDocRef = doc(this.firestore, 'tasks', this.selectedTask.id);
         await updateDoc(taskDocRef, this.selectedTask.toJSON());
-        console.log('Task updated:', this.selectedTask);
         this.closeEditTaskModal();
         await this.loadTasksFromFirestore();
       } catch (error) {
@@ -416,42 +557,52 @@ onTaskDrop(event: Event, newStatus: string) {
   }
 
 
+   /**
+   * Toggles the dropdown display for assigned users.
+   */
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
+
   
+    /**
+   * Checks if a user is assigned to the selected task.
+   * @param {string} userId - The ID of the user.
+   * @returns {boolean} - True if the user is assigned, false otherwise.
+   */
   isUserAssigned(userId: string | undefined): boolean {
-   
     return this.selectedTask?.assignedTo.includes(userId!) || false;
   }
 
 
+    /**
+   * Toggles a user's assignment to the selected task.
+   * @param {string} userId - The ID of the user to toggle.
+   * @param {Event} event - The checkbox event.
+   */
   toggleUserAssignment(userId: string | undefined, event: Event) {
     if (!userId || !this.selectedTask) {
       return;
     }
-  
     const isChecked = (event.target as HTMLInputElement).checked;
-  
     if (isChecked) {
-      // Benutzer hinzufügen, wenn er ausgewählt wurde
       if (!this.selectedTask.assignedTo.includes(userId)) {
         this.selectedTask.assignedTo.push(userId);
       }
     } else {
-      // Benutzer entfernen, wenn das Häkchen entfernt wurde
       this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
     }
-  
-    // Benutzerzuweisungen in Firestore aktualisieren
     this.updateTaskAssignedUsers(this.selectedTask);
   }
 
+
+  /**
+   * Closes the user assignment dropdown when clicking outside of it.
+   * @param {Event} event - The click event.
+   */
   onDocumentClick(event: Event) {
-    // Prüfe, ob der Klick auf den Dropdown-Button oder innerhalb des Dropdown-Containers erfolgte
     const dropdownButton = document.querySelector('.editAssignedToField');
     const dropdownElement = document.querySelector('.dropdown');
-  
     if (
       this.dropdownOpen &&
       dropdownElement &&
@@ -463,108 +614,128 @@ onTaskDrop(event: Event, newStatus: string) {
     }
   }
 
+
+  /**
+   * Toggles the user assignment checkbox for a specific user.
+   * @param {string} userId - The ID of the user.
+   */
   toggleCheckbox(userId: string) {
     if (!this.selectedTask) {
       return;
     }
-  
-    // Überprüfe, ob der Benutzer bereits zugewiesen ist
     const isAssigned = this.isUserAssigned(userId);
-  
-    // Toggle-Logik: Wenn der Benutzer bereits zugewiesen ist, entferne ihn, sonst füge ihn hinzu
     if (isAssigned) {
       this.selectedTask.assignedTo = this.selectedTask.assignedTo.filter(id => id !== userId);
     } else {
       this.selectedTask.assignedTo.push(userId);
     }
-  
-    // Benutzerzuweisungen in Firestore aktualisieren
     this.updateTaskAssignedUsers(this.selectedTask);
   }
+
   
-  
-  
-  
+   /**
+   * Enables edit mode for a specific subtask.
+   * @param {number} index - The index of the subtask to edit.
+   */
   editSubtask(index: number) {
     if (this.selectedTask) {
       this.selectedTask.subtasks[index].editing = true;
     }
   }
 
+
+  /**
+   * Saves edits made to a specific subtask and exits edit mode.
+   * @param {number} index - The index of the subtask to save.
+   */
   saveEditSubtask(index: number) {
     if (this.selectedTask) {
       this.selectedTask.subtasks[index].editing = false;
     }
   }
   
+
+  /**
+   * Cancels edits for a specific subtask and exits edit mode.
+   * @param {number} index - The index of the subtask to cancel.
+   */
   cancelEditSubtask(index: number) {
     if (this.selectedTask) {
       this.selectedTask.subtasks[index].editing = false;
     }
   }
 
+
+   /**
+   * Deletes a task by ID from Firestore and updates the task list.
+   * @param {string} taskId - ID of the task to delete.
+   */
   async deleteTask(taskId?: string) {
     if (!taskId) {
       console.error('Task ID is not defined');
       return;
     }
-  
-    // if (confirm('Are you sure you want to delete this task?')) {
       try {
-        // Lösche das Dokument aus Firestore
         const taskDocRef = doc(this.firestore, 'tasks', taskId);
         await deleteDoc(taskDocRef);
   
-        // Lösche die Aufgabe aus der lokalen Liste
         this.tasks = this.tasks.filter(task => task.id !== taskId);
-        console.log(`Task ${taskId} successfully deleted`);
   
-        // Schließe die Detailansicht
         this.closeCardDetail();
       } catch (error) {
         console.error('Error deleting task:', error);
       }
-    // }
   }
   
-    // Methode zum Umschalten des Bearbeitungsmodus für ein bestimmtes Feld
-    toggleEdit(field: string) {
-      if (field === 'description') {
-        this.editDescription = true;
-        this.editDescriptionText = this.selectedTask?.description || '';
-      }
-      // Weitere Felder hinzufügen, wenn nötig
+
+    /**
+   * Toggles edit mode for a specified field, setting up the current value.
+   * @param {string} field - The field to enable edit mode for (e.g., 'description').
+   */
+  toggleEdit(field: string) {
+    if (field === 'description') {
+      this.editDescription = true;
+      this.editDescriptionText = this.selectedTask?.description || '';
     }
+  }
 
 
-    saveEdit(field: string) {
-      if (field === 'description') {
-        if (this.selectedTask) {
-          this.selectedTask.description = this.editDescriptionText;
-        }
-        this.editDescription = false;
-    
-        // Speichere die Änderungen in Firestore
-        if (this.selectedTask?.id) {
-          this.updateTaskField(this.selectedTask.id, 'description', this.selectedTask.description);
-        }
+   /**
+   * Saves edits to a specified field and updates it in Firestore.
+   * @param {string} field - The field to save (e.g., 'description').
+   */
+  saveEdit(field: string) {
+    if (field === 'description') {
+      if (this.selectedTask) {
+        this.selectedTask.description = this.editDescriptionText;
       }
-      // Weitere Felder hinzufügen, wenn nötig
+      this.editDescription = false;
+      if (this.selectedTask?.id) {
+        this.updateTaskField(this.selectedTask.id, 'description', this.selectedTask.description);
+      }
     }
+  }
     
-    
-  // Methode zum Abbrechen des Bearbeitungsmodus
+   
+   /**
+   * Cancels edit mode for a specified field without saving changes.
+   * @param {string} field - The field to cancel edit mode for (e.g., 'description').
+   */
 cancelEdit(field: string) {
   if (field === 'description') {
     this.editDescription = false;
-    // Du kannst optional die Änderungen zurücksetzen, wenn sie noch nicht gespeichert wurden
     if (this.selectedTask) {
       this.editDescriptionText = this.selectedTask.description;
     }
   }
-  // Weitere Felder hinzufügen, wenn nötig
 }
 
+
+  /**
+   * Handles keyboard events for changing task priority via keyboard input.
+   * @param {KeyboardEvent} event - The keyboard event.
+   * @param {string} priority - The priority to set if triggered.
+   */
 handlePrioKeydown(event: KeyboardEvent, priority: string) {
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault();
@@ -573,43 +744,45 @@ handlePrioKeydown(event: KeyboardEvent, priority: string) {
 }
 
 
-   // Update-Methode für Firestore
+  /**
+   * Updates a specific field of a task in Firestore.
+   * @param {string} taskId - The ID of the task to update.
+   * @param {string} field - The field to update (e.g., 'description').
+   * @param {any} value - The new value to set for the field.
+   */
    async updateTaskField(taskId: string, field: string, value: any) {
     try {
       const taskDocRef = doc(this.firestore, 'tasks', taskId);
       await updateDoc(taskDocRef, {
         [field]: value
       });
-      console.log(`${field} successfully updated`);
     } catch (error) {
       console.error(`Error updating ${field}:`, error);
     }
   }
 
 
+   /**
+   * Saves the current task edits and updates assigned users, due date, and priority.
+   */
   saveTask() {
     if (this.selectedTask) {
       this.selectedTask.title = this.editTitle;
       this.selectedTask.description = this.editDescriptionText;
-  
-      // Sicherstellen, dass `editDueDate` nicht `null` ist
       if (this.editDueDate) {
         this.selectedTask.dueDate = this.editDueDate;
       }
-  
       this.selectedTask.priority = this.editPriority;
-  
-      // Aktualisieren der Benutzerzuweisungen
       this.updateTaskAssignedUsers(this.selectedTask);
-  
-      // Task aktualisieren
       this.updateTask(); 
     }
-    this.closeEditTaskModal(); // Bearbeitungsmodal schließen
+    this.closeEditTaskModal(); 
   }
   
-  
 
+   /**
+   * Closes the Edit Task modal without saving changes.
+   */
   cancelEditCard() {
     this.closeEditTaskModal();
   }

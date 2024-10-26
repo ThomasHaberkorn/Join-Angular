@@ -1,83 +1,205 @@
 @import "./../../styles.scss";
-@import "./sidebar.media.scss";
 
-.mainContent {
-  width: 232px;
-  height: 100vh;
-  background-color: $dblue;
-  position: absolute;
-  top: 0;
-  left: 0;
-  .logoContainer {
-    width: 100%;
-    @include dFlex();
-    img {
-      width: 100px;
-      height: 122px;
-      margin-top: 64px;
-      margin-bottom: 15vh;
-    }
-  }
-  .navContainer {
-    width: 100%;
-    @include dFlex();
-    .navInnerContainer {
+@media (max-width: 100vw) {
+  .mainContent {
+    width: 232px;
+    height: 100vh;
+    background-color: $dblue;
+    position: absolute;
+    top: 0;
+    left: 0;
+    .logoContainer {
       width: 100%;
-      height: 250px;
-      .navContent {
-        @include flexDir(row, flex-start, center);
-        height: 55px;
-        cursor: pointer;
-        &:hover {
-          background-color: $mblue;
+      @include dFlex();
+      img {
+        width: 100px;
+        height: 122px;
+        margin-top: 64px;
+        margin-bottom: 15vh;
+      }
+    }
+    .navContainer {
+      width: 100%;
+      @include dFlex();
+      .navInnerContainer {
+        width: 100%;
+        height: 250px;
+        .navContent {
+          @include flexDir(row, flex-start, center);
+          height: 55px;
+          cursor: pointer;
+          &:hover {
+            background-color: $mblue;
+          }
+          &.active-nav {
+            background-color: $mblue;
+          }
+          img {
+            margin-left: 40px;
+            width: 30px;
+            height: 30px;
+          }
+          span {
+            margin-left: 10px;
+            color: $navGrey;
+          }
         }
-        &.active-nav {
-          background-color: $mblue;
-        }
-        img {
-          margin-left: 40px;
-          width: 30px;
-          height: 30px;
-        }
-        span {
-          margin-left: 10px;
-          color: $navGrey;
+      }
+    }
+    .footerContent {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin-bottom: 72px;
+      .footerInnerContainer {
+        width: 100%;
+        .footerLink {
+          align-items: center;
+          padding-left: 60px;
+          font-size: 16px;
+          line-height: 34px;
+          color: $borderGrey;
+          cursor: pointer;
+          &:hover {
+            background-color: $mblue;
+          }
+          &.active-nav {
+            background-color: $mblue;
+          }
+          &:first-child {
+            margin-bottom: 10px;
+          }
+          &.active-footer {
+            background-color: $mblue;
+          }
         }
       }
     }
   }
-  .footerContent {
-    width: 100%;
-    position: absolute;
+
+  .dnone {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .mainContent {
+    width: 100vw;
+    height: 100px;
+    top: auto;
+    position: fixed;
     bottom: 0;
-    left: 0;
-    margin-bottom: 72px;
-    .footerInnerContainer {
-      width: 100%;
-      .footerLink {
-        align-items: center;
-        padding-left: 60px;
-        font-size: 16px;
-        line-height: 34px;
-        color: $borderGrey;
-        cursor: pointer;
-        &:hover {
-          background-color: $mblue;
+    z-index: 1000;
+    .logoContainer {
+      display: none;
+    }
+    .navContainer {
+      height: 100%;
+      .navInnerContainer {
+        height: 100%;
+        @include dFlex($jc: space-between);
+        .navContent {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border-radius: 20px;
+          width: 100px;
+          height: 80px;
+          img {
+            margin-left: 0;
+            margin-bottom: 10px;
+          }
+          span {
+            margin-left: 0;
+          }
+          &:first-child {
+            margin-left: 70px;
+          }
+          &:last-child {
+            margin-right: 70px;
+          }
         }
-        &.active-nav {
-          background-color: $mblue;
-        }
-        &:first-child {
-          margin-bottom: 10px;
-        }
-        &.active-footer {
-          background-color: $mblue;
+      }
+    }
+    .footerContent {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 40px;
+          }
+          &:last-child {
+            margin-right: 40px;
+          }
         }
       }
     }
   }
 }
 
-.dnone {
-  display: none !important;
+@media screen and (max-width: 500px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 30px;
+          }
+          &:last-child {
+            margin-right: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          img {
+            width: 25px;
+            height: 25px;
+          }
+          span {
+            font-size: 14px;
+          }
+
+          &:first-child {
+            margin-left: 20px;
+          }
+          &:last-child {
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .mainContent {
+    .navContainer {
+      .navInnerContainer {
+        .navContent {
+          &:first-child {
+            margin-left: 10px;
+          }
+          &:last-child {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
 }
