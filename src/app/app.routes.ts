@@ -1,23 +1,24 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { SummaryComponent } from './dashboard/summary/summary.component';
-import { AddTaskComponent } from './dashboard/add-task/add-task.component';
-import { BoardComponent } from './dashboard/board/board.component';
-import { UsersComponent } from './dashboard/users/users.component';
+import { LandingpageComponent } from './landing-page/landing-page.component';
+import { SummaryComponent } from './summary/summary.component';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { BoardComponent } from './board/board.component';
+import { UsersComponent } from './users/users.component';
 import { AuthGuard } from './auth.guard';
-import { HelpPageComponent } from './shared/help-page/help-page.component';
-import { PrivacyPolicyComponent } from './shared/privacy-policy/privacy-policy.component';
-import { LegalNoticeComponent } from './shared/legal-notice/legal-notice.component';
+import { HelpPageComponent } from './help-page/help-page.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
+
 
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   
   {
-    path: 'dashboard', 
-    component: DashboardComponent, // Diese Komponente wird als Hauptcontainer verwendet
-    //canActivate: [AuthGuard],  // Aktiviere den AuthGuard, wenn gewünscht
+    path: '', 
+    component: LandingpageComponent, 
+    canActivate: [AuthGuard],  
     children: [
       { path: 'summary', component: SummaryComponent, canActivate: [AuthGuard] },
       { path: 'add-task', component: AddTaskComponent, canActivate: [AuthGuard] },
@@ -26,10 +27,10 @@ export const routes: Routes = [
       { path: 'help', component: HelpPageComponent},
       { path: 'privacy', component: PrivacyPolicyComponent},
       { path: 'legal', component: LegalNoticeComponent},
-      { path: '', redirectTo: 'summary', pathMatch: 'full' } // Standardroute im Dashboard
+      { path: '', redirectTo: 'summary', pathMatch: 'full' } 
     ]
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },  // Standardroute beim Laden der App
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }  // Fallback
+  { path: '', redirectTo: 'login', pathMatch: 'full' },  
+  { path: '**', redirectTo: 'login', pathMatch: 'full' } 
 ];
 

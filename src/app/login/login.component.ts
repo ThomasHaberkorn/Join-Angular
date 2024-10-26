@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { gsap } from 'gsap';
 import { User } from '../../models/user.class';
-import { Firestore, addDoc, collection, getDocs, setDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 
@@ -31,7 +31,7 @@ export class LoginComponent {
   emailTouched: boolean = false;
   passwordsMatch: boolean = true;
   passwordsTouched: boolean = false;
-  // userTypes: string[] = ['', 'user', 'guest'];
+  emailAlreadyExists: boolean = false;
 
 constructor(private fb: FormBuilder, private firestore: Firestore, private router: Router) {
   this.loginForm = this.fb.group({
@@ -54,21 +54,20 @@ constructor(private fb: FormBuilder, private firestore: Firestore, private route
 
 isFormValid(): boolean {
   if (!this.user) {
-    return false; // Falls der Benutzer nicht initialisiert ist
+    return false; 
   }
   return this.user.firstName.trim() !== '' &&
          this.user.lastName.trim() !== '' &&
          this.user.email.trim() !== '' &&
          this.user.password.trim() !== '' &&
          this.user.passwordConfirm.trim() !== '' &&
-         this.passwordsMatch && // Hier wird überprüft, ob die Passwörter übereinstimmen
+         this.passwordsMatch && 
          this.checkboxAccepted === true;
 }
 
 
 validatePasswords(): void {
   if (this.user) {
-    // Prüft, ob das Passwort und die Passwort-Bestätigung übereinstimmen
     this.passwordsMatch = this.user.password === this.user.passwordConfirm;
     this.passwordsTouched = true;
   }
@@ -78,7 +77,6 @@ validatePasswords(): void {
 toggleCheckbox(): void {
   this.checkboxAccepted = !this.checkboxAccepted;
 
-  // Überprüfen, ob "Remember Me" aktiviert wurde
   if (this.checkboxAccepted) {
     localStorage.setItem('rememberMe', 'true');
   } else {
@@ -94,17 +92,14 @@ validateEmail(): void {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   this.emailValid = emailRegex.test(this.user.email);
   this.emailTouched = true;
+  this.emailAlreadyExists = false;
 }
 
 
 
-
-// Firestore-Daten abrufen, wenn die Komponente geladen wird
 async ngOnInit() {
   this.playIntroAnimation();
   await this.loadUsersFromFirestore();
- 
-  // Daten aus localStorage wiederherstellen
   const savedEmail = localStorage.getItem('userEmail');
   const savedPassword = localStorage.getItem('userPassword');
   const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
@@ -135,14 +130,10 @@ async loadUsersFromFirestore() {
     const mainContent = document.querySelector('.mainContent');
     const logoContainer = document.querySelector('.logoContainer');
 
-    // Pulsing animation followed by rotation and scale down
     gsap.timeline({
       onComplete: () => {
-        // After the animation, hide logoContainer and show mainContent
         gsap.set(logoContainer, { display: 'none' });
         gsap.set(mainContent, { display: 'flex' });
-
-        // Optional: Fade in main content
         gsap.fromTo(mainContent, { autoAlpha: 0 }, { duration: 1, autoAlpha: 1 });
       }
     })
@@ -156,16 +147,11 @@ async loadUsersFromFirestore() {
     const password = this.user.password;
    
   
-    // Suche den Benutzer in Firestore-Daten
     const user = this.users.find(u => u.email === email && u.password === password);
    const init = user?.initials;
    const userType = user?.userType;
     if (user) {
-      console.log('Login successful:', user, this.users);
-  
-      // Überprüfen, ob die "Remember Me"-Checkbox aktiviert ist
       if (this.checkboxAccepted) {
-        
         localStorage.setItem('userEmail', this.user.email);
         localStorage.setItem('userPassword', this.user.password);
         localStorage.setItem('initials', init!);
@@ -178,9 +164,8 @@ async loadUsersFromFirestore() {
         localStorage.removeItem('userId');
         localStorage.removeItem('firstName');
       }
-      console.log('Remember me checked', init);
       sessionStorage.setItem('userType', userType!);
-      this.router.navigate(['/dashboard/summary']);
+      this.router.navigate(['/summary']);
     } else {
       this.showLoginError();
     }
@@ -197,19 +182,28 @@ showLoginError() {
   }
 }
 
-
+  
   async onSubmitRegister() {
-    this.user.initials = this.user.getInitials();
+    this.validateEmail();
+    if (!this.emailValid) {
+      return;
+    }
   
     try {
-      // Erstelle ein leeres Dokument, um die Firebase-generierte ID zu erhalten
       const userCollection = collection(this.firestore, 'users');
+      const q = query(userCollection, where('email', '==', this.user.email));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        this.emailValid = false;
+        this.emailTouched = true;
+        this.emailAlreadyExists = true;
+        return;
+      }
+  
+      this.user.initials = this.user.getInitials();
       const userDocRef = await addDoc(userCollection, {});
-  
-      // Setze die erhaltene ID im User-Objekt
       this.user.id = userDocRef.id;
-  
-      // Aktualisiere das Dokument mit den tatsächlichen User-Daten
       await setDoc(userDocRef, {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
@@ -223,19 +217,19 @@ showLoginError() {
         userType: 'user',
       });
   
+      localStorage.setItem('userEmail', this.user.email);
+      localStorage.setItem('userPassword', this.user.password);
       this.signupSuccess = true;
       this.showRegister = false;
       await this.loadUsersFromFirestore();
       this.flipToLogIn();
     } catch (error) {
-      console.error('Error adding user to Firestore:', error);
+      console.error('Error during registration:', error);
     }
   }
   
 
-  
 
-  // Function to toggle image on focus and blur
 togglePasswordImg(imgId: string, isFocused: boolean): void {
   const img = document.getElementById(imgId) as HTMLImageElement;
   if (img) {
@@ -243,7 +237,6 @@ togglePasswordImg(imgId: string, isFocused: boolean): void {
   }
 }
 
-// Function to toggle password visibility and image
 togglePasswordVisibility(inputId: string, imgId: string): void {
   const input = document.getElementById(inputId) as HTMLInputElement;
   const img = document.getElementById(imgId) as HTMLImageElement;
@@ -263,27 +256,21 @@ flipToSignUp(): void {
   const signupContainer = document.getElementById('signupContainer');
   const signUpElement = document.querySelector('.signUp') as HTMLElement;
   const vectorBtn = document.getElementById('vectorBtn');
-
   this.user.email = '';
   this.user.password = '';
   this.user.passwordConfirm = '';
-
+  this.checkboxAccepted = false;
   if (loginContainer && signupContainer && signUpElement && vectorBtn) {
-    // Animation für das Umdrehen des Login-Containers
     gsap.to(loginContainer, {
       duration: 0.6,
       rotationX: 180,
       onComplete: () => {
-        // Nach der Drehung Login-Container verstecken und Signup-Container anzeigen
         loginContainer.style.display = 'none';
         signupContainer.style.display = 'block';
-
-        // Setze den Signup-Container zurück (Start mit 180 Grad)
         gsap.fromTo(signupContainer, { rotationX: -180 }, { duration: 0.6, rotationX: 0 });
       }
     });
 
-    // Animation für das signUp-Element (Impulse und Ausblenden)
     gsap.to(signUpElement, {
       duration: 0.3,
       scale: 1.2,
@@ -300,18 +287,17 @@ flipToSignUp(): void {
       }
     });
 
-    // Impuls-Animation für den vectorBtn
     gsap.to(vectorBtn, {
       duration: 0.3,
       scale: 1.5,
       yoyo: true,
-      repeat: 2, // Nur eine Wiederholung, sodass es zu 1 zurückkehrt
+      repeat: 2,
       delay: 1,
-      ease: "power1.inOut", // Weicher Übergang
+      ease: "power1.inOut", 
       onComplete: () => {
         gsap.to(vectorBtn, {
           duration: 0.2,
-          scale: 1 // Zurück zu scale 1
+          scale: 1 
         });
       }
     });
@@ -320,38 +306,28 @@ flipToSignUp(): void {
 }
 
 
-
 flipToLogIn(): void {
   const loginContainer = document.getElementById('loginContainer');
   const signupContainer = document.getElementById('signupContainer');
   const signUpElement = document.querySelector('.signUp') as HTMLElement;
-
   const savedEmail = localStorage.getItem('userEmail');
   const savedPassword = localStorage.getItem('userPassword');
   const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
- 
- 
   if (savedEmail && savedPassword && rememberMeChecked) {
     this.user.email = savedEmail;
     this.user.password = savedPassword;
     this.checkboxAccepted = true;
   }
-
-
   if (signupContainer && loginContainer && signUpElement) {
-    // Animation für das Umdrehen des Signup-Containers
     gsap.to(signupContainer, {
       duration: 0.6,
       rotationX: 180,
       onComplete: () => {
-        // Nach der Drehung Signup-Container verstecken und Login-Container anzeigen
         signupContainer.style.display = 'none';
         loginContainer.style.display = 'flex';
 
-        // Setze den Login-Container zurück (Start mit -180 Grad)
         gsap.fromTo(loginContainer, { rotationX: -180 }, { duration: 0.6, rotationX: 0 });
 
-        // Zeige das signUp-Element und führe die Skalierungsanimation durch
         signUpElement.style.display = 'flex';
         gsap.fromTo(signUpElement, { scale: 0.9 }, {
           duration: 0.4,
@@ -360,7 +336,6 @@ flipToLogIn(): void {
           yoyo: true,
           ease: "power1.inOut",
           onComplete: () => {
-            // Nach den Impulsen das Element auf scale 1 zurücksetzen
             gsap.to(signUpElement, { duration: 0.4, scale: 1 });
           }
         });
@@ -380,15 +355,15 @@ flipToLogIn(): void {
   guestLogin() {
     localStorage.setItem('initials', 'G');
     sessionStorage.setItem('userType', 'guest');
-    this.router.navigate(['/dashboard/summary']);
+    this.router.navigate(['/summary']);
   }
 
   navigateToPrivacyPolicy() {
-    this.router.navigate(['/dashboard/privacy']);
+    this.router.navigate(['/privacy']);
   }
 
   navigateToLegalNotice() {
-    this.router.navigate(['/dashboard/legal']);
+    this.router.navigate(['/legal']);
   }
 
   login() {

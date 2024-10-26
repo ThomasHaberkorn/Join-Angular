@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import "./../../styles.scss";
 
 @media (max-width: 100vw) {
   .mainContainer {
@@ -57,7 +57,7 @@
               transform: scale(1.07);
               background-color: $dblue;
               img {
-                content: url("./../../../assets/img/todoLogoWhite.png");
+                content: url("./../../assets/img/todoLogoWhite.png");
               }
             }
           }
@@ -67,7 +67,7 @@
               transform: scale(1.07);
               background-color: $dblue;
               img {
-                content: url("./../../../assets/img/doneLogoWhite.png");
+                content: url("./../../assets/img/doneLogoWhite.png");
               }
             }
           }

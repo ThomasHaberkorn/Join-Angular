@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Subtask, Task } from '../../../models/task.class';
-import { User } from '../../../models/user.class';
+import { Subtask, Task } from '../../models/task.class';
+import { User } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
 import { AddTaskComponent } from '../add-task/add-task.component';
 
@@ -15,29 +15,15 @@ import { AddTaskComponent } from '../add-task/add-task.component';
   styleUrl: './board.component.scss'
 })
 export class BoardComponent {
+
+  /** Task object for adding a new task. */
   task: Task = new Task();
-  // tasks: Task[] = [];
-  // users: User[] = [];
-  // assignedUsers: User[] = [];
-  // dropdownOpen: boolean = false;
-  // isDragging: boolean = false;
-  // draggingOver: string = '';
-  // showAddTaskModal: boolean = false;
-  // showEditTaskModal: boolean = false;
-  // selectedTask: Task | null = null;
-  // hoverEditIcon: boolean = false;
+
+  /** Title of a new subtask to add to the selected task */
   newSubtaskTitle: string = '';
+
+  /** Search term for filtering tasks by title or description. */
   searchTerm: string = '';
-  // editTitle: string = '';
-  // editDueDate: Date | null = null;
-  // editPriority: string = '';
-  // editDescription: boolean = false;
-  // editDescriptionText: string = '';
- 
-  // loggedInUserType: string = 'guest';
-  // userType: string = ''; 
-
-
 
   /** Currently selected task for viewing or editing. */
   selectedTask: Task | null = null;

@@ -42,21 +42,21 @@ export class HeaderComponent implements OnInit {
    * Navigates to the help page within the dashboard.
    */
   navigateToHelp() {
-    this.router.navigate(['/dashboard/help']);
+    this.router.navigate(['/help']);
   }
 
   /**
    * Navigates to the privacy policy page within the dashboard.
    */
   navigateToPrivacyPolicy() {
-    this.router.navigate(['/dashboard/privacy']);
+    this.router.navigate(['/privacy']);
   }
 
   /**
    * Navigates to the legal notice page within the dashboard.
    */
   navigateToLegalNotice() {
-    this.router.navigate(['/dashboard/legal']);
+    this.router.navigate(['/legal']);
   }
 
   /**

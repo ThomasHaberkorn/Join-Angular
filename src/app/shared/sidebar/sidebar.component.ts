@@ -31,7 +31,6 @@ export class SidebarComponent {
     if (storedUserType) {
       this.userType = storedUserType;
     }
-    console.log('User type: ', this.userType);
   }
 
   /**
@@ -62,42 +61,42 @@ export class SidebarComponent {
    * Navigates to the summary page within the dashboard.
    */
   navigateToSummary() {
-    this.router.navigate(['/dashboard/summary']);
+    this.router.navigate(['/summary']);
   }
 
   /**
    * Navigates to the add-task page within the dashboard.
    */
   navigateToAddTask() {
-    this.router.navigate(['/dashboard/add-task']);
+    this.router.navigate(['/add-task']);
   }
 
   /**
    * Navigates to the board page within the dashboard.
    */
   navigateToBoard() {
-    this.router.navigate(['/dashboard/board']);
+    this.router.navigate(['/board']);
   }
 
   /**
    * Navigates to the users page within the dashboard.
    */
   navigateToUsers() {
-    this.router.navigate(['/dashboard/users']);
+    this.router.navigate(['/users']);
   }
 
   /**
    * Navigates to the privacy policy page within the dashboard.
    */
   navigateToPrivacyPolicy() {
-    this.router.navigate(['/dashboard/privacy']);
+    this.router.navigate(['/privacy']);
   }
 
   /**
    * Navigates to the legal notice page within the dashboard.
    */
   navigateToLegalNotice() {
-    this.router.navigate(['/dashboard/legal']);
+    this.router.navigate(['/legal']);
   }
 
   /**

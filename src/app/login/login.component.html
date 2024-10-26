@@ -80,13 +80,15 @@
                     </div>
                 </div>
 
-
                 <div class="formField">
                     <input id="emailSignUp" type="email" [disabled]="loading" [(ngModel)]="user.email"
                         class="fullwidthInput" placeholder="E-Mail" required (ngModelChange)="validateEmail()" />
-                    <img src="./../../assets/img/mail.png" alt="">
-                    <div *ngIf="!emailValid && emailTouched" class="error-message">
+                    <img src="./../../assets/img/mail.png" alt="" />
+                    <div *ngIf="!emailValid && emailTouched && !emailAlreadyExists" class="error-message">
                         Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                    </div>
+                    <div *ngIf="emailAlreadyExists" class="error-message">
+                        Diese E-Mail-Adresse wird bereits verwendet.
                     </div>
                 </div>
 
@@ -113,8 +115,7 @@
                 </div>
 
                 <div class="acceptCheck">
-                    <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" (mouseover)="isHovered = true"
-                        (mouseout)="isHovered = false" alt="Checkbox" class="checkbox" />
+                    <img [src]="getCheckboxImage()" (click)="toggleCheckbox()" alt="Checkbox" class="checkbox" />
                     <span>I accept the <a href="" class="ppBlue">Privacy policy</a> </span>
                 </div>
 

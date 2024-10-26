@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 /**
- * Component for displaying the privacy policy page and handling navigation based on user type.
+ * Component for displaying the legal notice page and handling navigation based on user type.
  */
 @Component({
-  selector: 'app-privacy-policy',
+  selector: 'app-legal-notice',
   standalone: true,
   imports: [],
-  templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.scss'
+  templateUrl: './legal-notice.component.html',
+  styleUrl: './legal-notice.component.scss'
 })
-export class PrivacyPolicyComponent {
+export class LegalNoticeComponent {
+
   /**
    * Initializes the component with the router for navigation.
    * @param {Router} router - Router service for navigating between pages.
@@ -24,11 +25,11 @@ export class PrivacyPolicyComponent {
    */
   navigateTo() {
     const userType = sessionStorage.getItem('userType');
-  
     if (!userType || userType === '') {
-      this.router.navigate(['/dashboard/help']);
+      this.router.navigate(['/help']);
     } else {
-      this.router.navigate(['/dashboard/summary']);
+      this.router.navigate(['/summary']);
     }
   }
+
 }

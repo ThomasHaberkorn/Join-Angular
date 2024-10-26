@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, EventEmitter, Output, Input, Renderer2 } from '@angular/core';
 import { addDoc, collection, doc, Firestore, getDocs, updateDoc } from '@angular/fire/firestore';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subtask, Task } from '../../../models/task.class';
-import { User } from '../../../models/user.class';
+import { Subtask, Task } from '../../models/task.class';
+import { User } from '../../models/user.class';
 
 @Component({
   selector: 'app-add-task',
@@ -87,14 +87,26 @@ export class AddTaskComponent {
   /**
    * Loads users from Firestore and populates the users array
    */
+  // async loadUsersFromFirestore() {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(this.firestore, 'users'));
+  //     this.users = querySnapshot.docs.map(doc => doc.data() as User);
+  //   } catch (error) {
+  //     console.error('Error loading users:', error);
+  //   }
+  // }
   async loadUsersFromFirestore() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'users'));
-      this.users = querySnapshot.docs.map(doc => doc.data() as User);
+      this.users = querySnapshot.docs
+        .map(doc => doc.data() as User)
+        .sort((a, b) => a.firstName.localeCompare(b.firstName));
     } catch (error) {
       console.error('Error loading users:', error);
     }
   }
+  
+
 
   /**
    * Toggles the dropdown visibility for user selection

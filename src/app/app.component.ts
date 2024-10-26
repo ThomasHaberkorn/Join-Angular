@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service'; 
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { HeaderComponent } from './shared/header/header.component';
 
 
 @Component({
@@ -19,9 +19,9 @@ export class AppComponent {
 
   constructor(private authService: AuthService) {}
     
-    // Methode, die den Login-Status aus dem AuthService abruft
+   
   isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();  // Hier den tatsächlichen Login-Status abfragen
+    return this.authService.isLoggedIn();  
   }
   
 }

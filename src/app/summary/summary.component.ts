@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
-import { Task } from '../../../models/task.class';
+import { Task } from '../../models/task.class';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -119,6 +119,6 @@ export class SummaryComponent {
    * Navigates to the board view.
    */
   navigateToBoard() {
-    this.router.navigate(['/dashboard/board']);
+    this.router.navigate(['/board']);
   }
 }

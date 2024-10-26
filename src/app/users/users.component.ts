@@ -1,10 +1,10 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { collection, Firestore, getDocs, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
-import { User } from '../../../models/user.class';
+import { User } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { FormsModule } from '@angular/forms';
-import { Task } from '../../../models/task.class';
+import { Task } from '../../models/task.class';
 
 
 /**

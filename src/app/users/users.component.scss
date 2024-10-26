@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import "./../../styles.scss";
 
 @media (max-width: 100vw) {
   .mainContent {
@@ -505,7 +505,7 @@
             transition: all 0.3s ease;
           }
           &:hover .cancelIcon {
-            content: url("./../../../assets/img/blue_cross.png");
+            content: url("./../../assets/img/blue_cross.png");
           }
           &:hover {
             border-color: $lblue;
