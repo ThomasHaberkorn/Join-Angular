@@ -144,8 +144,8 @@
 
   .taskCard {
     width: 75%;
-    border: 2px solid $borderGrey;
-    background-color: $noTaskGrey;
+    background-color: $white;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
     border-radius: 20px;
     padding: 10px 15px;
     margin-bottom: 6px;
