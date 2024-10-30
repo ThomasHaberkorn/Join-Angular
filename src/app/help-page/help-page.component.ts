@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './help-page.component.html',
-  styleUrl: './help-page.component.scss'
+  styleUrls: ['./help-page.component.scss', './help-page.media.scss']
 })
 export class HelpPageComponent {
 

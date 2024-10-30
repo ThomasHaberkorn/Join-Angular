@@ -1,593 +1,438 @@
 @import "../../styles.scss";
 
-@media (max-width: 100vw) {
-  .mainContainer {
-    width: 100%;
-    max-width: 1920px;
-    height: 100%;
-    position: absolute;
-    top: 96px;
-    left: 232px;
-    overflow: hidden;
-    .headContainer {
-      @include dFlex($jc: space-between);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: calc(96% - 232px);
-      height: 12vh;
-      margin-top: 20px;
-      .headline {
-        margin-left: 64px;
-        h1 {
-          font-size: 61px;
-          font-weight: 700;
-        }
-      }
-      .headSideContent {
-        @include dFlex();
-        gap: 20px;
-        .searchInput {
-          width: 312px;
-          height: 44px;
-          border: 2px solid $borderGrey;
-          border-radius: 10px;
-          padding: 0;
-          font-size: 20px;
-          margin-right: 20px;
-          @include dFlex($jc: flex-start);
-          background-color: $white;
-          .inputField {
-            width: 80%;
-            height: 100%;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            font-size: 20px;
-            padding-left: 10px;
-            &::placeholder {
-              color: $inputGrey;
-            }
-          }
-          .hline {
-            width: 2px;
-            height: 30px;
-            background-color: $inputGrey;
-          }
-          .searchImg {
-            margin: 0 20px;
-          }
-        }
-        .addTask {
-          @include dFlex();
-          width: 170px;
-          height: 48px;
-          font-size: 20px;
-          background-color: $dblue;
-          color: $white;
-          border: none;
-          border-radius: 10px;
-          gap: 5px;
-          padding-left: 10px;
-          cursor: pointer;
-          &:hover {
-            background-color: $lblue;
-            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
-          }
-        }
-      }
-    }
-    .board {
-      position: relative;
-      top: calc(12vh + 20px);
-      width: calc(100% - 232px);
-      height: calc(100% - 25vh);
-      @include dFlex($ai: flex-start);
-      .innerBoard {
-        width: 94%;
-        height: 100%;
-        @include dFlex($ai: flex-start, $jc: space-between);
-        .contentContainer {
-          width: 25%;
-          .containerHead {
-            width: 90%;
-            @include dFlex($jc: space-between);
-            margin: 0 15px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            h4 {
-              align-items: center;
-              color: $boardHead;
-              font-size: 20px;
-              font-weight: 700;
-              margin: 0;
-              margin-left: 4px;
-            }
-            img {
-              cursor: pointer;
-            }
-          }
-          span {
-            color: $borderGrey;
-            font-size: 16px;
-            padding: 14px;
-            width: 80%;
-            min-height: 40px;
-            border: 2px dotted $borderGrey;
-            background-color: $noTaskGrey;
-            border-radius: 10px;
-            margin-top: 10px;
-            @include dFlex();
-          }
-          .scrollContainer {
-            width: 100%;
-            height: 64vh;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            @include flexDir(column, $jc: flex-start, $ai: center);
-            padding-top: 1vh;
-            &::-webkit-scrollbar {
-              display: none;
-            }
-            &.drop-active {
-              border: 2px dashed $borderGrey;
-              background-color: $noTaskGrey;
-              padding-top: 18px;
-              border-radius: 10px;
-              margin-left: -2px;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .taskCard {
-    width: 75%;
-    background-color: $white;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
-    border-radius: 20px;
-    padding: 10px 15px;
-    margin-bottom: 6px;
-    margin-top: 6px;
-    cursor: grab;
-    height: 225px;
-    position: relative;
-    z-index: 1;
-    &:hover {
-      transform: rotate(6deg);
-    }
-    &.dragging {
-      opacity: 0.6;
-      max-width: 250px;
-      z-index: 1000;
-    }
-    .category {
-      margin-top: 10px;
-      width: 120px;
-      height: 30px;
-      color: $white;
-      @include dFlex();
-      border-radius: 10px;
-      padding: 0 10px;
-      &.techTask {
-        background-color: $techTask;
-      }
-      &.userStory {
-        background-color: $userStory;
-      }
-    }
-
-    h3 {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 20px;
-      font-weight: 700;
-      color: $dblue;
-      max-height: 50px;
-      overflow-y: scroll;
-    }
-    p {
-      font-size: 16px;
-      font-weight: 400;
-      color: $dblue;
-      margin: 0;
-      max-height: 43px;
-      overflow-y: scroll;
-    }
-    .subtasks {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      @include dFlex($jc: space-between);
-      .progressBarSubtasks {
-        width: 54%;
-        height: 8px;
-        background-color: $borderGrey;
-        border-radius: 10px;
-        .progress {
-          height: 100%;
-          background-color: $lblue;
-          transition: width 0.3s ease;
-          border-radius: 10px;
-        }
-      }
-      .subtaskCounter {
-        font-size: 12px;
-      }
-    }
-    .contactPrioContainer {
-      @include dFlex($jc: space-between);
-      width: 100%;
-      .contacts {
-        @include dFlex();
-        .contact {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: 2px solid $white;
-          margin-left: -8px;
-          @include dFlex();
-          font-size: 12px;
-          color: $white;
-        }
-        .more-circle {
-          background-color: $mblue;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          @include dFlex();
-          color: $white;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-
-  .modal-overlay {
+.mainContainer {
+  width: 100%;
+  max-width: 1920px;
+  height: 100%;
+  position: absolute;
+  top: 96px;
+  left: 232px;
+  overflow: hidden;
+  .headContainer {
+    @include dFlex($jc: space-between);
     position: absolute;
     top: 0;
     left: 0;
+    width: calc(96% - 232px);
+    height: 12vh;
+    margin-top: 20px;
+    .headline {
+      margin-left: 64px;
+      h1 {
+        font-size: 61px;
+        font-weight: 700;
+      }
+    }
+    .headSideContent {
+      @include dFlex();
+      gap: 20px;
+      .searchInput {
+        width: 312px;
+        height: 44px;
+        border: 2px solid $borderGrey;
+        border-radius: 10px;
+        padding: 0;
+        font-size: 20px;
+        margin-right: 20px;
+        @include dFlex($jc: flex-start);
+        background-color: $white;
+        .inputField {
+          width: 80%;
+          height: 100%;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          font-size: 20px;
+          padding-left: 10px;
+          &::placeholder {
+            color: $inputGrey;
+          }
+        }
+        .hline {
+          width: 2px;
+          height: 30px;
+          background-color: $inputGrey;
+        }
+        .searchImg {
+          margin: 0 20px;
+        }
+      }
+      .addTask {
+        @include dFlex();
+        width: 170px;
+        height: 48px;
+        font-size: 20px;
+        background-color: $dblue;
+        color: $white;
+        border: none;
+        border-radius: 10px;
+        gap: 5px;
+        padding-left: 10px;
+        cursor: pointer;
+        &:hover {
+          background-color: $lblue;
+          box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
+        }
+      }
+    }
+  }
+  .board {
+    position: relative;
+    top: calc(12vh + 20px);
+    width: calc(100% - 232px);
+    height: calc(100% - 25vh);
+    @include dFlex($ai: flex-start);
+    .innerBoard {
+      width: 94%;
+      height: 100%;
+      @include dFlex($ai: flex-start, $jc: space-between);
+      .contentContainer {
+        width: 25%;
+        .containerHead {
+          width: 90%;
+          @include dFlex($jc: space-between);
+          margin: 0 15px;
+          margin-top: 30px;
+          margin-bottom: 20px;
+          h4 {
+            align-items: center;
+            color: $boardHead;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            margin-left: 4px;
+          }
+          img {
+            cursor: pointer;
+          }
+        }
+        span {
+          color: $borderGrey;
+          font-size: 16px;
+          padding: 14px;
+          width: 80%;
+          min-height: 40px;
+          border: 2px dotted $borderGrey;
+          background-color: $noTaskGrey;
+          border-radius: 10px;
+          margin-top: 10px;
+          @include dFlex();
+        }
+        .scrollContainer {
+          width: 100%;
+          height: 64vh;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          @include flexDir(column, $jc: flex-start, $ai: center);
+          padding-top: 1vh;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          &.drop-active {
+            border: 2px dashed $borderGrey;
+            background-color: $noTaskGrey;
+            padding-top: 18px;
+            border-radius: 10px;
+            margin-left: -2px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.taskCard {
+  width: 75%;
+  background-color: $white;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+  cursor: grab;
+  height: 225px;
+  position: relative;
+  z-index: 1;
+  &:hover {
+    transform: rotate(6deg);
+  }
+  &.dragging {
+    opacity: 0.6;
+    max-width: 250px;
+    z-index: 1000;
+  }
+  .category {
+    margin-top: 10px;
+    width: 120px;
+    height: 30px;
+    color: $white;
+    @include dFlex();
+    border-radius: 10px;
+    padding: 0 10px;
+    &.techTask {
+      background-color: $techTask;
+    }
+    &.userStory {
+      background-color: $userStory;
+    }
+  }
+
+  h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: $dblue;
+    max-height: 50px;
+    overflow-y: scroll;
+  }
+  p {
+    font-size: 16px;
+    font-weight: 400;
+    color: $dblue;
+    margin: 0;
+    max-height: 43px;
+    overflow-y: scroll;
+  }
+  .subtasks {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    @include dFlex($jc: space-between);
+    .progressBarSubtasks {
+      width: 54%;
+      height: 8px;
+      background-color: $borderGrey;
+      border-radius: 10px;
+      .progress {
+        height: 100%;
+        background-color: $lblue;
+        transition: width 0.3s ease;
+        border-radius: 10px;
+      }
+    }
+    .subtaskCounter {
+      font-size: 12px;
+    }
+  }
+  .contactPrioContainer {
+    @include dFlex($jc: space-between);
+    width: 100%;
+    .contacts {
+      @include dFlex();
+      .contact {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid $white;
+        margin-left: -8px;
+        @include dFlex();
+        font-size: 12px;
+        color: $white;
+      }
+      .more-circle {
+        background-color: $mblue;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        @include dFlex();
+        color: $white;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 300;
+  .modal-background {
+    @include dFlex();
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 300;
-    .modal-background {
-      @include dFlex();
+    .modal-content {
       width: 100%;
-      height: 100%;
-      .modal-content {
-        width: 100%;
-        height: 75%;
-        scale: 0.8;
-        margin-top: -100px;
-        margin-left: 120px;
-        ::ng-deep app-add-task {
-          .mainContainer {
-            top: 10%;
-            right: 17%;
-            left: 0;
-            max-width: 1060px;
-            height: auto;
-            .mainInnerContainer {
-              margin-top: 0;
-              margin-left: 0;
-              padding: 0;
-              padding-top: 10px;
-              padding-left: 28px;
-              .headline {
-                h1 {
-                  margin-top: 0px;
-                  margin-left: 0px;
+      height: 75%;
+      scale: 0.8;
+      margin-top: -100px;
+      margin-left: 120px;
+      ::ng-deep app-add-task {
+        .mainContainer {
+          top: 10%;
+          right: 17%;
+          left: 0;
+          max-width: 1060px;
+          height: auto;
+          .mainInnerContainer {
+            margin-top: 0;
+            margin-left: 0;
+            padding: 0;
+            padding-top: 10px;
+            padding-left: 28px;
+            .headline {
+              h1 {
+                margin-top: 0px;
+                margin-left: 0px;
+              }
+            }
+            .addTaskContainer {
+              width: 100%;
+              .addTaskLeft {
+                margin-right: 2px;
+                margin-left: 0px;
+                .inputFieldAddTask {
+                  max-width: 450px;
+                  width: 95%;
                 }
               }
-              .addTaskContainer {
-                width: 100%;
-                .addTaskLeft {
-                  margin-right: 2px;
-                  margin-left: 0px;
-                  .inputFieldAddTask {
-                    max-width: 450px;
-                    width: 95%;
-                  }
-                }
-                .centerLine {
-                  margin-right: 22px;
-                }
-                .addTaskRight {
-                  margin-left: 1.8vw;
+              .centerLine {
+                margin-right: 22px;
+              }
+              .addTaskRight {
+                margin-left: 1.8vw;
+                max-width: 450px;
+                .inputFieldAddTask {
                   max-width: 450px;
-                  .inputFieldAddTask {
-                    max-width: 450px;
+                  width: 100%;
+                }
+                .taskPrio {
+                  width: 100%;
+                  gap: 3%;
+                }
+                .selectFieldAddTask {
+                  max-width: 470px;
+                  width: 100%;
+                }
+                .subtasks {
+                  .innerLIContainer {
                     width: 100%;
-                  }
-                  .taskPrio {
-                    width: 100%;
-                    gap: 3%;
-                  }
-                  .selectFieldAddTask {
-                    max-width: 470px;
-                    width: 100%;
-                  }
-                  .subtasks {
-                    .innerLIContainer {
-                      width: 100%;
 
-                      .listClass {
-                        li {
-                          .subtaskViewMode {
-                            margin-right: 57px;
-                          }
-                          .deleteIcon {
-                            margin-left: 1px;
-                          }
+                    .listClass {
+                      li {
+                        .subtaskViewMode {
+                          margin-right: 57px;
+                        }
+                        .deleteIcon {
+                          margin-left: 1px;
                         }
                       }
                     }
                   }
                 }
               }
-              .buttonContainer {
-                width: 100%;
-              }
+            }
+            .buttonContainer {
+              width: 100%;
             }
           }
         }
       }
     }
   }
+}
 
-  .cardDetail {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    @include dFlex();
-    .cardInnerDetail {
-      position: relative;
-      width: 40%;
-      min-width: 450px;
-      max-width: 550px;
-      height: 80%;
-      background-color: $white;
-      border-radius: 20px;
-      margin-left: 10%;
-      @include flexDir(column, $jc: flex-start);
-      .cardInnerContent {
-        width: 93%;
-        height: 87%;
-        overflow-y: scroll;
-        margin-left: 10px;
-        margin-top: 15px;
-        overflow-y: scroll;
-        .cardDetailHead {
-          width: 100%;
-          height: 50px;
-          margin-top: 20px;
-          @include dFlex($jc: space-between);
-          .categoryHead {
-            @include dFlex();
-            width: 160px;
-            height: 40px;
-            margin-left: 0px;
-            border-radius: 10px;
-            &.techTask {
-              background-color: $techTask;
-            }
-            &.userStory {
-              background-color: $userStory;
-            }
-          }
-          .statusSelect {
-            width: 163px;
-            margin-top: -12px;
-            label {
-              display: block;
-              font-size: 12px;
-              color: $red;
-            }
-            select {
-              width: 100%;
-              padding: 8px;
-              border: 1px solid $inputGrey;
-              border-radius: 5px;
-              font-size: 16px;
-            }
-          }
-          img {
-            cursor: pointer;
-            margin-top: 0px;
-            margin-right: 10px;
-            margin-right: 25px;
-            width: 15px;
-            height: 15px;
-          }
-        }
-        .cardDetailContent {
-          width: 90%;
-          height: 60%;
-          h1 {
-            font-size: 40px;
-            font-weight: 700;
-            color: $dblue;
-            margin: 20px 0;
-          }
-          p,
-          .priority,
-          .subt {
-            font-size: 20px;
-            margin: 15px 0 10px;
-          }
-          .description {
-            .descriptionField {
-              @include dFlex($jc: space-between);
-              p {
-                font-size: 20px;
-                margin: 15px 0 10px;
-              }
-            }
-            .descriptionEditField {
-              @include dFlex($jc: space-between);
-              width: 100%;
-              textarea {
-                width: 70%;
-                max-height: 25px;
-                border: 2px solid $inputGrey;
-                border-radius: 10px;
-                padding: 10px;
-                font-size: 20px;
-                resize: none;
-                &:focus {
-                  outline: none;
-                }
-              }
-            }
-          }
-          .priority {
-            @include dFlex($jc: flex-start);
-            gap: 3%;
-            .prioStatus {
-              @include dFlex();
-              gap: 7%;
-              width: 106px;
-            }
-          }
-          .contactsDetail {
-            @include flexDir(column, $jc: flex-start, $ai: flex-start);
-            min-height: 96px;
-            max-height: 144px;
-            overflow-y: scroll;
-            border: 2px solid $inputGrey;
-            border-radius: 10px;
-            .contactWrapper {
-              @include dFlex($jc: flex-start);
-              gap: 10px;
-              margin-top: 10px;
-              margin-left: 20px;
-              &:last-child {
-                margin-bottom: 10px;
-              }
-              .contactDetail {
-                @include dFlex();
-                width: 35px;
-                height: 35px;
-                border-radius: 50%;
-                color: white;
-                font-size: 16px;
-              }
-              .userName {
-                font-size: 20px;
-                color: black;
-              }
-            }
-          }
-          .subtaskWrapper {
-            border: 2px solid $inputGrey;
-            border-radius: 10px;
-            min-height: 33px;
-            max-height: 90px;
-            overflow-y: scroll;
-            .subtask {
-              font-size: 20px;
-              margin-top: 4px;
-              margin-left: 20px;
-              &:last-child {
-                margin-bottom: 5px;
-              }
-              input {
-                margin-right: 10px;
-              }
-            }
-          }
-        }
-        .detailButtonContainer {
-          position: absolute;
-          bottom: 1vh;
-          left: 0;
-          width: 100%;
-          height: 50px;
-          @include dFlex($jc: flex-end, $ai: center);
-          .deleteDetailButton {
-            @include dFlex();
-            gap: 10px;
-            width: 100px;
-            height: 40px;
-            cursor: pointer;
-            color: $dblue;
-            margin-right: 26px;
-          }
-          .line {
-            width: 2px;
-            height: 30px;
-            background-color: $borderGrey;
-          }
-          .editDetailButton {
-            @include dFlex();
-            gap: 10px;
-            width: 80px;
-            height: 40px;
-            margin-right: 20px;
-            cursor: pointer;
-            color: $dblue;
-          }
-        }
-      }
-    }
-  }
-
-  .editMainCard {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    @include dFlex();
-    .editCard {
-      position: relative;
-      width: 30%;
-      min-width: 400px;
-      height: 85%;
-      background-color: $white;
-      border-radius: 20px;
-      margin-left: 10%;
-      @include flexDir(column, $jc: flex-start, $ai: center);
-      .editCardHead {
+.cardDetail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  @include dFlex();
+  .cardInnerDetail {
+    position: relative;
+    width: 40%;
+    min-width: 450px;
+    max-width: 550px;
+    height: 80%;
+    background-color: $white;
+    border-radius: 20px;
+    margin-left: 10%;
+    @include flexDir(column, $jc: flex-start);
+    .cardInnerContent {
+      width: 93%;
+      height: 87%;
+      overflow-y: scroll;
+      margin-left: 10px;
+      margin-top: 15px;
+      overflow-y: scroll;
+      .cardDetailHead {
         width: 100%;
         height: 50px;
         margin-top: 20px;
+        @include dFlex($jc: space-between);
+        .categoryHead {
+          @include dFlex();
+          width: 160px;
+          height: 40px;
+          margin-left: 0px;
+          border-radius: 10px;
+          &.techTask {
+            background-color: $techTask;
+          }
+          &.userStory {
+            background-color: $userStory;
+          }
+        }
+        .statusSelect {
+          width: 163px;
+          margin-top: -12px;
+          label {
+            display: block;
+            font-size: 12px;
+            color: $red;
+          }
+          select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid $inputGrey;
+            border-radius: 5px;
+            font-size: 16px;
+          }
+        }
         img {
           cursor: pointer;
-          margin-top: 5px;
+          margin-top: 0px;
+          margin-right: 10px;
           margin-right: 25px;
-          float: right;
-          margin-right: 25px;
-          width: 35px;
-          height: 35px;
-          cursor: pointer;
+          width: 15px;
+          height: 15px;
         }
       }
-      .editCardContent {
+      .cardDetailContent {
         width: 90%;
-        height: 75%;
-        overflow-y: scroll;
-        .editTitleContent {
-          h4 {
-            margin-top: 0;
-          }
-          .editTitleField {
-            width: 100%;
-          }
+        height: 60%;
+        h1 {
+          font-size: 40px;
+          font-weight: 700;
+          color: $dblue;
+          margin: 20px 0;
         }
-        .editDescriptionContent {
-          .editDescriptionField {
+        p,
+        .priority,
+        .subt {
+          font-size: 20px;
+          margin: 15px 0 10px;
+        }
+        .description {
+          .descriptionField {
+            @include dFlex($jc: space-between);
+            p {
+              font-size: 20px;
+              margin: 15px 0 10px;
+            }
+          }
+          .descriptionEditField {
+            @include dFlex($jc: space-between);
             width: 100%;
             textarea {
-              max-width: 94%;
+              width: 70%;
               max-height: 25px;
               border: 2px solid $inputGrey;
               border-radius: 10px;
@@ -600,219 +445,372 @@
             }
           }
         }
-        .editDueDateContent {
-          .editDueDateField {
-            width: 100%;
+        .priority {
+          @include dFlex($jc: flex-start);
+          gap: 3%;
+          .prioStatus {
+            @include dFlex();
+            gap: 7%;
+            width: 106px;
           }
         }
-        .editPriorityContent {
-          .taskPrio {
-            @include dFlex($jc: flex-start);
-            gap: 3%;
-            width: 96%;
-            margin-left: 2px;
-            .buttonPrio {
-              width: 132px;
-              height: 40px;
-              @include dFlex();
-              gap: 8px;
-              box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
-              border: 2px solid transparent;
-              border-radius: 10px;
-              background-color: $white;
-              font-size: 20px;
-              cursor: pointer;
-            }
-            .urgend {
-              &:hover,
-              &:focus {
-                border-color: $urgend;
-              }
-              &.active {
-                background-color: $urgend;
-                color: $white;
-                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
-              }
-              &.active.urgend img {
-                content: url("./../../assets/img/selectedUrgent.png");
-              }
-            }
-            .medium {
-              &:hover,
-              &:focus {
-                border-color: $medium;
-              }
-              &.active {
-                background-color: $medium;
-                color: $white;
-                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
-              }
-              &.active.medium img {
-                content: url("./../../assets/img/selectedMedium.png");
-              }
-            }
-            .low {
-              &:hover,
-              &:focus {
-                border-color: $low;
-              }
-              &.active {
-                background-color: $low;
-                color: $white;
-                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
-              }
-              &.active.low img {
-                content: url("./../../assets/img/selectedLow.png");
-              }
-            }
-          }
-        }
-        .editAssignedToContent {
-          position: relative;
-          width: 100%;
-          .editAssignedToField {
-            border: 2px solid $inputGrey;
-            height: 90px;
-            border-radius: 10px;
-            overflow-y: scroll;
-            position: relative;
-            width: 97%;
-            .editContactWrapper {
-              @include dFlex($jc: flex-start);
-              margin-left: 8px;
-              margin-top: 4px;
-              .editContactDetail {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
-                color: white;
-                font-size: 12px;
-                margin-right: 8px;
-                @include dFlex();
-              }
-            }
-          }
-        }
-        .dropdown {
-          position: absolute;
-          top: 40%;
-          left: 19px;
-          width: 86%;
-          height: 300px;
-          background-color: #ffffff;
-          border: 2px solid #d1d1d1;
-          border-radius: 10px;
+        .contactsDetail {
+          @include flexDir(column, $jc: flex-start, $ai: flex-start);
+          min-height: 96px;
+          max-height: 144px;
           overflow-y: scroll;
-          img {
-            position: absolute;
-            top: 0px;
-            right: 2px;
-            width: 34px;
-            height: 34px;
-            cursor: pointer;
-          }
-          .dropdownUserContainer {
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          .contactWrapper {
             @include dFlex($jc: flex-start);
             gap: 10px;
-            margin-left: 4px;
-            margin-top: 4px;
-            overflow-x: hidden;
+            margin-top: 10px;
+            margin-left: 20px;
             &:last-child {
-              margin-bottom: 4px;
+              margin-bottom: 10px;
             }
-            input {
-              width: 15px;
-              height: 15px;
-            }
-            .userInitials {
-              width: 28px;
-              height: 28px;
-              border-radius: 50%;
-              color: $white;
+            .contactDetail {
               @include dFlex();
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              color: white;
+              font-size: 16px;
             }
             .userName {
               font-size: 20px;
-              color: $dblue;
+              color: black;
             }
           }
         }
-        .editSubtasksContent {
-          .editSubtasksField {
-            width: 97%;
+        .subtaskWrapper {
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          min-height: 33px;
+          max-height: 90px;
+          overflow-y: scroll;
+          .subtask {
+            font-size: 20px;
+            margin-top: 4px;
+            margin-left: 20px;
+            &:last-child {
+              margin-bottom: 5px;
+            }
+            input {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+      .detailButtonContainer {
+        position: absolute;
+        bottom: 1vh;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        @include dFlex($jc: flex-end, $ai: center);
+        .deleteDetailButton {
+          @include dFlex();
+          gap: 10px;
+          width: 100px;
+          height: 40px;
+          cursor: pointer;
+          color: $dblue;
+          margin-right: 26px;
+        }
+        .line {
+          width: 2px;
+          height: 30px;
+          background-color: $borderGrey;
+        }
+        .editDetailButton {
+          @include dFlex();
+          gap: 10px;
+          width: 80px;
+          height: 40px;
+          margin-right: 20px;
+          cursor: pointer;
+          color: $dblue;
+        }
+      }
+    }
+  }
+}
+
+.editMainCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  @include dFlex();
+  .editCard {
+    position: relative;
+    width: 30%;
+    min-width: 400px;
+    height: 85%;
+    background-color: $white;
+    border-radius: 20px;
+    margin-left: 10%;
+    @include flexDir(column, $jc: flex-start, $ai: center);
+    .editCardHead {
+      width: 100%;
+      height: 50px;
+      margin-top: 20px;
+      img {
+        cursor: pointer;
+        margin-top: 5px;
+        margin-right: 25px;
+        float: right;
+        margin-right: 25px;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+      }
+    }
+    .editCardContent {
+      width: 90%;
+      height: 75%;
+      overflow-y: scroll;
+      .editTitleContent {
+        h4 {
+          margin-top: 0;
+        }
+        .editTitleField {
+          width: 100%;
+        }
+      }
+      .editDescriptionContent {
+        .editDescriptionField {
+          width: 100%;
+          textarea {
+            max-width: 94%;
+            max-height: 25px;
             border: 2px solid $inputGrey;
             border-radius: 10px;
-            .addSubtask {
-              width: 98%;
-              height: 38px;
-              border: 2px solid $inputGrey;
+            padding: 10px;
+            font-size: 20px;
+            resize: none;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+      }
+      .editDueDateContent {
+        .editDueDateField {
+          width: 100%;
+        }
+      }
+      .editPriorityContent {
+        .taskPrio {
+          @include dFlex($jc: flex-start);
+          gap: 3%;
+          width: 96%;
+          margin-left: 2px;
+          .buttonPrio {
+            width: 132px;
+            height: 40px;
+            @include dFlex();
+            gap: 8px;
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background-color: $white;
+            font-size: 20px;
+            cursor: pointer;
+          }
+          .urgend {
+            &:hover,
+            &:focus {
+              border-color: $urgend;
+            }
+            &.active {
+              background-color: $urgend;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.urgend img {
+              content: url("./../../assets/img/selectedUrgent.png");
+            }
+          }
+          .medium {
+            &:hover,
+            &:focus {
+              border-color: $medium;
+            }
+            &.active {
+              background-color: $medium;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.medium img {
+              content: url("./../../assets/img/selectedMedium.png");
+            }
+          }
+          .low {
+            &:hover,
+            &:focus {
+              border-color: $low;
+            }
+            &.active {
+              background-color: $low;
+              color: $white;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+            }
+            &.active.low img {
+              content: url("./../../assets/img/selectedLow.png");
+            }
+          }
+        }
+      }
+      .editAssignedToContent {
+        position: relative;
+        width: 100%;
+        .editAssignedToField {
+          border: 2px solid $inputGrey;
+          height: 90px;
+          border-radius: 10px;
+          overflow-y: scroll;
+          position: relative;
+          width: 97%;
+          .editContactWrapper {
+            @include dFlex($jc: flex-start);
+            margin-left: 8px;
+            margin-top: 4px;
+            .editContactDetail {
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              color: white;
+              font-size: 12px;
+              margin-right: 8px;
+              @include dFlex();
+            }
+          }
+        }
+      }
+      .dropdown {
+        position: absolute;
+        top: 40%;
+        left: 19px;
+        width: 86%;
+        height: 300px;
+        background-color: #ffffff;
+        border: 2px solid #d1d1d1;
+        border-radius: 10px;
+        overflow-y: scroll;
+        img {
+          position: absolute;
+          top: 0px;
+          right: 2px;
+          width: 34px;
+          height: 34px;
+          cursor: pointer;
+        }
+        .dropdownUserContainer {
+          @include dFlex($jc: flex-start);
+          gap: 10px;
+          margin-left: 4px;
+          margin-top: 4px;
+          overflow-x: hidden;
+          &:last-child {
+            margin-bottom: 4px;
+          }
+          input {
+            width: 15px;
+            height: 15px;
+          }
+          .userInitials {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: $white;
+            @include dFlex();
+          }
+          .userName {
+            font-size: 20px;
+            color: $dblue;
+          }
+        }
+      }
+      .editSubtasksContent {
+        .editSubtasksField {
+          width: 97%;
+          border: 2px solid $inputGrey;
+          border-radius: 10px;
+          .addSubtask {
+            width: 98%;
+            height: 38px;
+            border: 2px solid $inputGrey;
+            border-radius: 10px;
+            background-color: $white;
+            margin-left: 1px;
+            margin-top: 1px;
+            @include dFlex($jc: flex-start);
+            input {
+              width: 86%;
+              height: 100%;
+              border: none;
+              outline: none;
+              padding-left: 10px;
+              font-size: 20px;
+              background-color: $borderGrey;
               border-radius: 10px;
-              background-color: $white;
-              margin-left: 1px;
-              margin-top: 1px;
-              @include dFlex($jc: flex-start);
+              margin-right: 4px;
+              &::placeholder {
+                color: $inputGrey;
+              }
+            }
+            img {
+              cursor: pointer;
+            }
+          }
+          .subtaskContent {
+            margin-left: 8px;
+            margin-right: 8px;
+            .subtaskViewMode {
+              @include dFlex($jc: space-between);
+              .subtaskTitle {
+                font-size: 20px;
+                margin-top: 4px;
+                margin-bottom: 4px;
+              }
+              .subtaskEditDelContainer {
+                @include dFlex();
+                gap: 8px;
+                .subtaskEdit {
+                  cursor: pointer;
+                }
+                .subtaskDel {
+                  cursor: pointer;
+                }
+              }
+            }
+            .subtaskEditMode {
+              @include dFlex($jc: space-between);
               input {
-                width: 86%;
-                height: 100%;
+                width: 78%;
+                height: 30px;
                 border: none;
                 outline: none;
-                padding-left: 10px;
+                padding-left: 4px;
                 font-size: 20px;
                 background-color: $borderGrey;
                 border-radius: 10px;
                 margin-right: 4px;
-                &::placeholder {
-                  color: $inputGrey;
-                }
+                margin-left: -3px;
               }
-              img {
-                cursor: pointer;
-              }
-            }
-            .subtaskContent {
-              margin-left: 8px;
-              margin-right: 8px;
-              .subtaskViewMode {
-                @include dFlex($jc: space-between);
-                .subtaskTitle {
-                  font-size: 20px;
-                  margin-top: 4px;
-                  margin-bottom: 4px;
-                }
-                .subtaskEditDelContainer {
-                  @include dFlex();
-                  gap: 8px;
-                  .subtaskEdit {
-                    cursor: pointer;
-                  }
-                  .subtaskDel {
-                    cursor: pointer;
-                  }
-                }
-              }
-              .subtaskEditMode {
-                @include dFlex($jc: space-between);
-                input {
-                  width: 78%;
-                  height: 30px;
-                  border: none;
-                  outline: none;
-                  padding-left: 4px;
-                  font-size: 20px;
-                  background-color: $borderGrey;
-                  border-radius: 10px;
-                  margin-right: 4px;
-                  margin-left: -3px;
-                }
-                .subtaskEditDelContainer {
-                  @include dFlex();
-                  gap: 8px;
-                  .subtaskEdit,
-                  .subtaskDel {
-                    cursor: pointer;
-                    width: 24px;
-                    height: 24px;
-                  }
+              .subtaskEditDelContainer {
+                @include dFlex();
+                gap: 8px;
+                .subtaskEdit,
+                .subtaskDel {
+                  cursor: pointer;
+                  width: 24px;
+                  height: 24px;
                 }
               }
             }
@@ -820,472 +818,87 @@
         }
       }
     }
-    .editCardButton {
-      position: absolute;
-      bottom: 2vh;
-      right: 2vw;
-      width: 100%;
-      height: 50px;
-      @include dFlex($jc: flex-end, $ai: center);
-      .cancelEditButton {
-        @include dFlex();
-        gap: 10px;
-        width: 100px;
-        height: 40px;
-        cursor: pointer;
-        color: $lblue;
-        border: 2px solid $lblue;
-        border-radius: 10px;
-        background-color: $white;
-        &:hover {
-          background-color: $lblue;
-          color: $white;
-          box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
-        }
-      }
-      .saveEditButton {
-        @include dFlex();
-        gap: 10px;
-        width: 80px;
-        height: 40px;
-        cursor: pointer;
+  }
+  .editCardButton {
+    position: absolute;
+    bottom: 2vh;
+    right: 2vw;
+    width: 100%;
+    height: 50px;
+    @include dFlex($jc: flex-end, $ai: center);
+    .cancelEditButton {
+      @include dFlex();
+      gap: 10px;
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+      color: $lblue;
+      border: 2px solid $lblue;
+      border-radius: 10px;
+      background-color: $white;
+      &:hover {
+        background-color: $lblue;
         color: $white;
-        background-color: $dblue;
-        margin-left: 26px;
-        border-radius: 10px;
-        border: none;
-        &:hover {
-          background-color: $lblue;
-          box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
-        }
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
       }
     }
-  }
-
-  .editCardh4 {
-    font-size: 20px;
-    margin: 15px 0 10px;
-  }
-
-  .buttonPrio {
-    width: 132px;
-    height: 56px;
-    @include dFlex();
-    gap: 8px;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
-    border: 2px solid transparent;
-    border-radius: 10px;
-    background-color: $white;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .editInputField {
-    width: 91%;
-    height: 25px;
-    border: 2px solid $inputGrey;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 20px;
-    &:focus {
-      outline: none;
-    }
-  }
-
-  #prioLow {
-    src: url("./../../assets/img/lowSymbol.png");
-  }
-
-  #prioMedium {
-    src: url("./../../assets/img/mediumSymbol.png");
-  }
-
-  #prioUrgent {
-    src: url("./../../assets/img/urgentSymbol.png");
-  }
-}
-
-@media (max-width: 1200px) {
-  .mainContainer {
-    left: 0;
-    height: calc(100% - 196px);
-    .headContainer {
-      width: 100%;
-      margin-top: 0px;
-      .headline {
-        h1 {
-          margin-top: 0px;
-          margin-bottom: 0px;
-        }
-      }
-      .headSideContent {
-        margin-right: 50px;
-      }
-    }
-    .board {
-      width: 100%;
-      height: calc(100% - 100px);
-      top: 12vh;
-      .innerBoard {
-        .contentContainer {
-          .scrollContainer {
-            height: calc(66vh - 100px);
-          }
-        }
-      }
-    }
-  }
-  .modal-overlay {
-    .modal-background {
-      .modal-content {
-        width: 100%;
-        height: 100%;
-        scale: 0.85;
-        margin-top: -100px;
-        margin-left: 0;
-        ::ng-deep app-add-task {
-          .mainContainer {
-            .mainInnerContainer {
-              .headline {
-                margin-left: 0px;
-                h1 {
-                  margin-top: 0px;
-                  margin-left: 0px;
-                }
-              }
-              .addTaskContainer {
-                .addTaskRight {
-                  .taskPrio {
-                    max-width: 440px;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  .cardDetail {
-    .cardInnerDetail {
-      margin-left: 0px;
-      height: 75%;
-    }
-  }
-  .editMainCard {
-    .editCard {
-      margin-left: 0px;
-      height: 75%;
-    }
-  }
-}
-
-@media (max-width: 950px) {
-  .progressBarSubtasks {
-    width: 50%;
-  }
-}
-
-@media (max-width: 900px) {
-  .mainContainer {
-    .headContainer {
-      .headline {
-        margin-left: 26px;
-      }
-    }
-    .board {
-      .innerBoard {
-        flex-direction: column;
-        overflow-y: scroll;
-        .contentContainer {
-          width: 100%;
-          .containerHead {
-            margin: 0px;
-            width: 200px;
-          }
-          .scrollContainer {
-            width: 100%;
-            height: 200px;
-            flex-direction: row;
-            overflow-y: hidden;
-            overflow-x: scroll;
-            padding-top: 0px;
-            .taskCard {
-              width: 170px;
-              min-width: 170px;
-              height: 150px;
-              margin-right: 20px;
-              .category {
-                margin-top: 0px;
-              }
-              h3 {
-                font-size: 16px;
-                max-height: 40px;
-              }
-              p {
-                display: none;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .modal-overlay {
-    .modal-background {
-      .modal-content {
-        width: 100%;
-        height: 100%;
-        scale: 0.85;
-        margin-top: -100px;
-        margin-left: 0;
-        ::ng-deep app-add-task {
-          .mainContainer {
-            .mainInnerContainer {
-              .headline {
-                margin-left: 0px;
-                h1 {
-                  margin-top: 0px;
-                  margin-left: 0px;
-                }
-              }
-            }
-          }
-        }
+    .saveEditButton {
+      @include dFlex();
+      gap: 10px;
+      width: 80px;
+      height: 40px;
+      cursor: pointer;
+      color: $white;
+      background-color: $dblue;
+      margin-left: 26px;
+      border-radius: 10px;
+      border: none;
+      &:hover {
+        background-color: $lblue;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45);
       }
     }
   }
 }
 
-@media (max-width: 800px) {
-  .mainContainer {
-    .headContainer {
-      .headline {
-        h1 {
-          font-size: 40px;
-        }
-      }
-      .headSideContent {
-        .searchInput {
-          width: 260px;
-          height: 34px;
-        }
-        .addTask {
-          width: 150px;
-          height: 37px;
-          span {
-            font-size: 16px;
-          }
-          img {
-            width: 24px;
-            height: 24px;
-          }
-        }
-      }
-    }
+.editCardh4 {
+  font-size: 20px;
+  margin: 15px 0 10px;
+}
+
+.buttonPrio {
+  width: 132px;
+  height: 56px;
+  @include dFlex();
+  gap: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: $white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.editInputField {
+  width: 91%;
+  height: 25px;
+  border: 2px solid $inputGrey;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  &:focus {
+    outline: none;
   }
 }
 
-@media (max-width: 700px) {
-  .mainContainer {
-    .headContainer {
-      .headline {
-        h1 {
-          font-size: 40px;
-        }
-      }
-      .headSideContent {
-        margin-right: 29px;
-        .searchInput {
-          width: 260px;
-          height: 34px;
-        }
-        .addTask {
-          width: 40px;
-          height: 37px;
-          padding-left: 6px;
-          span {
-            display: none;
-          }
-          img {
-            width: 24px;
-            height: 24px;
-          }
-        }
-      }
-    }
-  }
+#prioLow {
+  src: url("./../../assets/img/lowSymbol.png");
 }
 
-@media (max-width: 550px) {
-  .mainContainer {
-    .headContainer {
-      height: 9vh;
-      .headline {
-        margin-left: 0px;
-        h1 {
-          margin-left: 3vw;
-          font-size: 40px;
-        }
-      }
-      .headSideContent {
-        margin-right: 20px;
-        .searchInput {
-          position: absolute;
-          left: 3vw;
-          top: 65px;
-          width: 91vw;
-        }
-        .addTask {
-          width: 40px;
-          height: 37px;
-          padding-left: 6px;
-          span {
-            display: none;
-          }
-          img {
-            width: 24px;
-            height: 24px;
-          }
-        }
-      }
-    }
-    .board {
-      .innerBoard {
-        margin-top: 30px;
-        height: calc(100% - 25px);
-      }
-    }
-  }
+#prioMedium {
+  src: url("./../../assets/img/mediumSymbol.png");
 }
 
-@media (max-width: 500px) {
-  .cardDetail {
-    .cardInnerDetail {
-      min-width: 390px;
-      .cardInnerContent {
-        .cardDetailHead {
-          .statusSelect {
-            margin-left: 10px;
-            select {
-              width: 140px;
-              height: 40px;
-              font-size: 14px;
-            }
-          }
-        }
-      }
-    }
-  }
-  .editMainCard {
-    .editCard {
-      min-width: 300px;
-      .editCardContent {
-        .editPriorityContent {
-          .taskPrio {
-            .buttonPrio {
-              font-size: 14px;
-              img {
-                width: 14px;
-              }
-            }
-          }
-        }
-        .editSubtasksContent {
-          .editSubtasksField {
-            .subtaskContent {
-              .subtaskViewMode {
-                span {
-                  font-size: 16px;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .editInputField {
-    font-size: 16px;
-  }
-  .editDescriptionField {
-    textarea {
-      padding-top: 2px;
-    }
-  }
-}
-
-@media (max-width: 400px) {
-  .cardDetail {
-    .cardInnerDetail {
-      min-width: 300px;
-      .cardInnerContent {
-        .cardDetailHead {
-          .categoryHead {
-            font-size: 14px;
-          }
-          .statusSelect {
-            margin-left: 10px;
-            select {
-              width: 115px;
-              height: 40px;
-              font-size: 12px;
-              padding-left: 2px;
-              padding-right: 2px;
-            }
-          }
-          img {
-            margin-right: 10px;
-            width: 13px;
-            height: 13px;
-          }
-        }
-        .cardDetailContent {
-          h1 {
-            font-size: 20px;
-          }
-          p {
-            font-size: 14px;
-          }
-          .priority {
-            .prioLeft {
-              font-size: 14px;
-            }
-            .prioStatus {
-              font-size: 14px;
-              img {
-                width: 14px;
-              }
-            }
-          }
-          .contactsDetail {
-            .contactWrapper {
-              .contactDetail {
-                width: 25px;
-                height: 25px;
-                font-size: 12px;
-              }
-              .userName {
-                font-size: 16px;
-              }
-            }
-          }
-          .subtaskWrapper {
-            .subtask {
-              input {
-                width: 12px;
-                height: 12px;
-              }
-              span {
-                font-size: 16px;
-                line-height: 20px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+#prioUrgent {
+  src: url("./../../assets/img/urgentSymbol.png");
 }

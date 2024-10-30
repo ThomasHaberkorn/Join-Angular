@@ -12,7 +12,7 @@ import { AddTaskComponent } from '../add-task/add-task.component';
   standalone: true,
   imports: [CommonModule, AddTaskComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.scss'
+  styleUrls: ['./board.component.scss', './board.media.scss']
 })
 export class BoardComponent {
 

@@ -10,7 +10,7 @@ import { User } from '../../models/user.class';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.scss'
+  styleUrls:  [ './add-task.component.scss', './add-task.media.scss' ] 
 })
 
 export class AddTaskComponent {

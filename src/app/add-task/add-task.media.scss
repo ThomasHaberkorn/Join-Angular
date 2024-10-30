@@ -1,60 +1,62 @@
+@import "./../../styles.scss";
+
 @media (max-width: 1200px) {
   .mainContainer {
-    left: 0 !important;
-    height: calc(100% - 196px) !important;
-    width: 100% !important;
+    left: 0;
+    height: calc(100% - 196px);
+    width: 100%;
     @include dFlex();
     .mainInnerContainer {
-      margin-left: 0px !important;
-      margin-top: 0px !important;
+      margin-left: 0px;
+      margin-top: 0px;
       @include flexDir(column);
       .headline {
-        display: flex !important;
-        align-items: flex-start !important;
-        width: 100% !important;
-        margin-left: 10vw !important;
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        margin-left: 10vw;
         h1 {
-          font-size: 55px !important;
-          margin-left: 41px !important;
+          font-size: 55px;
+          margin-left: 41px;
         }
       }
       .addTaskContainer {
         .addTaskLeft {
-          margin-right: 5px !important;
+          margin-right: 5px;
           .inputContainer {
             .inputFieldAddTask {
-              max-width: 440px !important;
-              width: 100% !important;
+              max-width: 440px;
+              width: 100%;
             }
           }
         }
         .centerLine {
-          height: 400px !important;
+          height: 400px;
         }
         .addTaskRight {
           .inputContainer {
             .inputFieldAddTask {
-              max-width: 440px !important;
-              width: 100% !important;
+              max-width: 440px;
+              width: 100%;
             }
           }
           .selectFieldAddTask {
-            max-width: 470px !important;
-            width: 100% !important;
+            max-width: 470px;
+            width: 100%;
           }
         }
       }
       .buttonContainer {
-        margin-top: 66px !important;
+        margin-top: 66px;
         .buttonInnerContainer {
           .addTaskButtons {
             .clearButton {
-              width: 100px !important;
-              height: 44px !important;
+              width: 100px;
+              height: 44px;
             }
             .createButton {
-              width: 160px !important;
-              height: 48px !important;
+              width: 160px;
+              height: 48px;
             }
           }
         }
@@ -65,71 +67,71 @@
 
 @media (max-width: 900px) {
   .addTaskButtons {
-    margin-right: 1vw !important;
+    margin-right: 1vw;
   }
   .buttonPrio {
-    font-size: 16px !important;
-    padding: 8px 4px !important;
+    font-size: 16px;
+    padding: 8px 4px;
     img {
-      width: 16px !important;
+      width: 16px;
     }
   }
 }
 
 @media (max-width: 850px) {
   .mainContainer {
-    overflow-x: hidden !important;
+    overflow-x: hidden;
     .mainInnerContainer {
-      height: 95% !important;
+      height: 95%;
       .headline {
         h1 {
-          margin-left: 23px !important;
+          margin-left: 23px;
         }
       }
       .addTaskContainer {
-        flex-direction: column !important;
-        height: 90% !important;
-        overflow-y: scroll !important;
-        box-sizing: border-box !important;
+        flex-direction: column;
+        height: 90%;
+        overflow-y: scroll;
+        box-sizing: border-box;
         .addTaskLeft {
-          width: 98% !important;
-          margin-left: 0 !important;
+          width: 98%;
+          margin-left: 0;
           .inputContainer {
-            width: 100% !important;
+            width: 100%;
             .inputFieldAddTask {
-              max-width: 100% !important;
-              width: 100% !important;
+              max-width: 100%;
+              width: 100%;
             }
           }
           .dropdown {
             .dropdown-content {
-              max-width: 100% !important;
-              width: 93% !important;
+              max-width: 100%;
+              width: 93%;
             }
           }
         }
         .centerLine {
-          display: none !important;
+          display: none;
         }
         .addTaskRight {
-          width: 98% !important;
-          margin-left: 0 !important;
+          width: 98%;
+          margin-left: 0;
           .inputContainer {
-            width: 100% !important;
+            width: 100%;
             .inputFieldAddTask {
-              max-width: 100% !important;
-              width: 100% !important;
+              max-width: 100%;
+              width: 100%;
             }
             .subtasks {
               .innerLIContainer {
-                max-width: 100% !important;
+                max-width: 100%;
                 .listClass {
-                  box-sizing: border-box !important;
-                  width: 100% !important;
-                  max-width: 100% !important;
+                  box-sizing: border-box;
+                  width: 100%;
+                  max-width: 100%;
                   li {
                     img {
-                      margin-right: 7px !important;
+                      margin-right: 7px;
                     }
                   }
                 }
@@ -137,15 +139,15 @@
             }
           }
           .taskPrio {
-            width: 70% !important;
-            margin-right: auto !important;
-            margin-left: auto !important;
-            margin-bottom: 20px !important;
+            width: 70%;
+            margin-right: auto;
+            margin-left: auto;
+            margin-bottom: 20px;
           }
         }
       }
       .buttonContainer {
-        margin-top: 30px !important;
+        margin-top: 30px;
       }
     }
   }
@@ -156,33 +158,33 @@
     .mainInnerContainer {
       .headline {
         h1 {
-          margin-left: 12px !important;
+          margin-left: 12px;
         }
       }
       .buttonContainer {
-        justify-content: center !important;
+        justify-content: center;
         .buttonInnerContainer {
-          flex-direction: column !important;
-          gap: 5px !important;
-          margin-bottom: 5px !important;
-          width: 100% !important;
+          flex-direction: column;
+          gap: 5px;
+          margin-bottom: 5px;
+          width: 100%;
           .addTaskButtons {
-            width: 100% !important;
+            width: 100%;
           }
           .required {
-            margin-left: 0 !important;
+            margin-left: 0;
           }
           .addTaskButtons {
-            margin-right: 0 !important;
+            margin-right: 0;
             .clearButton {
-              width: 100% !important;
-              height: 44px !important;
-              font-size: 16px !important;
+              width: 100%;
+              height: 44px;
+              font-size: 16px;
             }
             .createButton {
-              width: 100% !important;
-              height: 48px !important;
-              font-size: 16px !important;
+              width: 100%;
+              height: 48px;
+              font-size: 16px;
             }
           }
         }
@@ -198,14 +200,14 @@
         .addTaskLeft {
           .dropdown {
             .dropdown-content {
-              box-sizing: border-box !important;
-              width: 100% !important;
+              box-sizing: border-box;
+              width: 100%;
             }
           }
         }
         .addTaskRight {
           .taskPrio {
-            width: 85% !important;
+            width: 85%;
           }
         }
       }
@@ -220,16 +222,16 @@
         .addTaskLeft {
           .dropdown {
             .dropdown-button {
-              font-size: 16px !important;
+              font-size: 16px;
             }
             .dropdown-content {
-              box-sizing: border-box !important;
+              box-sizing: border-box;
             }
           }
         }
         .addTaskRight {
           .taskPrio {
-            width: 100% !important;
+            width: 100%;
           }
         }
       }
@@ -241,8 +243,8 @@
   .mainContainer {
     .validation-overlay {
       .validation-overlay-content {
-        max-width: 300px !important;
-        box-sizing: border-box !important;
+        max-width: 300px;
+        box-sizing: border-box;
       }
     }
     .mainInnerContainer {
@@ -251,22 +253,22 @@
           .dropdown {
             .dropdown-button {
               span {
-                font-size: 16px !important;
+                font-size: 16px;
               }
             }
             .dropdown-content {
               .user-row {
                 input {
-                  width: 16px !important;
-                  height: 16px !important;
+                  width: 16px;
+                  height: 16px;
                 }
                 .userInitials {
-                  width: 25px !important;
-                  height: 25px !important;
-                  font-size: 14px !important;
+                  width: 25px;
+                  height: 25px;
+                  font-size: 14px;
                 }
                 label {
-                  font-size: 16px !important;
+                  font-size: 16px;
                 }
               }
             }
@@ -274,13 +276,13 @@
         }
         .addTaskRight {
           .taskPrio {
-            width: 100% !important;
+            width: 100%;
             .buttonPrio {
-              font-size: 12px !important;
-              padding: 8px 0 !important;
-              max-width: 80px !important;
+              font-size: 12px;
+              padding: 8px 0;
+              max-width: 80px;
               img {
-                width: 10px !important;
+                width: 10px;
               }
             }
           }
@@ -295,27 +297,27 @@
     .mainInnerContainer {
       .headline {
         h1 {
-          font-size: 40px !important;
+          font-size: 40px;
         }
       }
       .buttonContainer {
-        margin-top: 8px !important;
+        margin-top: 8px;
         .buttonInnerContainer {
           .required {
             span {
-              font-size: 14px !important;
+              font-size: 14px;
             }
           }
           .addTaskButtons {
             .clearButton {
-              width: 100% !important;
-              height: 32px !important;
-              font-size: 16px !important;
+              width: 100%;
+              height: 32px;
+              font-size: 16px;
             }
             .createButton {
-              width: 100% !important;
-              height: 36px !important;
-              font-size: 16px !important;
+              width: 100%;
+              height: 36px;
+              font-size: 16px;
             }
           }
         }

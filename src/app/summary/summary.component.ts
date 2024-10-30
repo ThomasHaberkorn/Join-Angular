@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule], 
   templateUrl: './summary.component.html',
-  styleUrl: './summary.component.scss'
+  styleUrls: ['./summary.component.scss', './summary.media.scss']
 })
 export class SummaryComponent {
   /** Array of tasks loaded from Firestore. */

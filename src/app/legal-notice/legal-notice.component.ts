@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './legal-notice.component.html',
-  styleUrl: './legal-notice.component.scss'
+  styleUrls: ['./legal-notice.component.scss', './legal-notice.media.scss']
 })
 export class LegalNoticeComponent {
 

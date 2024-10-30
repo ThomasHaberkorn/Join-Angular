@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrls: ['./sidebar.component.scss', './sidebar.media.scss']
 })
 export class SidebarComponent {
   /** Stores the user type retrieved from session storage. */

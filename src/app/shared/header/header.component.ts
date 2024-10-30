@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [NgStyle],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss', './header.media.scss']
 })
 export class HeaderComponent implements OnInit {
   /** User initials displayed in the header. */

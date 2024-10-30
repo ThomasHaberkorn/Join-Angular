@@ -1,0 +1,44 @@
+@import "./../../../styles.scss";
+
+@media screen and (max-width: 1200px) {
+  .mainContent {
+    width: 100%;
+    left: 0;
+    .headerContainer {
+      .logo {
+        display: block;
+        margin-left: 50px;
+        img {
+          width: 40px;
+          height: 48px;
+        }
+      }
+      .headline {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .mainContent {
+    width: 100%;
+    left: 0;
+    .headerContainer {
+      .logo {
+        display: block;
+        margin-left: 25px;
+        img {
+          width: 40px;
+          height: 48px;
+        }
+      }
+      .headline {
+        display: none;
+      }
+      .headerNav {
+        margin-right: 20px;
+      }
+    }
+  }
+}

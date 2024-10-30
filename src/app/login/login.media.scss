@@ -1,0 +1,286 @@
+@import "./../../styles.scss";
+
+@media screen and (max-width: 1000px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        top: -8%;
+        img {
+          scale: 0.75;
+        }
+      }
+      .signUp {
+        top: 90%;
+        right: auto;
+        left: auto;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        top: -13%;
+        left: -1%;
+        img {
+          scale: 0.5;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        left: -80px;
+        img {
+          transition: transform 0.5s ease-in-out;
+          transform: scale(0.5);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .mainContent {
+    .headerContent {
+      .loginContainer {
+        .loginContent {
+          .loginContentHeadline {
+            font-size: 51px;
+          }
+          .logInError {
+            font-size: 14px;
+            margin-left: 0;
+          }
+
+          .rememberMe {
+            margin-left: 0;
+          }
+
+          .loginButtonContainer {
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+            .loginButton {
+              button {
+                width: 177px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 460px) and (max-height: 980px) {
+  .mainContent {
+    .headerContent {
+      .headerLogo {
+        top: -11%;
+        left: -80px;
+        img {
+          transition: transform 0.5s ease-in-out;
+          transform: scale(0.7);
+        }
+      }
+
+      .signupContainer {
+        width: 92%;
+        height: 77%;
+        margin-top: 45px;
+        .signupContent {
+          justify-content: flex-end;
+          padding-bottom: 8px;
+          img {
+            top: 6%;
+          }
+          h1 {
+            font-size: 50px;
+            margin-top: -65px;
+            margin-bottom: 0px;
+          }
+          .line {
+            margin-bottom: 20px;
+          }
+          .nameContainer {
+            .formFieldName {
+              flex-direction: column;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              #firstName {
+                width: 90%;
+                border-radius: 10px;
+                border-right: 2px solid $inputGrey;
+                height: 40px;
+                margin-left: -6px;
+                margin-bottom: 18px;
+              }
+              #lastName {
+                width: 90%;
+                border-radius: 10px;
+                height: 40px;
+                margin-left: -6px;
+                margin-bottom: 0px;
+              }
+            }
+          }
+          .formField {
+            width: 90%;
+            margin-left: -10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            input {
+              height: 40px;
+            }
+            img {
+              top: 9px;
+            }
+            .error-message {
+              margin-left: 45px;
+            }
+          }
+          .acceptCheck {
+            margin-top: 8px;
+            margin-bottom: -8px;
+          }
+          .signupButtonContainer {
+            .signupButton {
+              .fullwidthButton {
+                margin-top: 20px;
+                margin-bottom: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) and (max-height: 800px) {
+  .headerLogo {
+    top: -16%;
+    left: -80px;
+    img {
+      transition: transform 0.5s ease-in-out;
+      transform: scale(0.5);
+    }
+  }
+  .loginContainer {
+    height: 57%;
+    align-items: flex-start;
+    margin-top: 5%;
+    margin-bottom: 9%;
+    .loginContent {
+      height: 100%;
+      .loginContentHeadline {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .line {
+        padding: 2px 0;
+        margin-bottom: 10px;
+      }
+      .formField {
+        margin-top: 14px;
+        margin-bottom: 6px;
+        input {
+          height: 36px;
+        }
+        img {
+          top: 9px;
+        }
+      }
+      .rememberMe {
+        margin-top: 5px;
+      }
+    }
+  }
+  .logInError {
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }
+  .fullwidthButton {
+    height: 40px;
+  }
+
+  .signupContainer {
+    width: 92%;
+    height: 77%;
+    margin-top: 45px;
+    .signupContent {
+      justify-content: flex-end;
+      padding-bottom: 8px;
+      img {
+        top: 6%;
+      }
+      h1 {
+        font-size: 50px;
+        margin-top: -65px;
+        margin-bottom: 0px;
+      }
+      .line {
+        margin-bottom: 0px;
+      }
+      .nameContainer {
+        .formFieldName {
+          flex-direction: column;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          #firstName {
+            width: 90%;
+            border-radius: 10px;
+            border-right: 2px solid $inputGrey;
+            height: 40px;
+            margin-left: -6px;
+            margin-bottom: 18px;
+          }
+          #lastName {
+            width: 90%;
+            border-radius: 10px;
+            height: 40px;
+            margin-left: -6px;
+            margin-bottom: 0px;
+          }
+        }
+      }
+      .formField {
+        width: 90%;
+        margin-left: -10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        input {
+          height: 40px;
+        }
+        img {
+          top: 9px;
+        }
+        .error-message {
+          margin-left: 45px;
+        }
+      }
+      .acceptCheck {
+        margin-top: 8px;
+        margin-bottom: -8px;
+      }
+      .signupButtonContainer {
+        .signupButton {
+          .fullwidthButton {
+            margin-top: 20px;
+            margin-bottom: 12px;
+          }
+        }
+      }
+    }
+  }
+}

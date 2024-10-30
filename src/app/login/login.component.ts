@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss', './login.media.scss'],
 })
 export class LoginComponent {
   loginForm: FormGroup;

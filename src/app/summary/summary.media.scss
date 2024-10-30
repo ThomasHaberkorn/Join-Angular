@@ -1,0 +1,278 @@
+@import "./../../styles.scss";
+
+@media (max-width: 1200px) {
+  .mainContainer {
+    left: 0;
+    width: 100%;
+    height: calc(100% - 196px);
+    width: 100%;
+    @include dFlex();
+    .mainInnerContainer {
+      margin-left: 0;
+      justify-content: center;
+      .contentContainer {
+        width: 100%;
+        max-width: 440px;
+        margin-left: 10px;
+        margin-right: 10px;
+        .headlineContainer {
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 10px;
+          margin-left: 5px;
+          margin-top: 0px;
+          margin-bottom: 40px;
+          width: 70vw;
+          h1 {
+            font-size: 45px;
+            margin: 0;
+          }
+          .blueLine {
+            width: 200px;
+            height: 2px;
+            padding: 1px;
+          }
+          h3 {
+            font-size: 20px;
+            margin: 0;
+          }
+        }
+        .upperRow {
+          .row1Content {
+            width: 47%;
+          }
+        }
+      }
+      .welcomeContainer {
+        display: none;
+        align-items: center;
+        .dayTime {
+          margin-left: 0;
+        }
+        .userName {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        .headlineContainer {
+          margin-top: 0;
+          margin-bottom: 20px;
+        }
+        .upperRow {
+          .row1Content {
+            img {
+              width: 60px;
+              height: 60px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 60px;
+                height: 60px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 16px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+        .lowerRow {
+          .row3InfoContent {
+            .row3Counter {
+              font-size: 50px;
+            }
+            .row3Text {
+              font-size: 16px;
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        gap: 8px;
+        .upperRow {
+          .row1Content {
+            gap: 20px;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 50px;
+                height: 50px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 16px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        gap: 5px;
+        .upperRow {
+          .row1Content {
+            gap: 10px;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+            .row1InfoContent {
+              .row1Counter {
+                font-size: 50px;
+              }
+              .row1Text {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        .midRow {
+          .midRowInnerContainer {
+            .urgentInfoContainer {
+              img {
+                width: 50px;
+                height: 50px;
+              }
+              .urgentInfoContent {
+                .urgentCounter {
+                  font-size: 50px;
+                }
+                .urgentText {
+                  font-size: 16px;
+                }
+              }
+            }
+            .urgentLine {
+              width: 2px;
+              height: 75px;
+            }
+            .urgentDateContainer {
+              .urgentDateInnerContainer {
+                .urgentDeadlineDate {
+                  font-size: 14px;
+                }
+                .urgentDeadlineText {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+        .lowerRow {
+          .row3InfoContent {
+            .row3Counter {
+              font-size: 45px;
+            }
+            .row3Text {
+              font-size: 12px;
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1800px) and (max-height: 830px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        max-width: 500px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) and (max-height: 830px) {
+  .mainContainer {
+    .mainInnerContainer {
+      .contentContainer {
+        max-width: 470px;
+      }
+    }
+  }
+}

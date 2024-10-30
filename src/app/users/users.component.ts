@@ -16,7 +16,7 @@ import { Task } from '../../models/task.class';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  styleUrls: ['./users.component.scss', './users.media.scss']
 })
 export class UsersComponent{
    /** Array of users loaded from Firestore. */

@@ -1,0 +1,549 @@
+@import "./../../styles.scss";
+
+@media (max-width: 1400px) {
+  .mainContent {
+    .contactListContent {
+      height: calc(100% - 196px);
+    }
+    .contactShow {
+      .headline {
+        h1 {
+          font-size: 48px;
+          line-height: 52px;
+        }
+
+        h2 {
+          font-size: 20px;
+          line-height: 22px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1250px) {
+  .contactCard {
+    .contactCardHeader {
+      .inicialCircle {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+      }
+      .nameEditContainer {
+        h1 {
+          font-size: 26px;
+          line-height: 28px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .mainContent {
+    left: 0px;
+    height: calc(100% - 196px);
+    .contactList {
+      .contactListContent {
+        height: calc(100% - 96px);
+      }
+    }
+    .contactShow {
+      .headline {
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        gap: 0px;
+        margin-bottom: 10px;
+        h1 {
+          font-size: 48px;
+          line-height: 52px;
+          margin-bottom: 0px;
+        }
+        .line {
+          height: 3px;
+          width: 94px;
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+        }
+        h2 {
+          font-size: 20px;
+          line-height: 22px;
+          margin-top: 2px;
+          margin-bottom: 5px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .mainContent {
+    .contactList {
+      width: 70%;
+      position: relative;
+      .contactButton {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        .addContactButton {
+          width: 60px;
+          height: 60px;
+          border-radius: 50px;
+          span {
+            display: none;
+          }
+        }
+      }
+      .contactListContent {
+        height: 100%;
+        .letterGroup {
+          .colored-line {
+            width: 85%;
+          }
+        }
+      }
+    }
+    .contactShow {
+      width: 70%;
+      align-items: center;
+      .headline {
+        margin-left: 0;
+      }
+      .contactCard {
+        margin-left: 0;
+        .contactCardInfo {
+          position: relative;
+          img {
+            display: block;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  .addContactMain {
+    .addContactCard {
+      width: 450px;
+      height: 75%;
+      .addContactInfo {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        border-radius: 17px 17px 0 0;
+        img {
+          width: 42px;
+        }
+        h2 {
+          font-size: 50px;
+          margin-top: 20px;
+        }
+        h3 {
+          font-size: 20px;
+          margin-top: 10px;
+        }
+        .addContactLine {
+          margin-top: 0;
+        }
+      }
+      .addContactForm {
+        position: absolute;
+        top: 40%;
+        left: 0;
+        width: 100%;
+        height: 54%;
+      }
+      .buttonContainer {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        justify-content: flex-end;
+        .cancelContactButton {
+          margin-left: 0;
+        }
+        .addContactButton {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+  .editContactMain {
+    .editContactCard {
+      width: 450px;
+      height: 75%;
+      .editContactInfo {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        border-radius: 17px 17px 0 0;
+        img {
+          width: 42px;
+          margin-top: 8%;
+        }
+        h2 {
+          font-size: 50px;
+          margin-top: 20px;
+        }
+        .editContactLine {
+          margin-top: 0;
+        }
+      }
+      .editContactEditForm {
+        position: absolute;
+        top: 40%;
+        left: 0;
+        width: 100%;
+        height: 54%;
+      }
+      .buttonContainer {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        justify-content: flex-end;
+        .deleteContactButton {
+          margin-left: 0;
+        }
+        .editContactButton {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 620px) {
+  .mainContent {
+    .contactList {
+      width: 100%;
+      .contactListContent {
+        .letterGroup {
+          h2 {
+            margin-left: 58px;
+          }
+          .userCard {
+            margin-left: 45px;
+          }
+        }
+      }
+    }
+    .contactShow {
+      width: 100%;
+      .headline {
+        margin-top: 20px;
+        h1 {
+          font-size: 44px;
+          line-height: 44px;
+        }
+      }
+      .contactCard {
+        .contactCardHeader {
+          .inicialCircle {
+            width: 70px;
+            height: 70px;
+            font-size: 34px;
+          }
+          .nameEditContainer {
+            h1 {
+              margin: 6px;
+              font-size: 20px;
+              line-height: 20px;
+            }
+            .nameEditButtonContainer {
+              margin-left: 3px;
+              gap: 16px;
+              .editContainer {
+                img {
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .addContactMain {
+    .addContactCard {
+      width: 350px;
+      height: 70%;
+      margin-top: -40px;
+      .addContactInfo {
+        img {
+          width: 36px;
+        }
+        h2 {
+          font-size: 40px;
+          margin-top: 20px;
+        }
+        h3 {
+          font-size: 16px;
+          margin-top: 10px;
+        }
+        .addContactLine {
+          margin-top: 0;
+        }
+      }
+      .addContactForm {
+        .inicials {
+          position: absolute;
+          top: -38px;
+          border: 2px solid $bg_white;
+          width: 75px;
+          height: 75px;
+        }
+        .addForm {
+          margin-top: 10px;
+          width: 100%;
+          .addFormRow {
+            margin-left: 5%;
+            .addFormInput {
+              input {
+                width: 90%;
+                height: 32px;
+                font-size: 16px;
+              }
+            }
+            .colorRow {
+              #color {
+                width: 80px;
+                height: 32px;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+      .buttonContainer {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        justify-content: flex-end;
+        .cancelContactButton {
+          margin-left: 0;
+          width: 96px;
+          height: 34px;
+          font-size: 14px;
+          line-height: 14px;
+          img {
+            width: 12px;
+            height: 12px;
+          }
+        }
+        .addContactButton {
+          margin-right: 20px;
+          width: 140px;
+          height: 34px;
+          font-size: 14px;
+          line-height: 14px;
+          img {
+            width: 12px;
+            height: 12px;
+          }
+        }
+      }
+    }
+  }
+  .editContactMain {
+    .editContactCard {
+      width: 350px;
+      height: 70%;
+      margin-top: -40px;
+      .editContactInfo {
+        img {
+          width: 36px;
+          margin-top: 8%;
+        }
+        h2 {
+          font-size: 40px;
+          margin-top: 20px;
+        }
+        .editContactLine {
+          margin-top: 0;
+        }
+      }
+      .editContactEditForm {
+        .inicials {
+          position: absolute;
+          top: -38px;
+          border: 2px solid $bg_white;
+          width: 75px;
+          height: 75px;
+          font-size: 38px;
+        }
+        .editForm {
+          margin-top: 10px;
+          width: 100%;
+          .editFormRow {
+            margin-left: 5%;
+            .editFormInput {
+              input {
+                width: 90%;
+                height: 32px;
+                font-size: 16px;
+              }
+            }
+            .colorRow {
+              #color {
+                width: 80px;
+                height: 32px;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+      .buttonContainer {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        justify-content: flex-end;
+        .deleteContactButton {
+          margin-left: 0;
+          width: 96px;
+          height: 34px;
+          font-size: 14px;
+          line-height: 14px;
+          img {
+            width: 12px;
+            height: 12px;
+          }
+        }
+        .editContactButton {
+          margin-right: 20px;
+          width: 140px;
+          height: 34px;
+          font-size: 14px;
+          line-height: 14px;
+          img {
+            width: 12px;
+            height: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .mainContent {
+    .contactList {
+      .contactListContent {
+        .letterGroup {
+          h2 {
+            margin-left: 36px;
+          }
+          .userCard {
+            margin-left: 24px;
+          }
+        }
+      }
+    }
+    .contactShow {
+      .contactCard {
+        .contactCardHeader {
+          margin: 24px;
+          gap: 8px;
+          .inicialCircle {
+            width: 50px;
+            height: 50px;
+            font-size: 28px;
+          }
+          .nameEditContainer {
+            h1 {
+              margin: 6px;
+              font-size: 18px;
+              line-height: 20px;
+            }
+            .nameEditButtonContainer {
+              margin-left: 3px;
+              gap: 16px;
+              .editContainer {
+                img {
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .addContactMain {
+    .addContactCard {
+      width: 300px;
+      height: 83%;
+      margin-top: -90px;
+
+      .addContactForm {
+        .addForm {
+          margin-top: 10px;
+          width: 100%;
+          .addFormRow {
+            margin-left: 5%;
+            .addFormInput {
+              input {
+                width: 90%;
+                height: 24px;
+                font-size: 16px;
+              }
+            }
+            .colorRow {
+              #color {
+                width: 80px;
+                height: 24px;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .editContactMain {
+    .editContactCard {
+      width: 300px;
+      height: 83%;
+      margin-top: -90px;
+      .editContactForm {
+        .editForm {
+          margin-top: 10px;
+          width: 100%;
+          .editFormRow {
+            margin-left: 5%;
+            .editFormInput {
+              input {
+                width: 90%;
+                height: 24px;
+                font-size: 16px;
+              }
+            }
+            .colorRow {
+              #color {
+                width: 80px;
+                height: 24px;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
